@@ -220,6 +220,22 @@ ul.children li {
   padding-bottom: 1em;
 }
 
+/* Style footnotes: https://stackoverflow.com/a/58950175/6783015 */
+sup,
+sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.3em;
+}
+
+sub {
+  top: 0.3em;
+}
+
+sup a[data-footnote-ref] {
+  margin-left: 0.05em;
+}
+
 /* Additional typography refinements */
 aside em {
   font-weight: bolder;
