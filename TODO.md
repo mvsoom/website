@@ -4,3 +4,4 @@
 - [ ] Buy font
 - [ ] Replace favicon
 - [ ] Check SEO stats
+- [ ] Ensure slugs are unique
