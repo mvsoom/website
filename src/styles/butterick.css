@@ -285,7 +285,7 @@ a:active {
 }
 a:before {
   position: relative;
-  content: "["; /* Creative design choice: adds a degree-like symbol to links. */
+  content: "[";
   margin-left: 0.1em;
   font-size: 90%;
   top: -0.1em;
@@ -295,7 +295,7 @@ a:before {
 }
 a:after {
   position: relative;
-  content: "]"; /* Creative design choice: adds a degree-like symbol to links. */
+  content: "]";
   margin-right: 0.1em;
   font-size: 90%;
   top: -0.1em;
@@ -303,9 +303,13 @@ a:after {
   font-feature-settings: "caps";
   font-variant-numeric: normal;
 }
+a[name]:before {
+  content: none; /* Suppresses extra symbols for named anchors. */
+}
 a[name]:after {
   content: none; /* Suppresses extra symbols for named anchors. */
 }
+
 div > a:after {
   content: none; /* Avoids redundancy for direct descendants. */
 }
@@ -336,4 +340,10 @@ code {
   font-size: 95%;
   hyphens: none;
   padding: 0 0.2em; /* Ensures adequate spacing around code snippets. */
+}
+
+blockquote {
+  font-size: 90%;
+  padding: 0em 2em;
+  hyphens: none;
 }
