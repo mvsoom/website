@@ -5,4 +5,5 @@
 - [ ] Replace favicon
 - [ ] Check SEO stats
 - [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
-- [ ] Do something /vault/tags pages
+- [ ] Do something about /vault/tags pages
+- [ ] Remove all "butterick" stuff by cutting history at some point
