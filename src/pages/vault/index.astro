@@ -3,7 +3,9 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const pageTitle = "My Astro Learning Blog";
-const allPosts = await getCollection("vault");
+const allPosts = await getCollection("vault", ({ data }) => {
+  return data.publish === true;
+});
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -11,7 +13,12 @@ const allPosts = await getCollection("vault");
   <ul>
     {
       allPosts.map((post) => (
-        <li>{<a href={`/vault/${post.id}`}>{post.data.title}</a>}</li>
+        <li>
+          <div>
+            <em>{post.filePath}</em>{" "}
+            <a href={`/vault/${post.id}`}>{post.data.title}</a>
+          </div>
+        </li>
       ))
     }
   </ul>
