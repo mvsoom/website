@@ -53,15 +53,12 @@ const { id, frontmatter } = Astro.props;
 
   <body>
     <div id="content">
-      <div id="doc">
-        <title-block
-          ><topic>{id}</topic><short-rule>{frontmatter.title}</short-rule
-          ></title-block
-        >
+      <title-block
+        ><topic>{id}</topic><short-rule>{frontmatter.title}</short-rule
+        ></title-block
+      >
 
-        <slot />
-        
-      </div>
+      <slot />
     </div>
   </body>
 </html>
