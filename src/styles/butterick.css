@@ -134,10 +134,6 @@ title-block {
   border-top: solid 3px #333;
   padding-top: 5px;
 }
-book,
-first-use {
-  font-style: italic;
-}
 short-rule {
   display: block;
   font-size: 100%;
@@ -208,10 +204,6 @@ ul.children li {
   padding-bottom: 1em;
 }
 
-aside first-use {
-  font-weight: bolder;
-  font-style: normal;
-}
 aside em {
   font-weight: bolder;
   font-style: normal;
@@ -252,7 +244,7 @@ table th {
   line-height: 1.05;
 }
 img {
-  width: 100%;
+  width: 100%
 }
 image-caption {
   display: block;
