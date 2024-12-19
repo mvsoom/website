@@ -5,10 +5,10 @@ import { z, defineCollection } from "astro:content";
 
 // Define a `loader` and `schema` for each collection
 const vault = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.md", base: "./src/vault" }),
+  loader: glob({ pattern: "**/[^_]*.md", base: "./src/content/vault" }),
   schema: z
     .object({
-      title: z.string().optional(),
+      title: z.string().default(""),
       publish: z.boolean().default(false),
       date: z.date().optional(),
       tags: z.array(z.string()).default([]),
