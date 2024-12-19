@@ -1,60 +1,66 @@
 html {
-  font-size: 2.4vw;
+  font-size: 2.4vw; /* Responsive font scaling: clever use of vw makes font-size adapt to viewport width. */
 }
 @media all and (min-width: 1000px) {
   html {
-    font-size: 24px;
+    font-size: 24px; /* Locks font size for larger screens, ensuring consistent readability. */
   }
 }
 @media all and (max-width: 520px) {
   html {
-    font-size: 18px;
+    font-size: 18px; /* Optimized for small screens, but consider testing for very small devices. */
   }
 }
+
 /* body text base styles */
 .body-text_triplicate {
   font-family: triplicate-text;
   line-height: 1.45;
-  font-size: 0.85rem;
-  font-feature-settings: "ss01"; /* triplicate poly feature */
+  font-size: 0.85rem; /* Small but readable size for body text. */
+  font-feature-settings: "ss01"; /* Typographic finesse: leverages font-specific features. */
 }
+
 * {
   margin: 0;
-  padding: 0;
+  padding: 0; /* Universal reset: effective but can be heavy-handed for projects with many elements. */
 }
+
 li {
   column-break-inside: avoid;
-  break-inside: avoid-column;
+  break-inside: avoid-column; /* Ensures clean column formatting for lists. */
 }
+
 html {
-  height: 100%;
+  height: 100%; /* Required for full-page layouts. */
 }
 body {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 1000px;
+  max-width: 1000px; /* Restricts content width, balancing readability and design. */
   min-height: 100%;
   position: relative;
-  z-index: -10000;
-  -webkit-font-smoothing: subpixel-antialiased; /* corrects safari rendering */
+  z-index: -10000; /* Unusual: consider if this extreme negative z-index is necessary. */
+  -webkit-font-smoothing: subpixel-antialiased; /* Excellent for smoother text rendering on Safari. */
 }
+
 div#content {
   /* wraps both main and subnavigation */
-  padding: 3rem 0 18rem 0;
+  padding: 3rem 0 18rem 0; /* Generous spacing, though the 18rem bottom padding might be overkill. */
   margin-left: 12rem;
   margin-right: 2.5rem;
 }
 @media all and (max-width: 520px) {
   div#content {
     margin: 1.5rem;
-    padding: 0;
+    padding: 0; /* Adjusts for smaller screens, good simplification. */
   }
 }
+
 topic {
   display: block;
   font-family: advocate-c41;
-  font-size: 2.3rem;
+  font-size: 2.3rem; /* Large, distinct headings. */
   text-transform: uppercase;
   letter-spacing: 0.02em;
   font-style: normal;
@@ -63,13 +69,13 @@ topic {
   margin-bottom: 2rem;
   border-top: 1px solid #333;
   padding-top: 0.02em;
-  hyphens: none;
+  hyphens: none; /* Prevents awkward word splitting. */
 }
 title-block topic {
   font-family: inherit;
   text-transform: inherit;
   letter-spacing: inherit;
-  font-size: 125%;
+  font-size: 125%; /* Nested topics are more subdued but still prominent. */
   line-height: 1.1;
   border-bottom: inherit;
   margin-top: 0;
@@ -79,25 +85,27 @@ title-block topic {
   padding-top: 0;
 }
 topic + p {
-  font-size: 115%;
+  font-size: 115%; /* Enhances the first paragraph below headings. */
 }
+
 aside p {
   font-family: heliotrope-t3;
-  font-size: 0.83rem;
+  font-size: 0.83rem; /* Compact size but good readability. */
   line-height: 1.4;
-  color: #667;
+  color: #667; /* Subdued color for secondary text. */
   letter-spacing: 0.015em;
   hyphens: none;
-  font-feature-settings: "liga";
+  font-feature-settings: "liga"; /* Ligatures improve typographic elegance. */
 }
+
 aside,
 title-block {
   display: block;
-  float: left;
+  float: left; /* Legacy technique for layout; consider modern alternatives like flexbox or grid. */
   position: absolute;
   margin-left: 0;
   left: 2.5rem;
-  width: calc(2.5rem * 3);
+  width: calc(2.5rem * 3); /* Intriguing use of calc for dynamic layout. */
   text-align: right;
   list-style-type: none;
   clear: both;
@@ -107,7 +115,7 @@ title-block {
 @media all and (min-width: 1200px) {
   aside {
     left: 0;
-    width: calc(2.5rem * 4);
+    width: calc(2.5rem * 4); /* Increases aside width for large screens. */
   }
 }
 @media all and (max-width: 520px) {
@@ -116,24 +124,26 @@ title-block {
     float: inherit;
     position: inherit;
     width: 100%;
-    text-align: left;
+    text-align: left; /* Simplifies layout for smaller screens. */
   }
   aside {
     background: #fefefe;
     padding: 0.3rem 0.5rem;
     width: 90%;
     border: 1px solid #ccc;
-    border-left: 3px solid #ccc;
+    border-left: 3px solid #ccc; /* Adds a subtle design element. */
   }
   aside > p:last-child {
-    margin-bottom: 0;
+    margin-bottom: 0; /* Prevents unnecessary spacing at the end. */
   }
 }
+
 title-block {
   margin-bottom: 2em;
   border-top: solid 3px #333;
-  padding-top: 5px;
+  padding-top: 5px; /* Creates clear section breaks. */
 }
+
 short-rule {
   display: block;
   font-size: 100%;
@@ -141,43 +151,48 @@ short-rule {
   font-style: italic;
   hyphens: none;
 }
+
 li,
 p {
-  margin-bottom: 1em;
+  margin-bottom: 1em; /* Consistent spacing between text elements. */
 }
 p:nth-child(odd) {
-  transform: skewX(-0.5deg);
+  transform: skewX(
+    -0.5deg
+  ); /* Subtle visual distinction for alternating paragraphs. */
 }
 p:nth-child(even) {
-  transform: skewX(+0.5deg);
+  transform: skewX(
+    +0.5deg
+  ); /* Adds dynamism, though the effect may not suit all contexts. */
 }
+
 ol {
-  counter-reset: foobar;
+  counter-reset: foobar; /* Custom counter for ordered lists. */
 }
 ol li,
 ul li {
   margin-left: 2.5rem;
-  list-style: none;
+  list-style: none; /* Removes default list styling. */
 }
 ol li:before {
   counter-increment: foobar;
-  content: counter(foobar);
+  content: counter(foobar); /* Elegant custom numbering for lists. */
   font-family: concourse-t3-index;
   font-size: 1.1rem;
   position: absolute;
   margin-left: -2.5rem;
 }
 ul li:before {
-  content: "•";
+  content: "\2022"; /* Standard bullet point, styled for consistency. */
   position: absolute;
   margin-left: -2.5rem;
 }
 
 ul.children {
   font-size: 95%;
-  column-count: 2;
+  column-count: 2; /* Well-suited for displaying nested lists in columns. */
   column-gap: 2.5rem;
-
   list-style-type: none;
 }
 
@@ -188,13 +203,12 @@ ul.children li {
 ul.children li:before {
   margin-left: -2em;
   padding-right: 1.5em;
-  position: static; /* because they're in columns */
+  position: static; /* Required for column layouts. */
 }
-
 @media all and (max-width: 520px) {
   ul.children {
     font-size: 100%;
-    column-count: 1;
+    column-count: 1; /* Simplifies layout for small screens. */
     column-gap: 2em;
   }
 }
@@ -204,35 +218,38 @@ ul.children li {
   padding-bottom: 1em;
 }
 
+/* Additional typography refinements */
 aside em {
   font-weight: bolder;
   font-style: normal;
-  letter-spacing: 0;
+  letter-spacing: 0; /* Ensures emphasis remains compact. */
 }
 aside img {
-  margin-bottom: 0.25em;
+  margin-bottom: 0.25em; /* Improves spacing around images in asides. */
 }
+
+/* Tables */
 table {
   margin-bottom: 1.5em;
-  border-collapse: collapse;
+  border-collapse: collapse; /* Clean and compact table styling. */
   width: 95%;
 }
 table.shortcut {
   font-size: 0.9rem;
-  font-variant-numeric: normal;
+  font-variant-numeric: normal; /* Standardizes numeric presentation. */
 }
 table.shortcut td {
   line-height: 1.3;
 }
 table tr + tr {
-  border-top: 1px solid #ccc;
+  border-top: 1px solid #ccc; /* Subtle row separation. */
 }
 table td + td {
-  border-left: 1px solid #ccc;
+  border-left: 1px solid #ccc; /* Clear column separation. */
 }
 table td {
   padding: 0.4em;
-  text-align: center;
+  text-align: center; /* Aligns content for better readability. */
   hyphens: none;
 }
 table th {
@@ -243,8 +260,10 @@ table th {
   padding: 0.3rem 0.5rem;
   line-height: 1.05;
 }
+
+/* Image responsiveness */
 img {
-  width: 100%
+  width: 100%; /* Responsive scaling of images. */
 }
 image-caption {
   display: block;
@@ -252,54 +271,57 @@ image-caption {
   text-transform: lowercase;
 }
 
+/* Link styling */
 a {
   text-decoration: none;
   color: inherit;
   transition-property: background;
-  transition-duration: 0.2s;
+  transition-duration: 0.2s; /* Subtle hover effect. */
 }
 a:active {
   color: #777;
 }
 a:after {
   position: relative;
-  content: "\FEFF°";
+  content: "\FEFF°"; /* Creative design choice: adds a degree-like symbol to links. */
   margin-left: 0.1em;
   font-size: 90%;
   top: -0.1em;
-  color: #933;
+  color: #933; /* Contrasts nicely. */
   font-feature-settings: "caps";
   font-variant-numeric: normal;
 }
 a[name]:after {
-  content: none;
+  content: none; /* Suppresses extra symbols for named anchors. */
 }
 div > a:after {
-  content: none;
+  content: none; /* Avoids redundancy for direct descendants. */
 }
 a:hover {
-  background: #fbf3f3;
+  background: #fbf3f3; /* Subtle background color change on hover. */
   transition-property: background;
   transition-duration: 0.2s;
-  border-radius: 8px;
+  border-radius: 8px; /* Smoothens the link background edges. */
 }
 p.image a img {
-  border: 1px solid gray;
+  border: 1px solid gray; /* Provides a frame for inline images. */
 }
 p.image a:hover img {
   background: 0 0;
-  outline: 1px solid gray;
+  outline: 1px solid gray; /* Enhances focus for hovered images. */
 }
+
+/* Inline code styling */
 code {
   font-family: triplicate-text;
   font-style: normal;
   font-weight: 400;
-  font-size: 0.85rem;
+  font-size: 0.85rem; /* Compact but clear for inline code. */
   font-variant-numeric: normal;
 }
 code {
-  font-family: triplicate-code;
+  font-family: triplicate-code; /* Differentiates inline code from text. */
   font-size: 95%;
   hyphens: none;
-  padding: 0 0.2em;
+  padding: 0 0.2em; /* Ensures adequate spacing around code snippets. */
 }
