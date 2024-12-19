@@ -4,4 +4,5 @@
 - [ ] Buy font
 - [ ] Replace favicon
 - [ ] Check SEO stats
-- [ ] Ensure slugs are unique
+- [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
+- [ ] Do something /vault/tags pages
