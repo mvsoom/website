@@ -31,6 +31,7 @@ body {
   font-size: 0.85rem; /* Small but readable size for body text. */
   font-feature-settings: "ss01"; /* Typographic finesse: leverages font-specific features. */
 
+  overflow-wrap: break-word;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
@@ -293,12 +294,8 @@ image-caption {
 a {
   text-decoration: none;
   color: inherit;
-  transition-property: background;
-  transition-duration: 0.2s; /* Subtle hover effect. */
 }
-a:active {
-  color: #777;
-}
+
 a:before {
   position: relative;
   content: "[";
@@ -330,10 +327,8 @@ div > a:after {
   content: none; /* Avoids redundancy for direct descendants. */
 }
 a:hover {
-  background: #fbf3f3; /* Subtle background color change on hover. */
-  transition-property: background;
-  transition-duration: 0.2s;
-  border-radius: 8px; /* Smoothens the link background edges. */
+  /* Make text bold */
+  font-weight: bolder;
 }
 p.image a img {
   border: 1px solid gray; /* Provides a frame for inline images. */
