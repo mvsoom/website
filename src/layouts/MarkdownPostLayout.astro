@@ -24,31 +24,8 @@ const { id, frontmatter } = Astro.props;
       href="/butterick/core-fonts.css"
     />
     <title>
-      Paragraph and&nbsp;character styles | Butterick’s Practical Typography
+      {id} {frontmatter.title}
     </title>
-
-    <style type="text/css">
-      body.hidden {
-        opacity: 0;
-      }
-    </style>
-
-    <style type="text/css">
-      body {
-        text-shadow: 0.1px 0.1px #00000040;
-
-        filter: blur(0.35px) contrast(110%);
-
-        color: #000000;
-
-        max-width: 70ch;
-      }
-
-      html {
-        background-color: rgb(244 114 182);
-        /*background-color:#72f4b0;*/
-      }
-    </style>
   </head>
 
   <body>
