@@ -153,8 +153,9 @@ p {
   margin-bottom: 1em; /* Consistent spacing between text elements. */
 
   /* Give some life */
-  text-shadow: 0.1px 0.1px #00000040;
-  filter: blur(0.35px) contrast(110%);
+  text-shadow: 0.007em 0.0071em #00000040;
+
+  filter: blur(0.0125em) contrast(115%);
 }
 
 p:nth-child(odd) {
@@ -282,10 +283,20 @@ a {
 a:active {
   color: #777;
 }
+a:before {
+  position: relative;
+  content: "["; /* Creative design choice: adds a degree-like symbol to links. */
+  margin-left: 0.1em;
+  font-size: 90%;
+  top: -0.1em;
+  color: #933; /* Contrasts nicely. */
+  font-feature-settings: "caps";
+  font-variant-numeric: normal;
+}
 a:after {
   position: relative;
-  content: "\FEFF°"; /* Creative design choice: adds a degree-like symbol to links. */
-  margin-left: 0.1em;
+  content: "]"; /* Creative design choice: adds a degree-like symbol to links. */
+  margin-right: 0.1em;
   font-size: 90%;
   top: -0.1em;
   color: #933; /* Contrasts nicely. */
