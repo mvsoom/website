@@ -12,14 +12,6 @@ html {
   }
 }
 
-/* body text base styles */
-.body-text_triplicate {
-  font-family: triplicate-text;
-  line-height: 1.45;
-  font-size: 0.85rem; /* Small but readable size for body text. */
-  font-feature-settings: "ss01"; /* Typographic finesse: leverages font-specific features. */
-}
-
 * {
   margin: 0;
   padding: 0; /* Universal reset: effective but can be heavy-handed for projects with many elements. */
@@ -34,6 +26,11 @@ html {
   height: 100%; /* Required for full-page layouts. */
 }
 body {
+  font-family: triplicate-text;
+  line-height: 1.45;
+  font-size: 0.85rem; /* Small but readable size for body text. */
+  font-feature-settings: "ss01"; /* Typographic finesse: leverages font-specific features. */
+
   margin-left: auto;
   margin-right: auto;
   width: 100%;

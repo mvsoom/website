@@ -51,12 +51,7 @@ const { id, frontmatter } = Astro.props;
     </style>
   </head>
 
-  <body
-    id="body"
-    class="body-text_triplicate"
-    body-text="true"
-    cz-shortcut-listen="true"
-  >
+  <body>
     <div id="content">
       <div id="doc">
         <title-block
@@ -65,6 +60,7 @@ const { id, frontmatter } = Astro.props;
         >
 
         <slot />
+        
       </div>
     </div>
   </body>
