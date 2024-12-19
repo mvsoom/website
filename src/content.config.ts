@@ -19,10 +19,12 @@ const vault = defineCollection({
         })
         .optional(),
     })
+    /*
     .refine((data) => !data.publish || (data.publish && data.title && data.date), {
       message: "Set `title` and `date` if `publish: true`",
       path: ["title", "date"], // Path to the error
     }),
+    */
 });
 
 // Export a single `collections` object to register your collection(s)
