@@ -54,21 +54,8 @@ div#content {
   }
 }
 
-topic {
-  display: block;
-  font-family: advocate-c41;
-  font-size: 2.3rem; /* Large, distinct headings. */
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-  font-style: normal;
-  line-height: 1.1;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
-  border-top: 1px solid #333;
-  padding-top: 0.02em;
-  hyphens: none; /* Prevents awkward word splitting. */
-}
 title-block topic {
+  display: block;
   font-family: inherit;
   text-transform: inherit;
   letter-spacing: inherit;
@@ -80,7 +67,9 @@ title-block topic {
   font-weight: bolder;
   border-top: 0;
   padding-top: 0;
+  hyphens: none;
 }
+
 topic + p {
   font-size: 115%; /* Enhances the first paragraph below headings. */
 }
@@ -155,8 +144,7 @@ p {
 
   /* Give some life */
   text-shadow: 0.007em 0.0071em #00000040;
-
-  filter: blur(0.0125em) contrast(115%);
+  filter: blur(0.0125em); /* contrast(115%); */ /* Affects images and I can't figure out why im { filter: none; } doesn't work */
 }
 
 p:nth-child(odd) {
@@ -282,8 +270,12 @@ table th {
 
 /* Image responsiveness */
 img {
-  width: 100%; /* Responsive scaling of images. */
+  width: 90%; /* Responsive scaling of images. */
+  height: auto; /* Ensures images maintain aspect ratio. */
+  /* black edge */
+  border: 1px solid #000;
 }
+
 image-caption {
   display: block;
   font-family: "concourse-c4";
@@ -294,6 +286,7 @@ image-caption {
 a {
   text-decoration: none;
   color: inherit;
+  background-color: rgb(241, 227, 239);
 }
 
 a:before {
