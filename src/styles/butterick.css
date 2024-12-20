@@ -35,7 +35,7 @@ body {
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 1000px; /* Restricts content width, balancing readability and design. */
+  max-width: 75ch; /* Restricts content width, balancing readability and design. */
   min-height: 100%;
   position: relative;
   -webkit-font-smoothing: subpixel-antialiased; /* Excellent for smoother text rendering on Safari. */
@@ -43,7 +43,7 @@ body {
 
 div#content {
   /* wraps both main and subnavigation */
-  padding: 3rem 0 18rem 0; /* Generous spacing, though the 18rem bottom padding might be overkill. */
+  padding: 3rem 0 3rem 0; /* Generous spacing, though the 18rem bottom padding might be overkill. */
   margin-left: 12rem;
   margin-right: 2.5rem;
 }
