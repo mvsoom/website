@@ -1,7 +1,12 @@
 ---
 import "../styles/butterick.css";
+import { getCollection } from "astro:content";
+import ThemeIcon from "../components/ThemeIcon.astro";
 import BaseLayout from "./BaseLayout.astro";
 const { id, frontmatter } = Astro.props;
+const allPosts = await getCollection("vault", ({ data }) => {
+  return data.publish === true;
+});
 ---
 
 <html lang="en">
@@ -24,7 +29,8 @@ const { id, frontmatter } = Astro.props;
       href="/butterick/core-fonts.css"
     />
     <title>
-      {id} {frontmatter.title}
+      {id}
+      {frontmatter.title}
     </title>
   </head>
 
@@ -36,6 +42,93 @@ const { id, frontmatter } = Astro.props;
       >
 
       <slot />
+    </div>
+
+    
+    <div style="background-color: antiquewhite;"
+    >
+      <div id="content">
+        <title-block><topic><a href="/media">media</a></topic></title-block>
+        <div
+          style="display: flex; flex-wrap: wrap; justify-content: space-between;"
+        >
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 1" style="width: 100%;" />
+          </div>
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 2" style="width: 100%;" />
+          </div>
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 3" style="width: 100%;" />
+          </div>
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 4" style="width: 100%;" />
+          </div>
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 5" style="width: 100%;" />
+          </div>
+          <div style="flex: 1 1 30%; margin: 5px;">
+            <img src="/matrix.jpeg" alt="Thumbnail 6" style="width: 100%;" />
+          </div>
+        </div>
+      </div>
+
+      <div id="content">
+        <title-block
+          ><topic><a href="/research">research</a></topic></title-block
+        >
+        <div style="display: flex; flex-wrap: wrap; align-items: flex-start;">
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >Softly Constrainted Agent-Based Models</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >The effect of network structure on lexical variablity in sign
+            language communities</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >A Weakly Informative Prior for Resonance Frequencies</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >Detrending the Waveforms of Steady-State Vowels</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >A New Approach to the Formant Measuring Problem</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >Loan maturity aggregation in interbank lending networks obscures
+            mesoscale structure and economic functions</a
+          >
+          <a href="#" style="margin: 5px; flex: 1 1 30%;"
+            >Multiscale analysis of the Russian interbank loan network</a
+          >
+        </div>
+      </div>
+
+      <div id="content">
+        <title-block><topic><a href="/vault">vault</a></topic></title-block>
+        <div
+          style="display: flex; flex-wrap: wrap; justify-content: space-between;"
+        >
+          {
+            allPosts.map((post) => (
+              <div style="flex: 1 1 30%; margin: 5px; text-align: left;">
+                <a href={`/vault/${post.id}`}>{post.id}</a>
+              </div>
+            ))
+          }
+        </div>
+      </div>
+
+      <div id="content">
+        <title-block><topic><a href="/about">about</a></topic></title-block>
+        <div style="display: flex; justify-content: space-between;">
+          <span>me</span>
+          <span>website</span>
+          <span>Google scholar</span>
+          <span>instagram</span>
+          <span><ThemeIcon /></span>
+        </div>
+      </div>
     </div>
   </body>
 </html>

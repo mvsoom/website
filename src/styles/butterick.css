@@ -43,7 +43,7 @@ body {
 
 div#content {
   /* wraps both main and subnavigation */
-  padding: 3rem 0 3rem 0; /* Generous spacing, though the 18rem bottom padding might be overkill. */
+  padding: 3rem 0 0rem 0;
   margin-left: 12rem;
   margin-right: 2.5rem;
 }
