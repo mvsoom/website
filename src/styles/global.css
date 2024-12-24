@@ -1,91 +1,41 @@
+:root {
+  --title-basis: 20ch;
+  --content-basis: 70ch;
+  --section-basis: calc(var(--title-basis) + var(--content-basis));
+}
+
 html {
-  background-color: #f1f5f9;
-  font-family: sans-serif;
-}
-
-html.dark {
-  background-color: #0d0950;
-  color: #fff;
-}
-
-.dark .nav-links a {
-  color: #fff;
+  font-size: 16px;
+  font-family: monospace;
 }
 
 body {
-  margin: 0 auto;
+  margin: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.section {
+  /* Section has a fixed width that shrinks to smaller viewports */
+  max-width: var(--section-basis);
   width: 100%;
-  max-width: 80ch;
-  padding: 1rem;
-  line-height: 1.5;
+  
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  flex-wrap: wrap;
 }
 
-* {
-  box-sizing: border-box;
+.title {
+  background-color: red;
+  flex-basis: var(--title-basis);
+  flex-grow: 1;
 }
 
-h1 {
-  margin: 1rem 0;
-  font-size: 2.5rem;
+.content {
+  background-color: green;
+  flex-basis: var(--content-basis);
+  flex-grow: 1;
 }
-
-/* nav styles */
-/* nav styles */
-.hamburger {
-    padding-right: 20px;
-    cursor: pointer;
-  }
-  
-  .hamburger .line {
-    display: block;
-    width: 40px;
-    height: 5px;
-    margin-bottom: 10px;
-    background-color: #ff9776;
-  }
-  
-  .nav-links {
-    width: 100%;
-    top: 5rem;
-    left: 48px;
-    background-color: #ff9776;
-    display: none;
-    margin: 0;
-  }
-  
-  .nav-links a {
-    display: block;
-    text-align: center;
-    padding: 10px 0;
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  .nav-links a:hover, a:focus {
-    background-color: #ff9776;
-  }
-  
-  .expanded {
-    display: unset;
-  }
-  
-  @media screen and (min-width: 636px) {
-    .nav-links {
-      margin-left: 5em;
-      display: block;
-      position: static;
-      width: auto;
-      background: none;
-    }
-  
-    .nav-links a {
-      display: inline-block;
-      padding: 15px 20px;
-    }
-  
-    .hamburger {
-      display: none;
-    }
-  }
