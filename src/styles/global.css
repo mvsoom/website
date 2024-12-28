@@ -1,15 +1,33 @@
+@custom-media --narrow-window (max-width: 1000px);
+
+@media (--narrow-window) {
+  html {
+    background-color: yellow;
+  }
+}
+
 :root {
   --title-basis: 20ch;
   --content-basis: 70ch;
   --section-basis: calc(var(--title-basis) + var(--content-basis));
 }
 
+* {
+  margin: 0;
+  padding: 0;
+}
+
 html {
   font-size: 16px;
-  font-family: monospace;
 }
 
 body {
+  font-family: triplicate-text, monospace;
+  line-height: 1.45;
+  font-feature-settings: "ss01";
+  overflow-wrap: break-word;
+  -webkit-font-smoothing: subpixel-antialiased;
+
   margin: 0;
   display: flex;
   justify-content: flex-start;
@@ -20,7 +38,7 @@ body {
   /* Section has a fixed width that shrinks to smaller viewports */
   max-width: var(--section-basis);
   width: 100%;
-  
+
   margin: 0 auto;
   display: flex;
   flex-direction: row;
@@ -32,6 +50,8 @@ body {
   background-color: red;
   flex-basis: var(--title-basis);
   flex-grow: 1;
+
+  text-align: right;
 }
 
 .content {
