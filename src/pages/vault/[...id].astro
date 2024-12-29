@@ -2,6 +2,9 @@
 import "../../styles/global.css";
 import { getCollection, render } from "astro:content";
 
+import ScholarIcon from "../../icons/scholar.svg";
+import InstagramIcon from "../../icons/instagram.svg";
+
 export async function getStaticPaths() {
   const posts = await getCollection("vault", ({ data }) => {
     return data.publish === true;
@@ -14,6 +17,10 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const allPosts = await getCollection("vault", ({ data }) => {
+  return data.publish === true;
+});
 
 const pageTitle = post.data.title ? post.data.title : post.id;
 ---
@@ -58,10 +65,8 @@ const pageTitle = post.data.title ? post.data.title : post.id;
         <div class="title">
           <h1>media</h1>
         </div>
-  
-        <div class="content">
-          
-        </div>
+
+        <div class="content"></div>
       </div>
 
       <div class="container">
@@ -69,9 +74,7 @@ const pageTitle = post.data.title ? post.data.title : post.id;
           <h1>research</h1>
         </div>
 
-        <div class="content">
-          
-        </div>
+        <div class="content"></div>
       </div>
 
       <div class="container" style="font-weight: bold;">
@@ -80,7 +83,17 @@ const pageTitle = post.data.title ? post.data.title : post.id;
         </div>
 
         <div class="content">
-          
+          <div
+            style="display: flex; flex-wrap: wrap; justify-content: space-between;"
+          >
+            {
+              allPosts.slice(0, 3).map((post) => (
+                <div style="flex: 1 1 30%; margin: 5px; text-align: left;">
+                  <a href={`/vault/${post.id}`}>{post.id}</a>
+                </div>
+              ))
+            }
+          </div>
         </div>
       </div>
 
@@ -90,21 +103,29 @@ const pageTitle = post.data.title ? post.data.title : post.id;
         </div>
 
         <div class="content">
-          
-            <div style="display: flex; justify-content: space-between;">
-              <span>me</span>
-              <span>website</span>
-              <span>Google scholar</span>
-              <span>instagram</span>
-            </div>
-          
-          
+          <div class="footer">
+            <span><a href="/about">me</a></span>
+            <span style="margin-right: auto;"><a href="/">homepage</a></span>
+
+            <a href="https://www.instagram.com/marnixvansoom" target="_blank">
+              <InstagramIcon viewBox="0 0 132 132" title="Instagram profile" />
+            </a>
+
+            <a
+              href="https://scholar.google.com/citations?user=1yXORK4AAAAJ"
+              target="_blank"
+            >
+              <ScholarIcon
+                viewBox="0 0 512 512"
+                href="https://www.instagram.com/marnixvansoom"
+                title="Google Scholar profile"
+              />
+            </a>
+          </div>
         </div>
       </div>
     </div>
-
-
-
-    <script src="../../scripts/wrap.js"></script>
   </body>
+
+  <script src="../../scripts/wrap.js"></script>
 </html>

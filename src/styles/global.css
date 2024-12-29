@@ -159,6 +159,23 @@ code {
   margin-top: 0;
 }
 
-.nav .title {
+.nav .title{
   font-weight: lighter;
+  font-size: 90%;
+  border-top: solid 3px #555;
+}
+
+.nav .footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+}
+
+.nav svg {
+  height: 1.75em;
+  width: auto;
+  margin-top: 0.25em;
+  filter: grayscale(100%);
 }
