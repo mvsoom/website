@@ -1,7 +1,6 @@
 :root {
-  --title-basis: 20ch;
-  --content-basis: 70ch;
-  --section-basis: calc(var(--title-basis) + var(--content-basis));
+  --title-basis: 17ch;
+  --content-basis: 65ch;
 }
 
 html {
@@ -11,17 +10,13 @@ html {
 
 body {
   margin: 0;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 }
 
-.section {
-  /* Section has a fixed width that shrinks to smaller viewports */
-  max-width: var(--section-basis);
+.container {
   width: 100%;
-  
-  margin: 0 auto;
+  max-width: calc(var(--title-basis) + var(--content-basis));
+
+  margin: auto;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
@@ -32,6 +27,13 @@ body {
   background-color: red;
   flex-basis: var(--title-basis);
   flex-grow: 1;
+
+  text-align: right;
+}
+
+.container.wrapped .title {
+  background-color: blue;
+  text-align: left;
 }
 
 .content {
