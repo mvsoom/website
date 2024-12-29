@@ -10,3 +10,9 @@
 - [ ] Clean up /public dir
 - [ ] ID links should have post title as tooltip
 - [ ] Symbols in footer: good example, see bottom of https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
+- [ ] SEO optimization; like fill in on each page:
+  ```
+  <meta name="description" content="A brief description of your page for search engines." />
+  <meta name="keywords" content="keyword1, keyword2, keyword3" />
+  <meta name="author" content="Your Name or Company" />
+  ```

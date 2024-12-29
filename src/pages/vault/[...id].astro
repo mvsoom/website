@@ -1,6 +1,6 @@
 ---
+import "../../styles/global.css";
 import { getCollection, render } from "astro:content";
-import MarkdownPostLayout from "../../layouts/MarkdownPostLayout.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("vault", ({ data }) => {
@@ -14,8 +14,99 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await render(post);
+
+const pageTitle = post.data.title ? post.data.title : post.id;
 ---
 
-<MarkdownPostLayout id={post.id} frontmatter={post.data}>
-  <Content />
-</MarkdownPostLayout>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/triplicate-heavy.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/core-fonts.css"
+    />
+    <title>
+      {pageTitle}
+    </title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="title">
+        <h1>{post.id}</h1>
+        <p>{post.data.title}</p>
+      </div>
+
+      <div class="content">
+        <Content />
+      </div>
+    </div>
+
+    <div class="nav">
+      <div style="height: 10px;"></div>
+
+      <div class="container">
+        <div class="title">
+          <h1>media</h1>
+        </div>
+  
+        <div class="content">
+          
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="title">
+          <h1>research</h1>
+        </div>
+
+        <div class="content">
+          
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="title">
+          <h1>vault</h1>
+        </div>
+
+        <div class="content">
+          
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="title">
+          <h1>about</h1>
+        </div>
+
+        <div class="content">
+          
+            <div style="display: flex; justify-content: space-between;">
+              <span>me</span>
+              <span>website</span>
+              <span>Google scholar</span>
+              <span>instagram</span>
+            </div>
+          
+          
+        </div>
+      </div>
+    </div>
+
+
+
+    <script src="../../scripts/wrap.js"></script>
+  </body>
+</html>

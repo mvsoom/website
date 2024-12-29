@@ -53,7 +53,7 @@ body {
   font-size: 125%;
   font-weight: bolder;
 
-  margin-top: 0.2em;
+  margin-top: 0.25em;
 }
 
 .title p {
@@ -139,4 +139,10 @@ code {
   text-shadow: none;
   filter: none;
   transform: none;
+}
+
+/* nav */
+
+.nav {
+  background-color: antiquewhite;
 }
