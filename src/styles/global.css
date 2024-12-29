@@ -4,7 +4,7 @@
 }
 
 html {
-  font-size: 20px;
+  font-size: 17px;
   font-family: triplicate, monospace;
   font-feature-settings: "ss01";
   line-height: 1.45;
@@ -19,35 +19,46 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
-
 .container {
   width: 100%;
-  max-width: calc(var(--title-basis) + var(--content-basis));
 
-  margin: auto;
+  margin-top: 3em;
+
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
+.container.wrapped {
+  margin-top: 1em;
+}
+
 .title {
-  background-color: red;
-  width: var(--title-basis);
-  flex-grow: 1;
+  flex-basis: 14ch;
+  margin: 0 1rem;
 
+  padding: 0 0 0 2rem;
+
+  line-height: 1.1;
   text-align: right;
+  hyphens: none;
 
-  padding: 1rem 0;
+  border-top: solid 3px #333;
 }
 
 .container.wrapped .title {
-  background-color: blue;
   text-align: left;
+  flex-grow: 1;
+  padding: 0;
 }
 
 .title h1 {
-  font-size: 125%
+  font-size: 125%;
+  font-weight: bolder;
+
+  margin-top: 0.2em;
 }
 
 .title p {
@@ -55,7 +66,14 @@ body {
 }
 
 .content {
-  background-color: green;
-  width: var(--content-basis);
+  flex-basis: 47ch;
+  padding: 0 1rem;
+}
+
+.container.wrapped .content {
   flex-grow: 1;
+}
+
+.content > *:first-child {
+  margin-top: 0;
 }
