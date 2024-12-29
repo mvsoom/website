@@ -1,24 +1,8 @@
-@custom-media --narrow-window (max-width: 1000px);
-
-@media (--narrow-window) {
-  html {
-    background-color: yellow;
-  }
-}
-
-:root {
-  --title-basis: 20ch;
-  --content-basis: 70ch;
-  --section-basis: calc(var(--title-basis) + var(--content-basis));
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
 html {
-  font-size: 16px;
+  font-size: 18px;
+  font-family: triplicate, monospace;
+  font-feature-settings: "ss01";
+  line-height: 1.45;
 }
 
 body {
@@ -29,33 +13,181 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
 
   margin: 0;
+  height: 100vh;
+
+  overflow-wrap: break-word;
+
+  -webkit-font-smoothing: subpixel-antialiased;
+
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-.section {
-  /* Section has a fixed width that shrinks to smaller viewports */
-  max-width: var(--section-basis);
+/* .container */
+
+.container {
   width: 100%;
 
-  margin: 0 auto;
+  margin-top: 3em;
+
   display: flex;
   flex-direction: row;
   align-items: flex-start;
+  justify-content: center;
   flex-wrap: wrap;
 }
 
+.container.wrapped {
+  margin-top: 1em;
+}
+
+/* .title */
+
 .title {
-  background-color: red;
-  flex-basis: var(--title-basis);
+  flex-basis: 14ch;
+  margin: 0 1rem;
+
+  line-height: 1.1;
+  text-align: right;
+  hyphens: none;
+
+  border-top: solid 3px #333;
+}
+
+.container.wrapped .title {
+  text-align: left;
   flex-grow: 1;
 
   text-align: right;
 }
 
+.title h1 {
+  font-size: 125%;
+  font-weight: bolder;
+
+  margin-top: 0.25em;
+}
+
+.title p {
+  font-style: italic;
+}
+
+/* .content */
+
 .content {
-  background-color: green;
-  flex-basis: var(--content-basis);
+  flex-basis: 45ch;
+  padding: 0 1rem;
+}
+
+.container.wrapped .content {
   flex-grow: 1;
+}
+
+.container:not(.wrapped) > .content > *:first-child {
+  margin-top: 0;
+}
+
+/* Apply a "lab notebook" style to all text paragraphs */
+.content p:not(:has(img)) {
+  text-shadow: 0.007em 0.0071em #00000040;
+  filter: blur(0.0125em) contrast(125%);
+}
+
+.content p:not(:has(img)):nth-child(odd) {
+  transform: skewX(-0.5deg);
+}
+
+.content p:not(:has(img)):nth-child(even) {
+  transform: skewX(+0.5deg);
+}
+
+/* sup sub */
+
+/* https://stackoverflow.com/a/58950175/6783015 */
+sup,
+sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.3em;
+}
+
+sub {
+  top: 0.3em;
+}
+
+sup a[data-footnote-ref] {
+  margin-left: 0.05em;
+}
+
+/* blockquote */
+
+blockquote {
+  font-size: 90%;
+}
+
+/* img */
+
+.content {
+  overflow: hidden;
+}
+
+.content img {
+  width: 100%;
+  margin: 0 auto;
+  height: auto;
+  border: 1px solid #333;
+  display: block;
+}
+
+/* code (TODO) */
+
+code {
+  font-family: inherit;
+  font-size: 90%;
+  font-feature-settings: initial;
+
+  padding: 0.1em;
+
+  text-shadow: none;
+  filter: none;
+  transform: none;
+}
+
+/* nav */
+
+.nav {
+  background-color: antiquewhite;
+
+  margin-top: 1rem;
+  padding: 2rem 0;
+}
+
+.nav .container {
+  margin-top: 0;
+}
+
+.nav .title{
+  font-weight: lighter;
+  font-size: 90%;
+  border-top: solid 3px #555;
+}
+
+.nav .footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1em;
+}
+
+.nav img {
+  border: 1px solid #333;
+}
+
+.nav svg {
+  height: 1.75em;
+  width: auto;
+  margin-top: 0.25em;
+  filter: grayscale(100%);
 }
