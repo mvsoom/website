@@ -75,18 +75,17 @@ body {
   margin-top: 0;
 }
 
-.content p {
+/* Apply a "lab notebook" style to all text paragraphs */
+.content p:not(:has(img)) {
   text-shadow: 0.007em 0.0071em #00000040;
-  filter: blur(
-    0.0125em
-  ); /* contrast(115%); */ /* Affects images and I can't figure out why im { filter: none; } doesn't work */
+  filter: blur(0.0125em) contrast(125%);
 }
 
-.content p:nth-child(odd) {
+.content p:not(:has(img)):nth-child(odd) {
   transform: skewX(-0.5deg);
 }
 
-.content p:nth-child(even) {
+.content p:not(:has(img)):nth-child(even) {
   transform: skewX(+0.5deg);
 }
 
@@ -126,4 +125,18 @@ blockquote {
   height: auto;
   border: 1px solid #333;
   display: block;
+}
+
+/* code (TODO) */
+
+code {
+  font-family: inherit;
+  font-size: 90%;
+  font-feature-settings: initial;
+
+  padding: 0.1em;
+
+  text-shadow: none;
+  filter: none;
+  transform: none;
 }
