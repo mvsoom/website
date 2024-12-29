@@ -39,7 +39,7 @@ body {
   flex-basis: 14ch;
   margin: 0 1rem;
 
-  padding: 0 0 0 2rem;
+  
 
   line-height: 1.1;
   text-align: right;
@@ -51,7 +51,6 @@ body {
 .container.wrapped .title {
   text-align: left;
   flex-grow: 1;
-  padding: 0;
 }
 
 .title h1 {
