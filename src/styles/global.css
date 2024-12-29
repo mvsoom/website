@@ -58,8 +58,6 @@ body {
 .container.wrapped .title {
   text-align: left;
   flex-grow: 1;
-
-  text-align: right;
 }
 
 .title h1 {
