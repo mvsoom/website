@@ -1,16 +1,24 @@
 :root {
-  --title-basis: 17ch;
-  --content-basis: 65ch;
+  --title-basis: 14ch;
+  --content-basis: 47ch;
 }
 
 html {
-  font-size: 16px;
-  font-family: monospace;
+  font-size: 20px;
+  font-family: triplicate, monospace;
+  font-feature-settings: "ss01";
+  line-height: 1.45;
 }
 
 body {
   margin: 0;
+  
+  word-break: break-word;
+  overflow-wrap: break-word;
+  
+  -webkit-font-smoothing: subpixel-antialiased;
 }
+
 
 .container {
   width: 100%;
@@ -25,10 +33,12 @@ body {
 
 .title {
   background-color: red;
-  flex-basis: var(--title-basis);
+  width: var(--title-basis);
   flex-grow: 1;
 
   text-align: right;
+
+  padding: 1rem 0;
 }
 
 .container.wrapped .title {
@@ -36,8 +46,16 @@ body {
   text-align: left;
 }
 
+.title h1 {
+  font-size: 125%
+}
+
+.title p {
+  font-style: italic;
+}
+
 .content {
   background-color: green;
-  flex-basis: var(--content-basis);
+  width: var(--content-basis);
   flex-grow: 1;
 }
