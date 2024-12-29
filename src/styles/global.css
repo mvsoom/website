@@ -7,10 +7,15 @@ html {
 
 body {
   margin: 0;
+  height: 100vh;
 
   overflow-wrap: break-word;
 
   -webkit-font-smoothing: subpixel-antialiased;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* .container */
@@ -145,4 +150,15 @@ code {
 
 .nav {
   background-color: antiquewhite;
+
+  margin-top: 1rem;
+  padding: 2rem 0;
+}
+
+.nav .container {
+  margin-top: 0;
+}
+
+.nav .title {
+  font-weight: lighter;
 }
