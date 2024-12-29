@@ -3,8 +3,13 @@ import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const pageTitle = "My Astro Learning Blog";
-const allPosts = await getCollection("vault", ({ data }) => {
-  return data.publish === true;
+
+const posts = await getCollection("vault", ({ data }) => {
+  return (data.publish === true) && data.date;
+});
+
+const sortedPosts = posts.sort((a, b) => {
+  return new Date(b.data.date) - new Date(a.data.date);
 });
 ---
 
@@ -12,9 +17,10 @@ const allPosts = await getCollection("vault", ({ data }) => {
   <p>This is where I will post about my journey learning Astro.</p>
   <ul>
     {
-      allPosts.map((post) => (
+      sortedPosts.map((post) => (
         <li>
           <div>
+            {post.data.date}
             <em>{post.filePath}</em>{" "}
             <a href={`/vault/${post.id}`}>{post.id}</a>
             {" "}({post.data.title})

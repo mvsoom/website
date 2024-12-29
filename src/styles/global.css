@@ -191,3 +191,13 @@ code {
   margin-top: 0.25em;
   filter: grayscale(100%);
 }
+
+/* home */
+
+.home {
+
+}
+
+#toggle:checked + label + .xyz {
+  display: block;
+}
