@@ -1,14 +1,13 @@
 ---
 import "../../styles/global.css";
-import { getCollection, render } from "astro:content";
+import { getSortedPosts } from "../../utils";
+import { render } from "astro:content";
 
 import ScholarIcon from "../../icons/scholar.svg";
 import InstagramIcon from "../../icons/instagram.svg";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("vault", ({ data }) => {
-    return data.publish === true;
-  });
+  const posts = await getSortedPosts();
   return posts.map((post) => ({
     params: { id: post.id },
     props: { post },
@@ -18,9 +17,7 @@ export async function getStaticPaths() {
 const { post } = Astro.props;
 const { Content } = await render(post);
 
-const allPosts = await getCollection("vault", ({ data }) => {
-  return data.publish === true;
-});
+const allPosts = await getSortedPosts();
 
 const pageTitle = post.data.title ? post.data.title : post.id;
 ---

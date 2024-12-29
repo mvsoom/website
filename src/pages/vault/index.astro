@@ -1,16 +1,10 @@
 ---
-import { getCollection } from "astro:content";
+import { getSortedPosts } from "../../utils";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const pageTitle = "My Astro Learning Blog";
 
-const posts = await getCollection("vault", ({ data }) => {
-  return (data.publish === true) && data.date;
-});
-
-const sortedPosts = posts.sort((a, b) => {
-  return new Date(b.data.date) - new Date(a.data.date);
-});
+const sortedPosts = await getSortedPosts();
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -20,7 +14,7 @@ const sortedPosts = posts.sort((a, b) => {
       sortedPosts.map((post) => (
         <li>
           <div>
-            {post.data.date}
+            {post.data.published}
             <em>{post.filePath}</em>{" "}
             <a href={`/vault/${post.id}`}>{post.id}</a>
             {" "}({post.data.title})
