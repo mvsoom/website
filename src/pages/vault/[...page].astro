@@ -4,7 +4,7 @@ import { getSortedPosts, groupByYear } from "../../scripts/utils";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
-export const pageSize = 15;
+export const pageSize = 100000; // TODO
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getSortedPosts();
@@ -25,34 +25,44 @@ const pageTitle = "vault";
   <div class="container">
     <div class="title">
       <h1>vault</h1>
-      <p>Page {page.currentPage}/{page.lastPage}</p>
+      <p>All the posts</p>
     </div>
 
-    <div class="content">
+    <div class="content list">
       <!-- Display posts grouped by year -->
-      <div class="posts-by-year">
-        {
-          Object.keys(postsByYear)
-            .sort((a, b) => b - a)
-            .map((year) => (
-              <div class="year-group" key={year}>
-                <h2 style="text-align: right; margin-top: 0">{year}</h2>
-                <ul>
-                  {postsByYear[year].map((post) => (
-                    <li key={post.id}>
-                      <div>
-                        <strong>{post.data.title}</strong> -{" "}
-                        <em>{post.data.published?.toDateString()}</em>
-                        <br />
-                        <a href={`/vault/${post.id}`}>Read more</a>
-                      </div>
+      {
+        Object.keys(postsByYear)
+          .sort((a, b) => b - a)
+          .map((year) => (
+            <>
+              <h1>{year}</h1>
+              <ol>
+                {postsByYear[year].map((post) => {
+                  // Format the date
+                  const publishedDate = post.data.published;
+                  const dd = publishedDate
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0"); // e.g., "01"
+                  const mmm = publishedDate
+                    .toLocaleString("en-US", { month: "short" }) // e.g., "Jan"
+                    .toLowerCase();
+                  return (
+                    <li>
+                      <a href={`/vault/${post.id}`} title={post.data.title}>
+                        {post.id}{" "}
+                      </a>
+                      <span>
+                        {mmm}
+                        <sup>{dd}</sup>
+                      </span>
                     </li>
-                  ))}
-                </ul>
-              </div>
-            ))
-        }
-      </div>
+                  );
+                })}
+              </ol>
+            </>
+          ))
+      }
 
       <!-- Pagination controls -->
       {

@@ -100,6 +100,35 @@ body {
   transform: skewX(+0.5deg);
 }
 
+/* .content .list */
+.content.list h1 {
+  font-size: 1.2em;
+  text-align: right;
+  margin-bottom: 1rem;
+}
+
+.container.wrapped .content.list h1  {
+  text-align: left;
+}
+
+.content.list ol {
+  list-style: none; /* No numbers */
+  padding: 0;
+  margin: 0;
+}
+
+.content.list li {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.content.list li a {
+  font-weight: bold;
+  text-decoration: none;
+}
+
 /* sup sub */
 
 /* https://stackoverflow.com/a/58950175/6783015 */
@@ -145,7 +174,7 @@ code {
   font-size: 90%;
   font-feature-settings: initial;
 
-  padding: 0.1em;
+  padding: 0 0.2em;
 
   text-shadow: none;
   filter: none;
@@ -196,6 +225,3 @@ code {
 
 }
 
-#toggle:checked + label + .xyz {
-  display: block;
-}
