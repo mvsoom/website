@@ -18,3 +18,4 @@
   <meta name="author" content="Your Name or Company" />
   ```
 - [ ] Set a pagination size for all [...page].astro pages and fix the pagination widget
+- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config
