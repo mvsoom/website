@@ -8,10 +8,11 @@ const vault = defineCollection({
       title: z.string().default(""),
       published: z.date().optional(),
       tags: z.array(z.string()).default([]),
+      redirect: z.string().url().optional(),
       image: z
         .object({
           url: z.string(),
-          alt: z.string(),
+          alt: z.string().optional(),
         })
         .optional(),
     })

@@ -18,14 +18,13 @@ const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 
 const postsByYear = groupByYear(page.data);
 
-const pageTitle = "vault";
+const pageTitle = "research";
 ---
 
 <BaseLayout pageTitle={pageTitle}>
   <div class="container">
     <div class="title">
-      <h1>vault</h1>
-      <p>All the posts</p>
+      <h1>research</h1>
     </div>
 
     <div class="content list">
@@ -49,12 +48,13 @@ const pageTitle = "vault";
                     .toLowerCase();
                   return (
                     <li>
-                      <a href={`/vault/${post.id}`} title={post.data.title}>
-                        {post.id}{" "}
+                      <a href={`/vault/${post.id}`} title={post.data.id}>
+                        {post.data.title}{" "}
                       </a>
                       <span class="dots" />
                       <span>
-                        {mmm}&thinsp;<sup>{dd}</sup>
+                        {mmm}
+                        <sup>{dd}</sup>
                       </span>
                     </li>
                   );

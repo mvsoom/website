@@ -17,4 +17,4 @@
   <meta name="keywords" content="keyword1, keyword2, keyword3" />
   <meta name="author" content="Your Name or Company" />
   ```
-- [ ] Set a pagination size in [...page].astro
+- [ ] Set a pagination size for all [...page].astro pages and fix the pagination widget
