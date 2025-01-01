@@ -3,13 +3,16 @@ import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import psl from 'psl';
 
 export const pageSize = 100000; // TODO
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getSortedPosts();
 
-  return paginate(posts, { pageSize: pageSize });
+  const filteredPosts = posts.filter((post) => post.data.tags?.includes("research"));
+
+  return paginate(filteredPosts, { pageSize: pageSize });
 }) satisfies GetStaticPaths;
 
 const { page } = Astro.props;
@@ -19,6 +22,17 @@ const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 const postsByYear = groupByYear(page.data);
 
 const pageTitle = "research";
+import psl from 'psl';
+
+function getBaseDomain(url) {
+  const domain = new URL(url).hostname;
+  const parsed = psl.parse(domain);
+  
+  if (parsed.error) throw new Error('Invalid domain');
+  
+  return parsed.domain;
+}
+
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -37,6 +51,9 @@ const pageTitle = "research";
               <h1>{year}</h1>
               <ol>
                 {postsByYear[year].map((post) => {
+                  // Get domain from redirect
+                  const baseDomain = getBaseDomain(post.data.redirect);
+
                   // Format the date
                   const publishedDate = post.data.published;
                   const dd = publishedDate
@@ -49,12 +66,12 @@ const pageTitle = "research";
                   return (
                     <li>
                       <a href={`/vault/${post.id}`} title={post.data.id}>
-                        {post.data.title}{" "}
+                        {post.data.title}
                       </a>
                       <span class="dots" />
+                      <span>[{baseDomain}]</span>
                       <span>
-                        {mmm}
-                        <sup>{dd}</sup>
+                        {mmm}&thinsp;<sup>{dd}</sup>
                       </span>
                     </li>
                   );

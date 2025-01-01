@@ -10,7 +10,8 @@
   },
   "dependencies": {
     "astro": "^5.0.9",
-    "astro-rehype-relative-markdown-links": "^0.17.3"
+    "astro-rehype-relative-markdown-links": "^0.17.3",
+    "psl": "^1.15.0"
   },
   "devDependencies": {
     "postcss-preset-env": "^10.1.3",
