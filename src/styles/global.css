@@ -6,18 +6,11 @@ html {
 }
 
 body {
-  font-family: triplicate-text, monospace;
-  line-height: 1.45;
-  font-feature-settings: "ss01";
   overflow-wrap: break-word;
   -webkit-font-smoothing: subpixel-antialiased;
 
   margin: 0;
   height: 100vh;
-
-  overflow-wrap: break-word;
-
-  -webkit-font-smoothing: subpixel-antialiased;
 
   display: flex;
   flex-direction: column;

@@ -4,6 +4,7 @@ import { getSortedPosts } from "../../scripts/posts";
 import { render } from "astro:content";
 import Redirect from "../../layouts/Redirect.astro";  
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../layouts/Container.astro";
 
 import ScholarIcon from "../../icons/scholar.svg";
 import InstagramIcon from "../../icons/instagram.svg";
@@ -29,16 +30,9 @@ const pageTitle = post.data.title ? post.data.title : post.id;
   <Redirect destination={post.data.redirect} />
 ) : (
   <BaseLayout pageTitle={pageTitle}>
-    <div class="container">
-      <div class="title">
-        <h1>{post.id}</h1>
-        <p>{post.data.title}</p>
-      </div>
-
-      <div class="content">
-        <Content />
-      </div>
-    </div>
+    <Container title={post.id} subtitle={post.data.title}>
+      <Content />
+    </Container>
 
     <div class="nav">
       <div class="container">
