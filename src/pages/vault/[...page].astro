@@ -20,16 +20,15 @@ const postsByYear = groupByYear(page.data);
 
 const pageTitle = "vault";
 
-import psl from 'psl';
+import psl from "psl";
 function getBaseDomain(url) {
   const domain = new URL(url).hostname;
   const parsed = psl.parse(domain);
-  
-  if (parsed.error) throw new Error('Invalid domain');
-  
+
+  if (parsed.error) throw new Error("Invalid domain");
+
   return parsed.domain;
 }
-
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -63,14 +62,15 @@ function getBaseDomain(url) {
                       <a href={`/vault/${post.id}`} title={post.data.title}>
                         {post.id}
                       </a>
-                      <span class="dots" />
-                      {
-                        post.data.redirect
-                          ? <sup style="font-size: x-small">[{getBaseDomain(post.data.redirect)}]</sup> : null
-                      }
-                      <span>
+
+                      <div class="date">
+                        {post.data.redirect ? (
+                          <sup style="font-size: x-small">
+                            [{getBaseDomain(post.data.redirect)}]
+                          </sup>
+                        ) : null}
                         {mmm}&thinsp;<sup>{dd}</sup>
-                      </span>
+                      </div>
                     </li>
                   );
                 })}

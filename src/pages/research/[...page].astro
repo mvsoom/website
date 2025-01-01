@@ -3,14 +3,16 @@ import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import psl from 'psl';
+import psl from "psl";
 
 export const pageSize = 100000; // TODO
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getSortedPosts();
 
-  const filteredPosts = posts.filter((post) => post.data.tags?.includes("research"));
+  const filteredPosts = posts.filter((post) =>
+    post.data.tags?.includes("research")
+  );
 
   return paginate(filteredPosts, { pageSize: pageSize });
 }) satisfies GetStaticPaths;
@@ -26,15 +28,24 @@ const pageTitle = "research";
 function getBaseDomain(url) {
   const domain = new URL(url).hostname;
   const parsed = psl.parse(domain);
-  
-  if (parsed.error) throw new Error('Invalid domain');
-  
+
+  if (parsed.error) throw new Error("Invalid domain");
+
   return parsed.domain;
 }
-
 ---
 
 <BaseLayout pageTitle={pageTitle}>
+  <style>
+    .content.list ol li {
+      margin-bottom: 2em;
+    }
+
+    .content.list ol li .date {
+      font-size: 80%;
+}
+
+  </style>
   <div class="container">
     <div class="title">
       <h1>research</h1>
@@ -47,11 +58,12 @@ function getBaseDomain(url) {
           .sort((a, b) => b - a)
           .map((year) => (
             <>
-              <h1>{year}</h1>
               <ol>
                 {postsByYear[year].map((post) => {
                   // Get domain from redirect
-                  const baseDomain = getBaseDomain(post.data.redirect);
+                  const baseDomain = post.data.redirect
+                    ? getBaseDomain(post.data.redirect)
+                    : null;
 
                   // Format the date
                   const publishedDate = post.data.published;
@@ -62,19 +74,25 @@ function getBaseDomain(url) {
                   const mmm = publishedDate
                     .toLocaleString("en-US", { month: "short" }) // e.g., "Jan"
                     .toLowerCase();
-                    return (
+                  return (
                     <li>
                       <a href={`/vault/${post.id}`} title={post.data.id}>
                         {post.data.title}
+
+                        {post.data.redirect ? (
+                          <sup style="font-size: x-small">
+                            [{getBaseDomain(post.data.redirect)}]&nbsp;{" "}
+                          </sup>
+                        ) : null}
                       </a>
-                      <span class="dots" />
-                      {
-                        post.data.redirect
-                          ? <sup style="font-size: x-small">[{getBaseDomain(post.data.redirect)}]</sup> : null
-                      }
-                      <span>
-                        {mmm}&thinsp;<sup>{dd}</sup>
-                      </span>
+
+                      <div class="date">
+                        
+                        {year}
+                        <br />
+                        {mmm}&hairsp;<sup>{dd}</sup>
+                        
+                      </div>
                     </li>
                   );
                 })}

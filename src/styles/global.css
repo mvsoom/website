@@ -105,6 +105,7 @@ body {
   font-size: 1.2em;
   text-align: right;
   margin-bottom: 1rem;
+  grid-area: page;
 }
 
 .container.wrapped .content.list h1 {
@@ -112,35 +113,46 @@ body {
 }
 
 .content.list ol {
-  list-style: none; /* No numbers */
+  list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.content.list li {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.5em;
+/* https://asaaki.github.io/responsive-toc-leaders-in-css */
+.content.list ol li {
+  display: grid;
+  grid-template-columns: auto max-content;
+  grid-template-areas: "anchor date";
+  align-items: end;
+  gap: 0.25rem;
 }
 
-.content.list li a {
+.content.list ol li a {
   font-weight: bold;
   text-decoration: none;
+
+  grid-area: anchor;
+  position: relative;
+  overflow: hidden;
 }
 
-.content.list .redirect {
-  min-width: 0;
-  font-size: smaller;
+.content.list ol li a::after {
+  position: absolute;
+  padding-left: 0.5ch;
+  content: "_______________________________________"
+    "______________________________________________"
+    "______________________________________________"
+    "______________________________________________"
+    "______________________________________________";
+  font-size: small;
+  font-weight: 100;
+  color: #666;
 }
 
-.content.list .dots {
-  flex-grow: 1;
-  border-bottom: 0.1em solid #bbb;
-  margin: 0;
-  min-width: 0;
+.content.list ol li .date {
+  grid-area: date;
+  margin-left: 0.5ch;
+  text-align: left;
 }
 
 /* sup sub */
