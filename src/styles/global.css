@@ -123,6 +123,7 @@ body {
   justify-content: space-between;
   flex-wrap: wrap;
   align-items: baseline;
+  gap: 0.5em;
 }
 
 .content.list li a {
@@ -130,10 +131,15 @@ body {
   text-decoration: none;
 }
 
+.content.list .redirect {
+  min-width: 0;
+  font-size: smaller;
+}
+
 .content.list .dots {
   flex-grow: 1;
   border-bottom: 0.1em solid #bbb;
-  margin: 0 0.5em;
+  margin: 0;
   min-width: 0;
 }
 

@@ -17,5 +17,5 @@
   <meta name="keywords" content="keyword1, keyword2, keyword3" />
   <meta name="author" content="Your Name or Company" />
   ```
-- [ ] Set a pagination size for all [...page].astro pages and fix the pagination widget
+- [ ] Set a pagination size for all [...page].astro pages and fix the pagination controls (can be up/down arrows positioned above and below the first and last year, respectively)
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config
