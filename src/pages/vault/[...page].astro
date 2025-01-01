@@ -1,6 +1,7 @@
 ---
 import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
+import { getBaseDomain } from "../../scripts/util"
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -19,16 +20,6 @@ const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 const postsByYear = groupByYear(page.data);
 
 const pageTitle = "vault";
-
-import psl from "psl";
-function getBaseDomain(url) {
-  const domain = new URL(url).hostname;
-  const parsed = psl.parse(domain);
-
-  if (parsed.error) throw new Error("Invalid domain");
-
-  return parsed.domain;
-}
 ---
 
 <BaseLayout pageTitle={pageTitle}>
@@ -61,15 +52,16 @@ function getBaseDomain(url) {
                     <li>
                       <a href={`/vault/${post.id}`} title={post.data.title}>
                         {post.id}
+                        {post.data.redirect ? (
+                          <sup style="font-size: x-small">
+                            🗗&#8239;{getBaseDomain(post.data.redirect)}
+                          </sup>
+                        ) : null}
                       </a>
 
                       <div class="date">
-                        {post.data.redirect ? (
-                          <sup style="font-size: x-small">
-                            [{getBaseDomain(post.data.redirect)}]
-                          </sup>
-                        ) : null}
-                        {mmm}&thinsp;<sup>{dd}</sup>
+                        
+                        {mmm}&#8239;<sup>{dd}</sup>
                       </div>
                     </li>
                   );

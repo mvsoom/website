@@ -163,6 +163,7 @@ sub {
   vertical-align: baseline;
   position: relative;
   top: -0.3em;
+  font-size: 80%;
 }
 
 sub {
