@@ -1,0 +1,86 @@
+---
+import "../styles/global.css";
+import { getSortedPosts, groupByYear } from "../scripts/posts";
+import { getBaseDomain } from "../scripts/util";
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "./BaseLayout.astro";
+import RedirectedLink from "../components/RedirectedLink.astro";
+
+export const pageSize = 100000; // TODO
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getSortedPosts();
+
+  const filteredPosts = posts.filter((post) =>
+    post.data.tags?.includes("research")
+  );
+
+  return paginate(filteredPosts, { pageSize: pageSize });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+
+const postsByYear = groupByYear(page.data);
+
+const pageTitle = "research";
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="container">
+    <div class="title">
+      <h1>research</h1>
+    </div>
+
+    <div class="content list">
+      <!-- Display posts grouped by year -->
+      {
+        Object.keys(postsByYear)
+          .sort((a, b) => b - a)
+          .map((year) => (
+            <>
+              <ol>
+                {postsByYear[year].map((post) => {
+                  // Get domain from redirect
+                  const baseDomain = post.data.redirect
+                    ? getBaseDomain(post.data.redirect)
+                    : null;
+
+                  // Format the date
+                  const publishedDate = post.data.published;
+                  const dd = publishedDate
+                    .getDate()
+                    .toString()
+                    .padStart(2, "0"); // e.g., "01"
+                  const mmm = publishedDate
+                    .toLocaleString("en-US", { month: "short" }) // e.g., "Jan"
+                    .toLowerCase();
+                  return (
+                    <li>
+                      <slot />
+                    </li>
+                  );
+                })}
+              </ol>
+            </>
+          ))
+      }
+    </div>
+  </div>
+</BaseLayout>
+
+<!-- TODO: pagination controls 
+const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
+{
+    page.lastPage > 1 && (
+        <nav>
+        {page.url.prev && <a href={page.url.prev}>Previous Page</a>}
+        {
+        pageNums.map((num) => (
+            <a href={`/vault/${num === 1 ? "" : num + "/"}`}>{num}</a>
+        ))
+        }
+        {page.url.next && <a href={page.url.next}>Next Page</a>}
+        </nav>
+    )
+}
+-->
