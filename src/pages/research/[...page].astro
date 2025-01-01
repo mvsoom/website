@@ -1,9 +1,10 @@
 ---
 import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
-import { getBaseDomain } from "../../scripts/util"
+import { getBaseDomain } from "../../scripts/util";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RedirectedLink from "../../components/RedirectedLink.astro";
 
 export const pageSize = 100000; // TODO
 
@@ -26,17 +27,17 @@ const postsByYear = groupByYear(page.data);
 const pageTitle = "research";
 ---
 
+<style>
+  .content.list ol li {
+    margin-bottom: 2em;
+  }
+
+  .content.list ol li .date {
+    font-size: smaller;
+  }
+</style>
+
 <BaseLayout pageTitle={pageTitle}>
-  <style>
-    .content.list ol li {
-      margin-bottom: 2em;
-    }
-
-    .content.list ol li .date {
-      font-size: 80%;
-}
-
-  </style>
   <div class="container">
     <div class="title">
       <h1>research</h1>
@@ -67,22 +68,18 @@ const pageTitle = "research";
                     .toLowerCase();
                   return (
                     <li>
-                      <a href={`/vault/${post.id}`} title={post.data.id}>
+                      <RedirectedLink
+                        href={`/vault/${post.id}`}
+                        title={post.data.id}
+                        destination={post.data.redirect}
+                      >
                         {post.data.title}
-
-                        {post.data.redirect ? (
-                          <sup style="font-size: x-small">
-                            🗗&#8239;{getBaseDomain(post.data.redirect)}
-                          </sup>
-                        ) : null}
-                      </a>
+                      </RedirectedLink>
 
                       <div class="date">
-                        
                         {year}
                         <br />
                         {mmm}&#8239;<sup>{dd}</sup>
-                        
                       </div>
                     </li>
                   );

@@ -1,9 +1,9 @@
 ---
 import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
-import { getBaseDomain } from "../../scripts/util"
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import RedirectedLink from "../../components/RedirectedLink.astro";
 
 export const pageSize = 100000; // TODO
 
@@ -50,14 +50,9 @@ const pageTitle = "vault";
                     .toLowerCase();
                   return (
                     <li>
-                      <a href={`/vault/${post.id}`} title={post.data.title}>
+                      <RedirectedLink href={`/vault/${post.id}`} title={post.data.title} destination={post.data.redirect}>
                         {post.id}
-                        {post.data.redirect ? (
-                          <sup style="font-size: x-small">
-                            🗗&#8239;{getBaseDomain(post.data.redirect)}
-                          </sup>
-                        ) : null}
-                      </a>
+                      </RedirectedLink>
 
                       <div class="date">
                         

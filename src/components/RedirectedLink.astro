@@ -1,13 +1,20 @@
 ---
-const { platform, username } = Astro.props;
+import { getBaseDomain } from "../scripts/util";
+
+const { href, title, destination } = Astro.props;
+
+// Convert `https://sub.domain.com/path` to `domain.com`
+const domain = destination ? getBaseDomain(destination) : null;
 ---
-<a href={`https://www.${platform}.com/${username}`}>{platform}</a>
+
+<a href={href} title={title}>
+  <slot />
+
+  {domain ? <sup style="font-size: x-small">🗗&#8239;{domain}</sup> : null}
+</a>
 
 <style>
-  a {
-    padding: 0.5rem 1rem;
-    color: white;
-    background-color: #4c1d95;
-    text-decoration: none;
+  a sup {
+    font-weight: normal;
   }
 </style>
