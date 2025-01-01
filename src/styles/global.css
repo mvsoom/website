@@ -107,7 +107,7 @@ body {
   margin-bottom: 1rem;
 }
 
-.container.wrapped .content.list h1  {
+.container.wrapped .content.list h1 {
   text-align: left;
 }
 
@@ -122,11 +122,19 @@ body {
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+  align-items: baseline;
 }
 
 .content.list li a {
   font-weight: bold;
   text-decoration: none;
+}
+
+.content.list .dots {
+  flex-grow: 1;
+  border-bottom: 0.1em solid #bbb;
+  margin: 0 0.5em;
+  min-width: 0;
 }
 
 /* sup sub */
@@ -194,7 +202,7 @@ code {
   margin-top: 0;
 }
 
-.nav .title{
+.nav .title {
   font-weight: lighter;
   font-size: 90%;
   border-top: solid 3px #555;
@@ -222,6 +230,4 @@ code {
 /* home */
 
 .home {
-
 }
-
