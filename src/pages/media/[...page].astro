@@ -28,20 +28,17 @@ const pageTitle = "media";
 ---
 
 <style>
-  .content.list ol li {
-    margin-bottom: 1em;
+  /* TODO/FIXME: using ul instead of ol as temporary fix but needs more specific classes */
+  .content.list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
-  .content.list ol li a {
+  .content.list ul li {
     margin: 0;
     padding: 0;
-  }
-
-  .content.list ol li .date {
-    font-size: smaller;
-  }
-
-  .content.list ol li .date {
+    margin-bottom: 1ch;
   }
 </style>
 
@@ -52,37 +49,24 @@ const pageTitle = "media";
     </div>
 
     <div class="content list">
-      <!-- Display posts grouped by year -->
-      {
-        Object.keys(postsByYear)
-          .sort((a, b) => b - a)
-          .map((year) => (
-            <>
-              <ol>
-                {postsByYear[year].map((post) => {
-                  const { dd, mmm } = formatDate(post.data.published);
-                  return (
-                    <li>
-                      <a href={`/vault/${post.id}`}>
-                        <Picture
-                          src={post.data.cover}
-                          alt={post.data.title}
-                          title={post.data.title}
-                        />
-                      </a>
-
-                      <div class="date">
-                        {year}
-                        <br />
-                        {mmm}&#8239;<sup>{dd}</sup>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </>
-          ))
-      }
+      <ul>
+        {
+          page.data.map((post) => {
+            const { dd, mmm } = formatDate(post.data.published);
+            return (
+              <li>
+                <a href={`/vault/${post.id}`}>
+                  <Picture
+                    src={post.data.cover}
+                    alt={post.data.title}
+                    title={post.data.title}
+                  />
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
 
       <!-- Pagination controls -->
       {
