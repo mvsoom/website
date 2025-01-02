@@ -1,6 +1,6 @@
 import { getCollection } from "astro:content";
+import * as path from "path";
 
-// Fetch and sort posts by date, and group them by year in decreasing order
 export async function getPosts() {
   return await getCollection("vault", ({ data }) => {
     return data.published !== undefined;

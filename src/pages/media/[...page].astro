@@ -1,10 +1,10 @@
 ---
 import "../../styles/global.css";
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
-import { getBaseDomain } from "../../scripts/util";
+import { formatDate } from "../../scripts/util";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import RedirectedLink from "../../components/RedirectedLink.astro";
+import { Picture } from "astro:assets";
 
 export const pageSize = 100000; // TODO
 
@@ -29,11 +29,19 @@ const pageTitle = "media";
 
 <style>
   .content.list ol li {
-    margin-bottom: 2em;
+    margin-bottom: 1em;
+  }
+
+  .content.list ol li a {
+    margin: 0;
+    padding: 0;
   }
 
   .content.list ol li .date {
     font-size: smaller;
+  }
+
+  .content.list ol li .date {
   }
 </style>
 
@@ -52,29 +60,16 @@ const pageTitle = "media";
             <>
               <ol>
                 {postsByYear[year].map((post) => {
-                  // Get domain from redirect
-                  const baseDomain = post.data.redirect
-                    ? getBaseDomain(post.data.redirect)
-                    : null;
-
-                  // Format the date
-                  const publishedDate = post.data.published;
-                  const dd = publishedDate
-                    .getDate()
-                    .toString()
-                    .padStart(2, "0"); // e.g., "01"
-                  const mmm = publishedDate
-                    .toLocaleString("en-US", { month: "short" }) // e.g., "Jan"
-                    .toLowerCase();
+                  const { dd, mmm } = formatDate(post.data.published);
                   return (
                     <li>
-                      <RedirectedLink
-                        href={`/vault/${post.id}`}
-                        title={post.data.id}
-                        destination={post.data.redirect}
-                      >
-                        {post.id}
-                      </RedirectedLink>
+                      <a href={`/vault/${post.id}`}>
+                        <Picture
+                          src={post.data.cover}
+                          alt={post.data.title}
+                          title={post.data.title}
+                        />
+                      </a>
 
                       <div class="date">
                         {year}

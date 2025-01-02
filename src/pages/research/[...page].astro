@@ -1,7 +1,7 @@
 ---
 import "../../styles/global.css";
-import { getSortedPosts, groupByYear } from "../../scripts/posts";
-import { getBaseDomain } from "../../scripts/util";
+import { getSortedPosts } from "../../scripts/posts";
+import { formatDate } from "../../scripts/util";
 import type { GetStaticPaths } from "astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RedirectedLink from "../../components/RedirectedLink.astro";
@@ -21,8 +21,6 @@ export const getStaticPaths = (async ({ paginate }) => {
 const { page } = Astro.props;
 
 const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
-
-const postsByYear = groupByYear(page.data);
 
 const pageTitle = "research";
 ---
@@ -44,50 +42,30 @@ const pageTitle = "research";
     </div>
 
     <div class="content list">
-      <!-- Display posts grouped by year -->
-      {
-        Object.keys(postsByYear)
-          .sort((a, b) => b - a)
-          .map((year) => (
-            <>
-              <ol>
-                {postsByYear[year].map((post) => {
-                  // Get domain from redirect
-                  const baseDomain = post.data.redirect
-                    ? getBaseDomain(post.data.redirect)
-                    : null;
+      <ol>
+        {
+          page.data.map((post) => {
+            const { dd, mmm, yyyy } = formatDate(post.data.published);
+            return (
+              <li>
+                <RedirectedLink
+                  href={`/vault/${post.id}`}
+                  title={post.data.redirect}
+                  destination={post.data.redirect}
+                >
+                  {post.data.title}
+                </RedirectedLink>
 
-                  // Format the date
-                  const publishedDate = post.data.published;
-                  const dd = publishedDate
-                    .getDate()
-                    .toString()
-                    .padStart(2, "0"); // e.g., "01"
-                  const mmm = publishedDate
-                    .toLocaleString("en-US", { month: "short" }) // e.g., "Jan"
-                    .toLowerCase();
-                  return (
-                    <li>
-                      <RedirectedLink
-                        href={`/vault/${post.id}`}
-                        title={post.data.id}
-                        destination={post.data.redirect}
-                      >
-                        {post.data.title}
-                      </RedirectedLink>
-
-                      <div class="date">
-                        {year}
-                        <br />
-                        {mmm}&#8239;<sup>{dd}</sup>
-                      </div>
-                    </li>
-                  );
-                })}
-              </ol>
-            </>
-          ))
-      }
+                <div class="date">
+                  {yyyy}
+                  <br />
+                  {mmm}&#8239;<sup>{dd}</sup>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
 
       <!-- Pagination controls -->
       {
