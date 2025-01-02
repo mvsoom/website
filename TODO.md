@@ -19,3 +19,4 @@
   ```
 - [ ] Set a pagination size for all [...page].astro pages and fix the pagination controls (can be up/down arrows positioned above and below the first and last year, respectively)
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config
+- [ ] Make /vault/[year].astro such that posts can be grouped by year, e.g. /vault/2024

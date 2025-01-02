@@ -94,6 +94,12 @@ body {
 }
 
 /* .content .list */
+.content.list a {
+  font-weight: normal;
+  color: black;
+  text-decoration: none;
+}
+
 .content.list h1 {
   font-size: 1.2em;
   text-align: right;
@@ -121,9 +127,6 @@ body {
 }
 
 .content.list ol li a {
-  font-weight: bold;
-  text-decoration: none;
-
   grid-area: anchor;
   position: relative;
   overflow: hidden;
