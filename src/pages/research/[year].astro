@@ -1,26 +1,26 @@
 ---
 import "../../styles/global.css";
-import { getSortedPosts } from "../../scripts/posts";
-import { formatDate } from "../../scripts/util";
-import type { GetStaticPaths } from "astro";
+import { getSortedPosts, groupByYear } from "../../scripts/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RedirectedLink from "../../components/RedirectedLink.astro";
+import { formatDate } from "../../scripts/util";
 
-export const pageSize = 100000; // TODO
-
-export const getStaticPaths = (async ({ paginate }) => {
+export async function getStaticPaths() {
   const posts = await getSortedPosts();
 
-  const filteredPosts = posts.filter((post) =>
-    post.data.tags?.includes("research")
+  const filteredPosts = posts.filter(
+    (post) => post.data.research !== undefined
   );
 
-  return paginate(filteredPosts, { pageSize: pageSize });
-}) satisfies GetStaticPaths;
+  const filteredPostsByYear = groupByYear(filteredPosts);
 
-const { page } = Astro.props;
+  return Object.keys(filteredPostsByYear).map((year) => ({
+    params: { year },
+    props: { filteredPosts: filteredPostsByYear[year] },
+  }));
+}
 
-const pageNums = Array.from({ length: page.lastPage }, (_, i) => i + 1);
+const { filteredPosts } = Astro.props;
 
 const pageTitle = "research";
 ---
@@ -44,7 +44,7 @@ const pageTitle = "research";
     <div class="content list">
       <ol>
         {
-          page.data.map((post) => {
+          filteredPosts.map((post) => {
             const { dd, mmm, yyyy } = formatDate(post.data.published);
             return (
               <li>
@@ -66,19 +66,6 @@ const pageTitle = "research";
           })
         }
       </ol>
-
-      <!-- Pagination controls -->
-      {
-        page.lastPage > 1 && (
-          <nav>
-            {page.url.prev && <a href={page.url.prev}>Previous Page</a>}
-            {pageNums.map((num) => (
-              <a href={`/vault/${num === 1 ? "" : num + "/"}`}>{num}</a>
-            ))}
-            {page.url.next && <a href={page.url.next}>Next Page</a>}
-          </nav>
-        )
-      }
     </div>
   </div>
 </BaseLayout>

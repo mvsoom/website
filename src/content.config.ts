@@ -7,9 +7,28 @@ const vault = defineCollection({
     z.object({
       title: z.string().default(""),
       published: z.date().optional(),
-      tags: z.array(z.string()).default([]),
       redirect: z.string().url().optional(),
-      cover: image().optional(),
+
+      cover: image().optional(), // TODO: remove
+
+      // Special post categories
+      media: z
+        .object({
+          images: z.array(image()), // First of images is the cover
+        })
+        .optional(),
+
+      research: z
+        .union([
+          z.null(),
+          z.object({
+            // Could have abstract, authors, etc.
+          }),
+        ])
+        .optional(),
+
+      // Optional tags
+      tags: z.array(z.string()).default([]),
     }),
 });
 
