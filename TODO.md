@@ -19,6 +19,6 @@
   ```
 - [ ] Set a pagination size for all [...page].astro pages and fix the pagination controls (can be up/down arrows positioned above and below the first and last year, respectively).
   * Top margin of first year is still off
-- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config
+- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Make /vault/[year].astro such that posts can be grouped by year, e.g. /vault/2024
 - [ ] Explore more plugins of https://metafizzy.co/
