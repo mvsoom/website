@@ -1,0 +1,11 @@
+.list.research ol li {
+  margin-bottom: 2em;
+}
+
+.list.research ol li .date {
+  font-size: smaller;
+}
+
+.list.research ol li a {
+  text-decoration: none;
+}

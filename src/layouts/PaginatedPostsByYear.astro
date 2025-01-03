@@ -1,0 +1,64 @@
+---
+import "../../styles/global.css";
+import "../../styles/media.css";
+
+import { getSortedPosts, groupByYear } from "../../scripts/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RedirectedLink from "../../components/RedirectedLink.astro";
+import { formatDate } from "../../scripts/util";
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+
+  const filteredPosts = posts.filter(
+    (post) => post.data.research !== undefined
+  );
+
+  const filteredPostsByYear = groupByYear(filteredPosts);
+
+  return Object.keys(filteredPostsByYear).map((year) => ({
+    params: { year },
+    props: { filteredPosts: filteredPostsByYear[year] },
+  }));
+}
+
+const { year } = Astro.params;
+const { filteredPosts } = Astro.props;
+
+const pageTitle = `research in ${year}`;
+---
+
+<BaseLayout pageTitle={pageTitle}>
+  <div class="container">
+    <div class="title">
+      <h1>research</h1>
+    </div>
+
+    <div class="content list">
+      <ol>
+        {
+          filteredPosts.map((post) => {
+            const { dd, mmm, yyyy } = formatDate(post.data.published);
+            return (
+              <li>
+                <RedirectedLink
+                  href={`/vault/${post.id}`}
+                  title={post.data.redirect}
+                  destination={post.data.redirect}
+                >
+                  {post.data.title}
+                </RedirectedLink>
+
+                <div class="date">
+                  {yyyy}
+                  <br />
+                  {mmm}&#8239;<sup>{dd}</sup>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</BaseLayout>

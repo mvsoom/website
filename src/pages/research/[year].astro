@@ -1,64 +1,30 @@
 ---
-import "../../styles/global.css";
-import "../../styles/media.css";
+import "../../styles/research.css";
 
-import { getSortedPosts, groupByYear } from "../../scripts/posts";
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import RedirectedLink from "../../components/RedirectedLink.astro";
-import { formatDate } from "../../scripts/util";
+import { getPosts } from "../../scripts/posts";
+import PostsByYear from "../../layouts/PostsByYear.astro";
 
 export async function getStaticPaths() {
-  const posts = await getSortedPosts();
-
+  const posts = await getPosts();
   const filteredPosts = posts.filter(
     (post) => post.data.research !== undefined
   );
 
-  const filteredPostsByYear = groupByYear(filteredPosts);
+  const years = [
+    ...new Set(
+      filteredPosts.map((post) => post.data.published!.getFullYear()).flat()
+    ),
+  ];
 
-  return Object.keys(filteredPostsByYear).map((year) => ({
+  return years.map((year) => ({
     params: { year },
-    props: { filteredPosts: filteredPostsByYear[year] },
+    props: { },
   }));
 }
 
 const { year } = Astro.params;
-const { filteredPosts } = Astro.props;
 
-const pageTitle = "research";
+function testfunc() { return "abc"; }
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <div class="container">
-    <div class="title">
-      <h1>research</h1>
-    </div>
-
-    <div class="content list">
-      <ol>
-        {
-          filteredPosts.map((post) => {
-            const { dd, mmm, yyyy } = formatDate(post.data.published);
-            return (
-              <li>
-                <RedirectedLink
-                  href={`/vault/${post.id}`}
-                  title={post.data.redirect}
-                  destination={post.data.redirect}
-                >
-                  {post.data.title}
-                </RedirectedLink>
-
-                <div class="date">
-                  {yyyy}
-                  <br />
-                  {mmm}&#8239;<sup>{dd}</sup>
-                </div>
-              </li>
-            );
-          })
-        }
-      </ol>
-    </div>
-  </div>
-</BaseLayout>
+<PostsByYear category="research" year={year} page={testfunc}></PostsByYear>

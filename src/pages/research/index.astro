@@ -1,6 +1,6 @@
 ---
 import "../../styles/global.css";
-import "../../styles/media.css";
+import "../../styles/research.css";
 
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPosts } from "../../scripts/posts";
@@ -33,7 +33,7 @@ const pageTitle = "research";
       <h1>research</h1>
     </div>
 
-    <div class="content list media" data-years={years}></div>
+    <div class="content list research" data-years={years}></div>
 
     <!-- TODO: enable bundling via local file? Cannot import the (npm install infinite-scroll) package in frontmatter; Astro complains and says to put this in script file, which can in principle still be optimized. The external link disables optimizing, but we use that for now. -->
     <script
@@ -42,7 +42,7 @@ const pageTitle = "research";
 
     <script client:load>
       const years = document
-        .querySelector(".content.list")
+        .querySelector(".content.list.research")
         .dataset.years.split(",");
 
       function getYearPath() {
@@ -52,9 +52,9 @@ const pageTitle = "research";
         }
       }
 
-      var infScroll = new InfiniteScroll(".content.list", {
+      var infScroll = new InfiniteScroll(".content.list.research", {
         path: getYearPath,
-        append: ".content.list",
+        append: ".content.list.research",
         prefill: true,
       });
     </script>
