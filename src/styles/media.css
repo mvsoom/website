@@ -1,0 +1,7 @@
+.content.list.media ol li {
+    margin-bottom: 2em;
+  }
+  
+  .content.list.media ol li .date {
+    font-size: smaller;
+  }

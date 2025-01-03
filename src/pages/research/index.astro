@@ -1,5 +1,7 @@
 ---
 import "../../styles/global.css";
+import "../../styles/media.css";
+
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getPosts } from "../../scripts/posts";
 
@@ -25,53 +27,33 @@ console.log(years);
 const pageTitle = "research";
 ---
 
-<style>
-  .content.list ol li {
-    margin-bottom: 2em;
-  }
-
-  .content.list ol li .date {
-    font-size: smaller;
-  }
-</style>
-
 <BaseLayout pageTitle={pageTitle}>
-  
   <div class="container">
     <div class="title">
-      <h1><a href="/research">research</a></h1>
+      <h1>research</h1>
     </div>
 
-    <div
-      class="content list"
-      data-years={years}
-    >
-    </div>
+    <div class="content list media" data-years={years}></div>
 
-    <!-- TODO: enable bundling via local file? Cannot import this in frontmatter; Astro complains and says to put this in script file, which can in principle still be optimized -->
+    <!-- TODO: enable bundling via local file? Cannot import the (npm install infinite-scroll) package in frontmatter; Astro complains and says to put this in script file, which can in principle still be optimized. The external link disables optimizing, but we use that for now. -->
     <script
       src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
       is:inline></script>
 
     <script client:load>
-      // Read the years from the data attribute
-      const nextPenSlugs = document.querySelector(".content.list").dataset.years.split(",");
+      const years = document
+        .querySelector(".content.list")
+        .dataset.years.split(",");
 
-      console.log("in js: years:");
-      console.log(nextPenSlugs);
-
-      function getPenPath() {
-        var slug = nextPenSlugs[this.loadCount];
+      function getYearPath() {
+        var slug = years[this.loadCount];
         if (slug) {
           return "/research/" + slug;
         }
       }
 
-      //-------------------------------------//
-      // init Infinte Scroll
-
       var infScroll = new InfiniteScroll(".content.list", {
-        path: getPenPath,
+        path: getYearPath,
         append: ".content.list",
         prefill: true,
       });

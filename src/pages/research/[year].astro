@@ -1,5 +1,7 @@
 ---
 import "../../styles/global.css";
+import "../../styles/media.css";
+
 import { getSortedPosts, groupByYear } from "../../scripts/posts";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RedirectedLink from "../../components/RedirectedLink.astro";
@@ -20,20 +22,11 @@ export async function getStaticPaths() {
   }));
 }
 
+const { year } = Astro.params;
 const { filteredPosts } = Astro.props;
 
 const pageTitle = "research";
 ---
-
-<style>
-  .content.list ol li {
-    margin-bottom: 2em;
-  }
-
-  .content.list ol li .date {
-    font-size: smaller;
-  }
-</style>
 
 <BaseLayout pageTitle={pageTitle}>
   <div class="container">
