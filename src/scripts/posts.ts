@@ -1,5 +1,4 @@
 import { getCollection } from "astro:content";
-import * as path from "path";
 
 export async function getPosts() {
   return await getCollection("vault", ({ data }) => {
@@ -10,7 +9,7 @@ export async function getPosts() {
 export function sortByDate(posts) {
   return posts.sort((a, b) => {
     return (
-      (b.data.published?.valueOf() ?? 0) - (a.data.published?.valueOf() ?? 0)
+      b.data.published!.valueOf() - a.data.published!.valueOf()
     );
   });
 }
