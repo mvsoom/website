@@ -3,7 +3,7 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import {
   getPosts,
   groupByTagAndYear,
-  sortDescending,
+  sortYearsDescending,
   sortPostsDescending,
 } from "../../../scripts/posts";
 import RedirectedLink from "../../../components/RedirectedLink.astro";
@@ -35,8 +35,8 @@ export async function getStaticPaths() {
 const { tag, year } = Astro.params;
 let { posts, years } = Astro.props;
 
-posts = posts && sortDescending(posts);
-years = years && years.sort((a, b) => Number(b) - Number(a));
+posts = posts && sortPostsDescending(posts);
+years = years && sortYearsDescending(years);
 ---
 
 <BaseLayout pageTitle={Astro.url.pathname}>
@@ -45,9 +45,9 @@ years = years && years.sort((a, b) => Number(b) - Number(a));
       <h1>{tag}</h1>
     </div>
 
-    {
-      posts && (
-        <div class={`content list ${tag}`}>
+    <div class={`content list ${tag}`}>
+      {
+        posts && (
           <h1>{year}</h1>
           <ol>
             {posts.map((post) => {
@@ -69,46 +69,39 @@ years = years && years.sort((a, b) => Number(b) - Number(a));
               );
             })}
           </ol>
-        </div>
-      )
-    }
+        )
+      }
 
-    {
-      years && (
-        <div class={`content list ${tag}`}>
-        </div>
-
-        <script
-          src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
-          is:inline></script>
-        
-        <div id="data" data-tag={tag} data-years={years}></div>
-
-        <script client:load>
-          const tag = document.querySelector("#data").dataset.tag;
-          const years = document
-            .querySelector("#data")
-            .dataset.years.split(",");
+      {
+        years && (
+          <script
+            src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
+            is:inline></script>
           
-          console.log("tag", tag);
-          console.log("years", years);
+          <div id="data" data-tag={tag} data-years={years}></div>
 
-          function getYearPath() {
-            var slug = years[this.loadCount];
-            console.log("slug", `/${tag}/${slug}`);
-            if (slug) {
-              return `/test/${tag}/${slug}`;
+          <script client:load>
+            const tag = document.querySelector("#data").dataset.tag;
+            const years = document
+              .querySelector("#data")
+              .dataset.years.split(",");
+            
+            function getYearPath() {
+              var slug = years[this.loadCount];
+              if (slug) {
+                return `/test/${tag}/${slug}`;
+              }
             }
-          }
 
-          var target = `.content.list.${tag}`;
-          var infScroll = new InfiniteScroll(target, {
-            path: getYearPath,
-            append: target,
-            prefill: true,
-          });
-        </script>
-      )
-    }
+            var target = `.content.list.${tag}`;
+            var infScroll = new InfiniteScroll(target, {
+              path: getYearPath,
+              append: target,
+              prefill: true,
+            });
+          </script>
+        )
+      }
+    </div>
   </div>
 </BaseLayout>

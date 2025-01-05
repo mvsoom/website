@@ -6,7 +6,6 @@
 - [ ] Check SEO stats
 - [ ] Sitemap: https://docs.astro.build/en/guides/integrations-guide/sitemap/
 - [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
-- [ ] Do something about /vault/tags pages
 - [ ] Remove all "butterick" stuff by cutting history at some point
 - [ ] Clean up /public dir
 - [ ] ID links should have post title as tooltip
@@ -21,3 +20,4 @@
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Explore more plugins of https://metafizzy.co/
 - [ ] For "https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js": Enable bundling via local file? Cannot import the (npm install infinite-scroll) package in frontmatter; Astro complains and says to put this in script file, which can in principle still be optimized. The external link disables optimizing, but we use that for now.
+- [ ] Implement `load more` button in Infinite Scroll

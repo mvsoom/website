@@ -44,8 +44,8 @@ export function groupByTagAndYear(posts: VaultPost[]) {
   );
 }
 
-export function sortDescending(years: number[]) {
-  return years.sort((a, b) => b - a);
+export function sortYearsDescending(years: string[]) {
+  return years.sort((a, b) => Number(b) - Number(a));
 }
 
 export function sortPostsDescending(posts: VaultPost[]) {
