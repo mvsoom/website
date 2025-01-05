@@ -45,63 +45,66 @@ years = years && sortYearsDescending(years);
       <h1>{tag}</h1>
     </div>
 
-    <div class={`content list ${tag}`}>
-      {
-        posts && (
-          <h1>{year}</h1>
-          <ol>
-            {posts.map((post) => {
-              const { dd, mmm } = formatDate(post.data.published);
-              return (
-                <li>
-                  <RedirectedLink
-                    href={`/${post.id}`}
-                    title={post.data.title}
-                    destination={post.data.redirect}
-                  >
-                    {post.id}
-                  </RedirectedLink>
+    <div class="content list">
+      <div class={tag}>
+        {
+          posts && (
+            <h1>{year}</h1>
+            <ol>
+              {posts.map((post) => {
+                const { dd, mmm } = formatDate(post.data.published);
+                return (
+                  <li>
+                    <RedirectedLink
+                      href={`/${post.id}`}
+                      title={post.data.title}
+                      destination={post.data.redirect}
+                    >
+                      {post.id}
+                    </RedirectedLink>
 
-                  <div class="date">
-                    {mmm}&#8239;<sup>{dd}</sup>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        )
-      }
+                    <div class="date">
+                      {mmm}&#8239;<sup>{dd}</sup>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          )
+        }
 
-      {
-        years && (
-          <script
-            src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
-            is:inline></script>
-          
-          <div id="data" data-tag={tag} data-years={years}></div>
-
-          <script client:load>
-            const tag = document.querySelector("#data").dataset.tag;
-            const years = document
-              .querySelector("#data")
-              .dataset.years.split(",");
+        {
+          years && (
+            <script
+              src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
+              is:inline></script>
             
-            function getYearPath() {
-              var slug = years[this.loadCount];
-              if (slug) {
-                return `/${tag}/${slug}`;
-              }
-            }
+            <div id="data" data-tag={tag} data-years={years}></div>
 
-            var target = `.content.list.${tag}`;
-            var infScroll = new InfiniteScroll(target, {
-              path: getYearPath,
-              append: target,
-              prefill: true,
-            });
-          </script>
-        )
-      }
+            <script client:load>
+              const tag = document.querySelector("#data").dataset.tag;
+              const years = document
+                .querySelector("#data")
+                .dataset.years.split(",");
+              
+              function getYearPath() {
+                var slug = years[this.loadCount];
+                console.log(`/${tag}/${slug}`);
+                if (slug) {
+                  return `/${tag}/${slug}`;
+                }
+              }
+
+              var target = `.content.list > .${tag}`;
+              var infScroll = new InfiniteScroll(target, {
+                path: getYearPath,
+                append: target,
+                prefill: true,
+              });
+            </script>
+          )
+        }
+      </div>
     </div>
   </div>
 </BaseLayout>

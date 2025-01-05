@@ -159,6 +159,31 @@ body {
   text-align: left;
 }
 
+/* media tag */
+.content.list .media ol {
+  padding: 0;
+  margin: 0;
+}
+
+.content.list .media li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1ch;
+}
+
+/* research tag */
+.content.list .research ol li {
+  margin-bottom: 2em;
+}
+
+.content.list .research ol li .date {
+  font-size: smaller;
+}
+
+.content.list .research ol li a {
+  text-decoration: none;
+}
+
 /* sup sub */
 
 /* https://stackoverflow.com/a/58950175/6783015 */

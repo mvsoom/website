@@ -40,26 +40,28 @@ posts = posts && sortPostsDescending(posts);
       <h1>{tag}</h1>
     </div>
 
-    <div class={`content list ${tag}`}>
-      {
-        posts && (
-          <ol>
-            {posts.map((post) => {
-              return (
-                <li>
-                  <a href={`/${post.id}`}>
-                    <Picture
-                      src={post.data.cover}
-                      alt={post.data.title}
-                      title={post.data.title}
-                    />
-                  </a>
-                </li>
-              );
-            })}
-          </ol>
-        )
-      }
+    <div class="content list">
+      <div class={tag}>
+        {
+          posts && (
+            <ol>
+              {posts.map((post) => {
+                return (
+                  <li>
+                    <a href={`/${post.id}`}>
+                      <Picture
+                        src={post.data.cover}
+                        alt={post.data.title}
+                        title={post.data.title}
+                      />
+                    </a>
+                  </li>
+                );
+              })}
+            </ol>
+          )
+        }
+      </div>
     </div>
   </div>
 </BaseLayout>
