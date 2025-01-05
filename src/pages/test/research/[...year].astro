@@ -1,0 +1,73 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import {
+  getPosts,
+  groupByTagAndYear,
+  sortPostsDescending,
+} from "../../../scripts/posts";
+import RedirectedLink from "../../../components/RedirectedLink.astro";
+import { formatDate } from "../../../scripts/util";
+
+export const tag = "research";
+
+export async function getStaticPaths() {
+  const posts = (await getPosts()).filter((post) =>
+    post.data.tags?.includes(tag)
+  );
+
+  const grouped = groupByTagAndYear(posts);
+  const paths = [];
+
+  for (const year in grouped[tag]) {
+    const posts = grouped[tag][year];
+    paths.push({
+      params: { year },
+      props: { posts },
+    });
+  }
+
+  return paths;
+}
+
+const { year } = Astro.params;
+let { posts } = Astro.props;
+
+posts = posts && sortPostsDescending(posts);
+---
+
+<BaseLayout pageTitle={Astro.url.pathname}>
+  <div class="container">
+    <div class="title">
+      <h1>{tag}</h1>
+    </div>
+
+    <div class={`content list ${tag}`}>
+      {
+        posts && (
+          <ol>
+            {posts.map((post) => {
+              const { dd, mmm, yyyy } = formatDate(post.data.published);
+              return (
+                <li>
+                  <RedirectedLink
+                    href={`/${post.id}`}
+                    title={post.data.redirect}
+                    destination={post.data.redirect}
+                  >
+                    {post.data.title}
+                  </RedirectedLink>
+
+                  <div class="date">
+                    {yyyy}
+                    <br />
+                    {mmm}&#8239;<sup>{dd}</sup>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        )
+      }
+    </div>
+  </div>
+</BaseLayout>
