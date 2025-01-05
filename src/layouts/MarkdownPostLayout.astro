@@ -112,7 +112,7 @@ const allPosts = await getCollection("vault", ({ data }) => {
           {
             allPosts.map((post) => (
               <div style="flex: 1 1 30%; margin: 5px; text-align: left;">
-                <a href={`/vault/${post.id}`}>{post.id}</a>
+                <a href={`/${post.id}`}>{post.id}</a>
               </div>
             ))
           }

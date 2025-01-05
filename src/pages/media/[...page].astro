@@ -55,7 +55,7 @@ const pageTitle = "media";
             const { dd, mmm } = formatDate(post.data.published);
             return (
               <li>
-                <a href={`/vault/${post.id}`}>
+                <a href={`/${post.id}`}>
                   <Picture
                     src={post.data.cover}
                     alt={post.data.title}
@@ -74,7 +74,7 @@ const pageTitle = "media";
           <nav>
             {page.url.prev && <a href={page.url.prev}>Previous Page</a>}
             {pageNums.map((num) => (
-              <a href={`/vault/${num === 1 ? "" : num + "/"}`}>{num}</a>
+              <a href={`/${num === 1 ? "" : num + "/"}`}>{num}</a>
             ))}
             {page.url.next && <a href={page.url.next}>Next Page</a>}
           </nav>

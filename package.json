@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "astro": "^5.0.9",
-    "astro-rehype-relative-markdown-links": "^0.17.3",
+    "astro-rehype-relative-markdown-links": "^0.18.1",
     "psl": "^1.15.0"
   },
   "devDependencies": {

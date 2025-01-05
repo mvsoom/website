@@ -16,7 +16,7 @@ const allPosts = await getCollection("vault", ({ data }) => {
         <li>
           <div>
             <em>{post.filePath}</em>{" "}
-            <a href={`/vault/${post.id}`}>{post.id}</a>
+            <a href={`/${post.id}`}>{post.id}</a>
             {" "}({post.data.title})
           </div>
         </li>
