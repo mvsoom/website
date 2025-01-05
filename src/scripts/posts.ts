@@ -1,9 +1,11 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
+type VaultPost = CollectionEntry<"vault">;
+
 export async function getPosts() {
   const posts = await getCollection("vault", ({ data }) => {
-    return !(data.published === undefined || data.tags?.includes("tag"));
+    return data.published !== undefined;
   });
 
   // Add the "vault" tag to all posts (making it always defined)
@@ -15,7 +17,15 @@ export async function getPosts() {
   });
 }
 
-type VaultPost = CollectionEntry<"vault">;
+export async function getTagPosts() {
+  // These are special posts describing a tag
+  return await getPosts().then((posts) => posts.filter((post) => post.data.tags.includes("tag")));
+}
+
+export async function findTagPost(tag: string): Promise<VaultPost | undefined> {
+  const tagPosts = await getTagPosts();
+  return tagPosts.find((post) => post.id === tag);
+}
 
 export function getTags(posts: VaultPost[]) {
   return [...new Set(posts.map((post) => post.data.tags!).flat())];
@@ -54,9 +64,13 @@ export function sortPostsDescending(posts: VaultPost[]) {
   });
 }
 
+export function findTagFile(posts: VaultPost[], tag: string) {
+  return posts.find((post) => post.data.tags!.includes(tag));
+}
 
 
 
+/* TODO: functions below are probably unused */
 export function groupByYear(posts) {
   return posts.reduce(
     (acc, post) => {

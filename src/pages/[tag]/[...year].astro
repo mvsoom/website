@@ -5,6 +5,7 @@ import {
   groupByTagAndYear,
   sortYearsDescending,
   sortPostsDescending,
+  findTagPost,
 } from "../../scripts/posts";
 import RedirectedLink from "../../components/RedirectedLink.astro";
 import { formatDate } from "../../scripts/util";
@@ -37,15 +38,20 @@ let { posts, years } = Astro.props;
 
 posts = posts && sortPostsDescending(posts);
 years = years && sortYearsDescending(years);
+
+const tagPost = await findTagPost(tag);
 ---
 
 <BaseLayout pageTitle={Astro.url.pathname}>
   <div class="container">
     <div class="title">
       <h1>{tag}</h1>
+      <p>{tagPost?.data.title}</p>
     </div>
 
     <div class="content list">
+      <Fragment set:html={tagPost?.rendered.html}></Fragment>
+      
       <div class={tag}>
         {
           posts && (
