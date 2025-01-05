@@ -8,18 +8,7 @@ const vault = defineCollection({
       title: z.string().default(""),
       published: z.date().optional(),
       redirect: z.string().url().optional(),
-
-      tags: z
-        .array(z.string())
-        .default([])
-        .transform((tags) => {
-          // Always include the "vault" tag
-          if (!tags.includes("vault")) {
-            tags.push("vault");
-          }
-          return tags;
-        }),
-
+      tags: z.array(z.string()).default([]),
       cover: image().optional(), // TODO: remove
     }),
 });
