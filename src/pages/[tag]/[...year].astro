@@ -1,13 +1,13 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 import {
   getPosts,
   groupByTagAndYear,
   sortYearsDescending,
   sortPostsDescending,
-} from "../../../scripts/posts";
-import RedirectedLink from "../../../components/RedirectedLink.astro";
-import { formatDate } from "../../../scripts/util";
+} from "../../scripts/posts";
+import RedirectedLink from "../../components/RedirectedLink.astro";
+import { formatDate } from "../../scripts/util";
 
 export async function getStaticPaths() {
   const grouped = groupByTagAndYear(await getPosts());
@@ -89,7 +89,7 @@ years = years && sortYearsDescending(years);
             function getYearPath() {
               var slug = years[this.loadCount];
               if (slug) {
-                return `/test/${tag}/${slug}`;
+                return `/${tag}/${slug}`;
               }
             }
 

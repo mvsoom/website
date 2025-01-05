@@ -1,6 +1,6 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import { getPosts } from "../../../scripts/posts";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts } from "../../scripts/posts";
 
 export async function getStaticPaths() {
   const allPosts = await getPosts();
