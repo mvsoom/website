@@ -9,26 +9,18 @@ const vault = defineCollection({
       published: z.date().optional(),
       redirect: z.string().url().optional(),
 
+      tags: z
+        .array(z.string())
+        .default([])
+        .transform((tags) => {
+          // Always include the "vault" tag
+          if (!tags.includes("vault")) {
+            tags.push("vault");
+          }
+          return tags;
+        }),
+
       cover: image().optional(), // TODO: remove
-
-      // Special post categories
-      media: z
-        .object({
-          images: z.array(image()), // First of images is the cover
-        })
-        .optional(),
-
-      research: z
-        .union([
-          z.null(),
-          z.object({
-            // Could have abstract, authors, etc.
-          }),
-        ])
-        .optional(),
-
-      // Optional tags
-      tags: z.array(z.string()).default([]),
     }),
 });
 
