@@ -1,8 +1,6 @@
 ---
 import "../styles/butterick.css";
 import { getCollection } from "astro:content";
-import ThemeIcon from "../components/ThemeIcon.astro";
-import BaseLayout from "./BaseLayout.astro";
 const { id, frontmatter } = Astro.props;
 const allPosts = await getCollection("vault", ({ data }) => {
   return data.publish === true;
@@ -126,7 +124,6 @@ const allPosts = await getCollection("vault", ({ data }) => {
           <span>website</span>
           <span>Google scholar</span>
           <span>instagram</span>
-          <span><ThemeIcon /></span>
         </div>
       </div>
     </div>
