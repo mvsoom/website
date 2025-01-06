@@ -1,0 +1,20 @@
+---
+import MediaPosts from "./MediaPosts.astro";
+import ResearchPosts from "./ResearchPosts.astro";
+import DefaultPosts from "./DefaultPosts.astro";
+
+const { tag, year, posts } = Astro.props;
+---
+
+{
+  (() => {
+    switch (tag) {
+      case "media":
+        return <MediaPosts posts={posts} />;
+      case "research":
+        return <ResearchPosts posts={posts} />;
+      default:
+        return <DefaultPosts year={year} posts={posts} />;
+    }
+  })()
+}

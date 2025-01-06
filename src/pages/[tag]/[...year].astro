@@ -7,8 +7,8 @@ import {
   sortPostsDescending,
   findTagPost,
 } from "../../scripts/posts";
-import RedirectedLink from "../../components/RedirectedLink.astro";
-import { formatDate } from "../../scripts/util";
+import Posts from "../../components/Posts.astro";
+import PaginatedPosts from "../../components/PaginatedPosts.astro";
 
 export async function getStaticPaths() {
   const grouped = groupByTagAndYear(await getPosts());
@@ -50,64 +50,14 @@ const tagPost = await findTagPost(tag);
     </div>
 
     <div class="content list">
-      <Fragment set:html={tagPost?.rendered.html}></Fragment>
-      
-      <div class={tag}>
-        {
-          posts && (
-            <h1>{year}</h1>
-            <ol>
-              {posts.map((post) => {
-                const { dd, mmm } = formatDate(post.data.published);
-                return (
-                  <li>
-                    <RedirectedLink
-                      href={`/${post.id}`}
-                      title={post.data.title}
-                      destination={post.data.redirect}
-                    >
-                      {post.id}
-                    </RedirectedLink>
+      <Fragment set:html={tagPost?.rendered.html} />
 
-                    <div class="date">
-                      {mmm}&#8239;<sup>{dd}</sup>
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          )
-        }
+      <div class={tag}>
+        {posts && <Posts tag={tag} year={year} posts={posts} />}
 
         {
           years && (
-            <script
-              src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
-              is:inline></script>
-            
-            <div id="data" data-tag={tag} data-years={years}></div>
-
-            <script client:load>
-              const tag = document.querySelector("#data").dataset.tag;
-              const years = document
-                .querySelector("#data")
-                .dataset.years.split(",");
-              
-              function getYearPath() {
-                var slug = years[this.loadCount];
-                console.log(`/${tag}/${slug}`);
-                if (slug) {
-                  return `/${tag}/${slug}`;
-                }
-              }
-
-              var target = `.content.list > .${tag}`;
-              var infScroll = new InfiniteScroll(target, {
-                path: getYearPath,
-                append: target,
-                prefill: true,
-              });
-            </script>
+            <PaginatedPosts tag={tag} years={years} parent=".content.list" />
           )
         }
       </div>

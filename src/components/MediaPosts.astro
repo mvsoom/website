@@ -1,0 +1,22 @@
+---
+import { Picture } from "astro:assets";
+const { posts } = Astro.props;
+---
+
+<ol>
+  {
+    posts.map((post) => {
+      return (
+        <li>
+          <a href={`/${post.id}`}>
+            <Picture
+              src={post.data.cover}
+              alt={post.data.title}
+              title={post.data.title}
+            />
+          </a>
+        </li>
+      );
+    })
+  }
+</ol>

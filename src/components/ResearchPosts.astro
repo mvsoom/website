@@ -1,0 +1,28 @@
+---
+import RedirectedLink from "./RedirectedLink.astro";
+import { formatDate } from "../scripts/util";
+const { posts } = Astro.props;
+---
+
+<ol>
+  {posts.map((post) => {
+    const { dd, mmm, yyyy } = formatDate(post.data.published);
+    return (
+      <li>
+        <RedirectedLink
+          href={`/${post.id}`}
+          title={post.data.redirect}
+          destination={post.data.redirect}
+        >
+          {post.data.title}
+        </RedirectedLink>
+
+        <div class="date">
+          {yyyy}
+          <br />
+          {mmm}&#8239;<sup>{dd}</sup>
+        </div>
+      </li>
+    );
+  })}
+</ol>

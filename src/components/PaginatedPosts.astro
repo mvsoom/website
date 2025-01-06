@@ -1,0 +1,31 @@
+---
+const { tag, years, parent } = Astro.props;
+---
+
+<script
+  src="https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js"
+  is:inline></script>
+
+<div id="data" data-tag={tag} data-years={years} data-parent={parent}></div>
+
+<script client:load>
+  const dataset = document.querySelector("#data").dataset;
+  const tag = dataset.tag;
+  const years = dataset.years.split(",");
+  const parent = dataset.parent;
+
+  function getYearPath() {
+    var slug = years[this.loadCount];
+    console.log(`/${tag}/${slug}`);
+    if (slug) {
+      return `/${tag}/${slug}`;
+    }
+  }
+
+  var target = `${parent} > .${tag}`;
+  var infScroll = new InfiniteScroll(target, {
+    path: getYearPath,
+    append: target,
+    prefill: true,
+  });
+</script>
