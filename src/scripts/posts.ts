@@ -19,7 +19,9 @@ export async function getPosts() {
 
 export async function getTagPosts() {
   // These are special posts describing a tag
-  return await getPosts().then((posts) => posts.filter((post) => post.data.tags.includes("tag")));
+  return await getPosts().then((posts) =>
+    posts.filter((post) => post.data.tags.includes("tag"))
+  );
 }
 
 export async function findTagPost(tag: string): Promise<VaultPost | undefined> {
@@ -68,8 +70,6 @@ export function findTagFile(posts: VaultPost[], tag: string) {
   return posts.find((post) => post.data.tags!.includes(tag));
 }
 
-
-
 /* TODO: functions below are probably unused */
 export function groupByYear(posts) {
   return posts.reduce(
@@ -84,7 +84,6 @@ export function groupByYear(posts) {
     {} as Record<number, typeof posts>
   );
 }
-
 
 export function sortByDate(posts) {
   return posts.sort((a, b) => {
