@@ -18,7 +18,6 @@
   ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Explore more plugins of https://metafizzy.co/
-- [ ] For "https://unpkg.com/infinite-scroll@4/dist/infinite-scroll.pkgd.min.js": Enable bundling via local file? Cannot import the (npm install infinite-scroll) package in frontmatter; Astro complains and says to put this in script file, which can in principle still be optimized. The external link disables optimizing, but we use that for now.
 - [ ] Implement `load more` button in Infinite Scroll
 - [ ] Make styling of list element not effect paragraphs of tag descriptions, eg the link to Wikipedia in http://localhost:4321/tmwt/
 - [ ] Don't make infinite scroll change URL
