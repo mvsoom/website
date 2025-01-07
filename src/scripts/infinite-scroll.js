@@ -3,36 +3,38 @@
 // ... but here it works perfectly well and it is processed by vite as expected
 import InfiniteScroll from 'infinite-scroll';
 
-const dataset = document.querySelector("#data").dataset;
+const dataset = document.querySelector("#infinite-scroll").dataset;
 const tag = dataset.tag;
 const years = dataset.years.split(",");
-const parent = dataset.parent;
+const target = dataset.target;
+const container = target + ' #infinite-scroll';
 
-function getYearPath() {
-  const slug = years[this.loadCount];
-  if (slug) {
-    return `/${tag}/${slug}`;
+function getNextYearPath() {
+  const year = years[this.loadCount];
+  if (year) {
+    return `/${tag}/${year}`;
   }
 }
 
-const target = `${parent} > .${tag}`;
-const infScroll = new InfiniteScroll(target, {
-  path: getYearPath,
+const infScroll = new InfiniteScroll(container, {
+  path: getNextYearPath,
   append: target,
   prefill: true,
   history: false,
   checkLastPage: true,
   loadOnScroll: false,
-  button: '.view-more-button',
-  debug: true,
+  button: '.view-all-button',
+  // debug: true,
 });
 
-let viewMoreButton = document.querySelector('.view-more-button');
-viewMoreButton.addEventListener( 'click', function() {
-  // load next page
+let viewMoreButton = document.querySelector('.view-all-button');
+
+viewMoreButton.addEventListener('click', function () {
   infScroll.loadNextPage();
-  // enable loading on scroll
   infScroll.options.loadOnScroll = true;
-  // hide page
   viewMoreButton.style.display = 'none';
+});
+
+infScroll.once('scrollThreshold', function () {
+  viewMoreButton.style.display = 'block'; // Must be "block" for centering the button, not "inline-block"
 });

@@ -6,9 +6,7 @@
 - [ ] Check SEO stats
 - [ ] Sitemap: https://docs.astro.build/en/guides/integrations-guide/sitemap/
 - [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
-- [ ] Remove all "butterick" stuff by cutting history at some point
 - [ ] Clean up /public dir
-- [ ] ID links should have post title as tooltip
 - [ ] Symbols in footer: good example, see bottom of https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
 - [ ] SEO optimization; like fill in on each page:
   ```
@@ -18,6 +16,3 @@
   ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Explore more plugins of https://metafizzy.co/
-- [ ] Implement `load more` button in Infinite Scroll
-- [ ] Make styling of list element not effect paragraphs of tag descriptions, eg the link to Wikipedia in http://localhost:4321/tmwt/
-- [ ] Don't make infinite scroll change URL

@@ -50,20 +50,18 @@ const tagPost = await findTagPost(tag);
       <p>{tagPost?.data.title}</p>
     </div>
 
-    <div class="content list">
+    <div class="content">
       <Fragment set:html={tagPost?.rendered?.html} />
 
-      <div class={tag}>
+      <div class=`yearly ${tag}`>
         {posts && <Posts tag={tag} year={year} posts={posts} />}
 
         {
           years && (
-            <PaginatedPosts tag={tag} years={years} parent=".content.list" />
+            <PaginatedPosts tag={tag} years={years} target={`.yearly.${tag}`} />
           )
         }
       </div>
-
-      <p><button class="view-more-button">View all</button></p>
     </div>
   </div>
 
