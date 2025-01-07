@@ -1,7 +1,7 @@
 ---
 import RedirectedLink from "./RedirectedLink.astro";
 import { formatDate } from "../scripts/util";
-const { posts } = Astro.props;
+const { tag, year, posts } = Astro.props;
 ---
 
 <ol>
@@ -19,7 +19,7 @@ const { posts } = Astro.props;
           </RedirectedLink>
 
           <div class="date">
-            {yyyy}
+            <a href={`/${tag}/${year}`} class="text">{yyyy}</a>
             <br />
             {mmm}&#8239;<sup>{dd}</sup>
           </div>

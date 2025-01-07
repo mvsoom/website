@@ -2,16 +2,58 @@
 import RedirectedLink from "./RedirectedLink.astro";
 import { formatDate } from "../scripts/util";
 
-const { year, posts } = Astro.props;
+const { tag, year, posts } = Astro.props;
 ---
 
-<h1>{year}</h1>
+<a href=`/${tag}/${year}` class="text"><h1>{year}</h1></a>
 <ol>
   {
     posts.map((post) => {
       const { dd, mmm } = formatDate(post.data.published);
       return (
         <li>
+          <RedirectedLink
+            href={`/${post.id}`}
+            title={post.data.title}
+            destination={post.data.redirect}
+          >
+            {post.id}
+          </RedirectedLink>
+
+          <div class="date">
+            {mmm}&#8239;<sup>{dd}</sup>
+          </div>
+        </li>
+
+<li>
+          <RedirectedLink
+            href={`/${post.id}`}
+            title={post.data.title}
+            destination={post.data.redirect}
+          >
+            {post.id}
+          </RedirectedLink>
+
+          <div class="date">
+            {mmm}&#8239;<sup>{dd}</sup>
+          </div>
+        </li>
+
+<li>
+          <RedirectedLink
+            href={`/${post.id}`}
+            title={post.data.title}
+            destination={post.data.redirect}
+          >
+            {post.id}
+          </RedirectedLink>
+
+          <div class="date">
+            {mmm}&#8239;<sup>{dd}</sup>
+          </div>
+        </li>
+
+<li>
           <RedirectedLink
             href={`/${post.id}`}
             title={post.data.title}

@@ -17,6 +17,12 @@ body {
   justify-content: space-between;
 }
 
+/* a */
+a.text {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* .container */
 
 .container {
@@ -128,13 +134,13 @@ body {
   margin-bottom: 0;
 }
 
-.content.list ol li a {
+.content.list ol li > a {
   grid-area: anchor;
   position: relative;
   overflow: hidden;
 }
 
-.content.list ol li a::after {
+.content.list ol li > a::after {
   position: absolute;
   padding-left: 1ch;
   content: "_______________________________________"

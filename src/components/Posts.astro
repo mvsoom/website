@@ -12,9 +12,9 @@ const { tag, year, posts } = Astro.props;
       case "media":
         return <MediaPosts posts={posts} />;
       case "vault":
-        return <VaultPosts year={year} posts={posts} />;
+        return <VaultPosts tag={tag} year={year} posts={posts} />;
       default:
-        return <DefaultPosts posts={posts} />;
+        return <DefaultPosts tag={tag} year={year} posts={posts} />;
     }
   })()
 }
