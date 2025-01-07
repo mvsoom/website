@@ -4,9 +4,7 @@ import { getSortedPosts } from "../scripts/posts";
 import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../layouts/Container.astro";
-
-import ScholarIcon from "../icons/scholar.svg";
-import InstagramIcon from "../icons/instagram.svg";
+import Navigation from "../layouts/Navigation.astro";
 
 export async function getStaticPaths() {
   const posts = await getSortedPosts();
@@ -26,7 +24,6 @@ if (post.data.redirect) {
 
 
 const { Content } = await render(post);
-const allPosts = await getSortedPosts();
 const pageTitle = post.data.title ? post.data.title : post.id;
 ---
 
@@ -35,80 +32,5 @@ const pageTitle = post.data.title ? post.data.title : post.id;
     <Content />
   </Container>
 
-  <div class="nav">
-    <div class="container">
-      <div class="title" style="font-weight: bold;">
-        <h1>media</h1>
-      </div>
-
-      <div class="content">
-        <div
-          style="display: flex; flex-wrap: wrap; justify-content: space-between;"
-        >
-          <div style="flex: 1 1 30%;">
-            <img src="/matrix.jpeg" alt="Thumbnail 1" style="width: 100%;" />
-          </div>
-          <div style="flex: 1 1 30%; margin: 5px;">
-            <img src="/matrix.jpeg" alt="Thumbnail 2" style="width: 100%;" />
-          </div>
-          <div style="flex: 1 1 30%; margin: 5px;">
-            <img src="/matrix.jpeg" alt="Thumbnail 3" style="width: 100%;" />
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="title">
-          <h1>research</h1>
-        </div>
-
-        <div class="content"></div>
-      </div>
-
-      <div class="container" style="font-weight: bold;">
-        <div class="title">
-          <h1><a href="/vault">vault</a></h1>
-        </div>
-
-        <div class="content">
-          <div class="footer" style="justify-content: space-between;">
-            {
-              allPosts.slice(0, 3).map((post) => (
-                <a href={`/${post.id}`} key={post.id}>
-                  {post.id}
-                </a>
-              ))
-            }
-          </div>
-        </div>
-      </div>
-
-      <div class="container">
-        <div class="title">
-          <h1>about</h1>
-        </div>
-
-        <div class="content">
-          <div class="footer">
-            <span><a href="/about">me</a></span>
-            <span style="margin-right: auto;"><a href="/">homepage</a></span>
-
-            <a href="https://www.instagram.com/marnixvansoom" target="_blank">
-              <InstagramIcon viewBox="0 0 132 132" title="Instagram profile" />
-            </a>
-
-            <a
-              href="https://scholar.google.com/citations?user=1yXORK4AAAAJ"
-              target="_blank"
-            >
-              <ScholarIcon
-                viewBox="0 0 512 512"
-                title="Google Scholar profile"
-              />
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Navigation />
 </BaseLayout>

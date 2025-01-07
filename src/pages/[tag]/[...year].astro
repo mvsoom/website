@@ -9,6 +9,7 @@ import {
 } from "../../scripts/posts";
 import Posts from "../../components/Posts.astro";
 import PaginatedPosts from "../../components/PaginatedPosts.astro";
+import Navigation from "../../layouts/Navigation.astro";
 
 export async function getStaticPaths() {
   const grouped = groupByTagAndYear(await getPosts());
@@ -61,6 +62,10 @@ const tagPost = await findTagPost(tag);
           )
         }
       </div>
+
+      <p><button class="view-more-button">View all</button></p>
     </div>
   </div>
+
+  <Navigation />
 </BaseLayout>

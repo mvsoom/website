@@ -20,4 +20,19 @@ const infScroll = new InfiniteScroll(target, {
   path: getYearPath,
   append: target,
   prefill: true,
+  history: false,
+  checkLastPage: true,
+  loadOnScroll: false,
+  button: '.view-more-button',
+  debug: true,
+});
+
+let viewMoreButton = document.querySelector('.view-more-button');
+viewMoreButton.addEventListener( 'click', function() {
+  // load next page
+  infScroll.loadNextPage();
+  // enable loading on scroll
+  infScroll.options.loadOnScroll = true;
+  // hide page
+  viewMoreButton.style.display = 'none';
 });
