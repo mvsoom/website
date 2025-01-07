@@ -4,8 +4,27 @@ const { tag, years, parent } = Astro.props;
 
 <div id="data" data-tag={tag} data-years={years.join(',')} data-parent={parent}></div>
 
-<script src="../scripts/infinite-scroll-init.js">
-  const scriptPath = Object.keys(scripts)[0];
-  const module = await scripts[scriptPath]();
-  module.default();
+<script>
+  import InfiniteScroll from 'infinite-scroll';
+
+document.addEventListener('DOMContentLoaded', () => {
+  const dataset = document.querySelector("#data").dataset;
+  const tag = dataset.tag;
+  const years = dataset.years.split(",");
+  const parent = dataset.parent;
+
+  function getYearPath() {
+    const slug = years[this.loadCount];
+    if (slug) {
+      return `/${tag}/${slug}`;
+    }
+  }
+
+  const target = `${parent} > .${tag}`;
+  const infScroll = new InfiniteScroll(target, {
+    path: getYearPath,
+    append: target,
+    prefill: true,
+  });
+});
 </script>
