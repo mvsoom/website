@@ -50,7 +50,7 @@ const tagPost = await findTagPost(tag);
     </div>
 
     <div class="content list">
-      <Fragment set:html={tagPost?.rendered.html} />
+      <Fragment set:html={tagPost?.rendered?.html} />
 
       <div class={tag}>
         {posts && <Posts tag={tag} year={year} posts={posts} />}
