@@ -248,11 +248,18 @@ code {
 
 /* nav */
 
+/* FIXME: very dirty hack to get the sawtooth border */
+body > .container {
+  border-bottom: dashed 4px antiquewhite;
+  margin-bottom: 0;
+  padding-bottom: 1em;
+}
+
 .nav {
   background-color: antiquewhite;
 
-  margin-top: 1rem;
-  padding: 2rem 0;
+  margin-top: 0rem;
+  padding: 1rem 0;
 }
 
 .nav .container {

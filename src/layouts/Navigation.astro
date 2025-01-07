@@ -9,10 +9,10 @@ const { tag} = Astro.props;
 
 ---
 
-<div class="nav">
-  <div class="container" style="font-weight: bold;">
+<div class="nav" style="border-bottom: dashed 4px #88df6ae0;">
+  <div class="container">
     <div class="title">
-      <h1><a href=`/${tag}`>{tag? tag : "vault"}</a></h1>
+      <h1 style="font-weight: bold;"><a href=`/${tag}` class="text">{tag? tag : "vault"}</a></h1>
     </div>
 
     <div class="content">
@@ -29,10 +29,10 @@ const { tag} = Astro.props;
   </div>
 </div>
 
-<div class="nav" style="background-color: #f0f0f0; margin-top: 0;">
+<div class="nav" style="background-color: #88df6ae0; margin-top: 0;">
   <div class="container">
     <div class="title">
-      <h1>goto</h1>
+      <h1 style="font-weight: bold;">goto</h1>
     </div>
 
     <div class="content">
