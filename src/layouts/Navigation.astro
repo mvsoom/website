@@ -11,45 +11,33 @@ const { tag} = Astro.props;
 
 <div class="nav" style="border-bottom: dashed 4px #88df6ae0;">
   <div class="container">
-    <div class="title">
-      <h1 style="font-weight: bold;"><a href=`/${tag}` class="text">{tag? tag : "vault"}</a></h1>
+    <div class="title" style="border:none">
+      <h1 style="font-weight: bold; border:none">&nbsp;</h1>
     </div>
-
     <div class="content">
-      <div class="footer" style="justify-content: space-between;">
-        {
-          allPosts.slice(0, 3).map((post) => (
-            <a href={`/${post.id}`} key={post.id}>
-              {post.id}
-            </a>
-          ))
-        }
-      </div>
+      <div class="footer">
+        <span><a href="/" class="text">&laquo;</a></span> <!-- Beginning -->
+        <span><a href="/" class="text">&lsaquo;</a></span> <!-- Previous -->
+        <span><a href="/" class="text">&#9679;</a></span> <!-- Current (represented by a bullet point) -->
+        <span><a href="/" class="text">&rsaquo;</a></span> <!-- Next -->
+        <span><a href="/" class="text">&raquo;</a></span> <!-- End -->
+      </div>      
     </div>
   </div>
 </div>
 
 <div class="nav" style="background-color: #88df6ae0; margin-top: 0;">
   <div class="container">
-    <div class="title">
-      <h1 style="font-weight: bold;">goto</h1>
+    <div class="title" style="border:none">
+      <h1 style="font-weight: bold; border:none">&nbsp;</h1>
     </div>
 
     <div class="content">
-      <div class="footer">
-        <span><a href="/">home</a></span>
-        <span style="margin-right: auto;"><a href="/about">about</a></span>
-
-        <a href="https://www.instagram.com/marnixvansoom" target="_blank">
-          <InstagramIcon viewBox="0 0 132 132" title="Instagram profile" />
-        </a>
-
-        <a
-          href="https://scholar.google.com/citations?user=1yXORK4AAAAJ"
-          target="_blank"
-        >
-          <ScholarIcon viewBox="0 0 512 512" title="Google Scholar profile" />
-        </a>
+      <div class="footer" style="font-weight:530">
+        <span><a href="/media" class="text">media</a></span> 
+        <span><a href="/research" class="text">research</a></span>
+        <span><a href="/vault" class="text">vault</a></span> <!-- Next -->
+        <span><a href="/about" class="text">about</a></span>
       </div>
     </div>
   </div>

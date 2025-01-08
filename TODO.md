@@ -16,3 +16,9 @@
   ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Explore more plugins of https://metafizzy.co/
+- [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts
+- [ ] goto: home two_of(media, research, vault) tags about
+- [ ] the first footer bar in the about posts has a link to "tags" and the instagram/scholar/dark mode icons
+- [ ] color of the first footer bar is the tag color; this can extend to the current tag in the second footer bar to get a "current selection" effect
+- [ ] the first footer bar can contain the View all button for the tag lists; otherwise it is not needed there
+- [ ] sawtooth border should **only have sawtooth in the container (the middle content) part**, not outside that -- to lessen the agressive effect   
