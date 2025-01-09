@@ -250,8 +250,8 @@ code {
 
 /* FIXME: very dirty hack to get the sawtooth border */
 body > .container {
-  border-bottom: dashed 4px antiquewhite;
-  margin-bottom: 0;
+  /*border-bottom: dashed 4px antiquewhite;*/
+  margin-bottom: auto;
   padding-bottom: 1em;
 }
 

@@ -24,15 +24,12 @@ let msnry = new Masonry(container, {});
 // make imagesLoaded available for InfiniteScroll
 InfiniteScroll.imagesLoaded = ImagesLoaded;
 
-console.log('target', target);
-
 const infScroll = new InfiniteScroll(container, {
   path: getNextYearPath,
   append: target + " ol",
   prefill: true,
   history: false,
   checkLastPage: true,
-  loadOnScroll: false,
   debug: true,
   outlayer: msnry,
 });

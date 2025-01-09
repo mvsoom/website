@@ -4,7 +4,8 @@ import { getSortedPosts } from "../scripts/posts";
 import { render } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../layouts/Container.astro";
-import Navigation from "../layouts/Navigation.astro";
+import PostNavigation from "../layouts/PostNavigation.astro";
+import SiteNavigation from "../layouts/SiteNavigation.astro";
 
 export async function getStaticPaths() {
   const posts = await getSortedPosts();
@@ -32,5 +33,6 @@ const pageTitle = post.data.title ? post.data.title : post.id;
     <Content />
   </Container>
 
-  <Navigation />
+  <PostNavigation />
+  <SiteNavigation />
 </BaseLayout>

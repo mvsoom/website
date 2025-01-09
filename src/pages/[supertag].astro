@@ -6,7 +6,7 @@ import {
   sortYearsDescending,
 } from "../scripts/posts";
 import PaginatedPosts from "../components/PaginatedPosts.astro";
-import Navigation from "../layouts/Navigation.astro";
+import SiteNavigation from "../layouts/SiteNavigation.astro";
 
 export const SUPERTAGS = ["media", "research", "vault"];
 
@@ -32,7 +32,7 @@ years = sortYearsDescending(years);
 ---
 
 <BaseLayout pageTitle={Astro.url.pathname}>
-  <Navigation />
+  <SiteNavigation />
 
   <div class="container">
     <div class="title">

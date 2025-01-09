@@ -10,7 +10,6 @@ const target = dataset.target;
 const container = target + ' #data';
 
 function getNextYearPath() {
-  console.log(years);
   const year = years[this.loadCount];
   if (year) {
     return `/${tag}/${year}`;
@@ -23,6 +22,5 @@ const infScroll = new InfiniteScroll(container, {
   prefill: true,
   history: false,
   checkLastPage: true,
-  loadOnScroll: false,
   debug: true,
 });
