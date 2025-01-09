@@ -2,12 +2,14 @@
 // ... due to 'infinite-scroll' relying on the 'window' object which is not available in the server-side rendering environment ...
 // ... but here it works perfectly well and it is processed by vite as expected
 import InfiniteScroll from 'infinite-scroll';
+import Masonry from 'masonry-layout';
+import ImagesLoaded from 'imagesloaded';
 
-const dataset = document.querySelector("#infinite-scroll").dataset;
+const dataset = document.querySelector("#data").dataset;
 const tag = dataset.tag;
 const years = dataset.years.split(",");
 const target = dataset.target;
-const container = target + ' #infinite-scroll';
+const container = target + ' #data';
 
 function getNextYearPath() {
   const year = years[this.loadCount];
@@ -16,25 +18,21 @@ function getNextYearPath() {
   }
 }
 
+// init Masonry
+let msnry = new Masonry(container, {});
+
+// make imagesLoaded available for InfiniteScroll
+InfiniteScroll.imagesLoaded = ImagesLoaded;
+
+console.log('target', target);
+
 const infScroll = new InfiniteScroll(container, {
   path: getNextYearPath,
-  append: target,
+  append: target + " ol",
   prefill: true,
   history: false,
   checkLastPage: true,
   loadOnScroll: false,
-  button: '.view-all-button',
-  // debug: true,
-});
-
-let viewMoreButton = document.querySelector('.view-all-button');
-
-viewMoreButton.addEventListener('click', function () {
-  infScroll.loadNextPage();
-  infScroll.options.loadOnScroll = true;
-  viewMoreButton.style.display = 'none';
-});
-
-infScroll.once('scrollThreshold', function () {
-  viewMoreButton.style.display = 'block'; // Must be "block" for centering the button, not "inline-block"
+  debug: true,
+  outlayer: msnry,
 });

@@ -11,7 +11,9 @@
   "dependencies": {
     "astro": "^5.0.9",
     "astro-rehype-relative-markdown-links": "^0.18.1",
+    "imagesloaded": "^5.0.0",
     "infinite-scroll": "^4.0.1",
+    "masonry-layout": "^4.2.2",
     "psl": "^1.15.0"
   },
   "devDependencies": {

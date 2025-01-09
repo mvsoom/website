@@ -3,26 +3,10 @@ const { tag, years, target } = Astro.props;
 ---
 
 <div
-  id="infinite-scroll"
+  id="data"
   data-tag={tag}
   data-years={years.join(",")}
   data-target={target}
 >
-  <script src="../../scripts/infinite-scroll.js"></script>
+  <script src="./media.js"></script>
 </div>
-
-<!-- Initially hide this to prevent flicker from data being appended to <div id="infinite-scroll"> above -->
-<button class="view-all-button" style="display: none">View all</button>
-
-<style>
-  .view-all-button {
-    font: inherit;
-    font-style: italic;
-    padding: 10px 20px;
-    border: 2px solid #333;
-    background-color: transparent;
-    cursor: pointer;
-    margin: auto;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  }
-</style>
