@@ -8,7 +8,6 @@ import {
   findTagPost,
 } from "../../scripts/posts";
 import Posts from "../../components/Posts.astro";
-import PaginatedPosts from "../../components/PaginatedPosts.astro";
 import Navigation from "../../layouts/Navigation.astro";
 
 export async function getStaticPaths() {
@@ -19,14 +18,13 @@ export async function getStaticPaths() {
     const years = Object.keys(grouped[tag]);
     paths.push({
       params: { tag },
-      props: { years },
+      props: { years, grouped },
     });
 
     for (const year of years) {
-      const posts = grouped[tag][year];
       paths.push({
         params: { tag, year },
-        props: { posts },
+        props: { years: [year], grouped },
       });
     }
   }
@@ -35,10 +33,9 @@ export async function getStaticPaths() {
 }
 
 const { tag, year } = Astro.params;
-let { posts, years } = Astro.props;
+const { years, grouped } = Astro.props;
 
-posts = posts && sortPostsDescending(posts);
-years = years && sortYearsDescending(years);
+const sortedYears = sortYearsDescending(years);
 
 const tagPost = await findTagPost(tag);
 ---
@@ -54,12 +51,13 @@ const tagPost = await findTagPost(tag);
       <Fragment set:html={tagPost?.rendered?.html} />
 
       <div class=`yearly ${tag}`>
-        {posts && <Posts tag={tag} year={year} posts={posts} />}
-
         {
-          years && (
-            <PaginatedPosts tag={tag} years={years} target={`.yearly.${tag}`} />
-          )
+          sortedYears.map((year) => {
+            const posts = grouped[tag][year];
+            const sortedPosts = sortPostsDescending(posts);
+
+            return <Posts tag={tag} year={year} posts={sortedPosts} />;
+          })
         }
       </div>
     </div>

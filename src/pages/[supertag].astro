@@ -1,0 +1,52 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import {
+  getPosts,
+  groupByTagAndYear,
+  sortYearsDescending,
+} from "../scripts/posts";
+import PaginatedPosts from "../components/PaginatedPosts.astro";
+import Navigation from "../layouts/Navigation.astro";
+
+export const SUPERTAGS = ["media", "research", "vault"];
+
+export async function getStaticPaths() {
+  const grouped = groupByTagAndYear(await getPosts());
+  const paths = [];
+
+  for (const supertag of SUPERTAGS) {
+    const years = Object.keys(grouped[supertag]);
+    paths.push({
+      params: { supertag },
+      props: { years },
+    });
+  }
+
+  return paths;
+}
+
+const { supertag } = Astro.params;
+let { years } = Astro.props;
+
+years = sortYearsDescending(years);
+---
+
+<BaseLayout pageTitle={Astro.url.pathname}>
+  <Navigation />
+
+  <div class="container">
+    <div class="title">
+      <a href=`/${supertag}` class="text"><h1>{supertag}</h1></a>
+    </div>
+
+    <div class="content">
+      <div class=`yearly ${supertag}`>
+        <PaginatedPosts
+          tag={supertag}
+          years={years}
+          target={`.yearly.${supertag}`}
+        />
+      </div>
+    </div>
+  </div>
+</BaseLayout>

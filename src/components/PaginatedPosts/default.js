@@ -10,6 +10,7 @@ const target = dataset.target;
 const container = target + ' #data';
 
 function getNextYearPath() {
+  console.log(years);
   const year = years[this.loadCount];
   if (year) {
     return `/${tag}/${year}`;
@@ -23,18 +24,5 @@ const infScroll = new InfiniteScroll(container, {
   history: false,
   checkLastPage: true,
   loadOnScroll: false,
-  button: '.view-all-button',
-  // debug: true,
-});
-
-let viewMoreButton = document.querySelector('.view-all-button');
-
-viewMoreButton.addEventListener('click', function () {
-  infScroll.loadNextPage();
-  infScroll.options.loadOnScroll = true;
-  viewMoreButton.style.display = 'none';
-});
-
-infScroll.once('scrollThreshold', function () {
-  viewMoreButton.style.display = 'block'; // Must be "block" for centering the button, not "inline-block"
+  debug: true,
 });
