@@ -4,9 +4,21 @@ const { tag, years, target } = Astro.props;
 
 <div
   id="data"
+  class="grid are-images-unloaded"
   data-tag={tag}
   data-years={years.join(",")}
   data-target={target}
 >
-  <script src="./media.js"></script>
+  
 </div>
+
+<script src="./media.js"></script>
+
+<style>
+  /* reveal grid after images loaded */
+  .grid.are-images-unloaded {
+    opacity: 0;
+
+    height: 100%;
+  }
+</style>

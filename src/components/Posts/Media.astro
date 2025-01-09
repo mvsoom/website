@@ -1,5 +1,5 @@
 ---
-import { Picture } from "astro:assets";
+import { Image } from "astro:assets";
 const { posts } = Astro.props;
 ---
 
@@ -7,9 +7,9 @@ const { posts } = Astro.props;
   {
     posts.map((post) => {
       return (
-        <li>
+        <li class="cover">
           <a href={`/${post.id}`}>
-            <Picture
+            <Image
               src={post.data.cover}
               alt={post.data.title}
               title={post.data.title}
