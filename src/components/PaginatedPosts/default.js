@@ -22,5 +22,4 @@ const infScroll = new InfiniteScroll(container, {
   prefill: true,
   history: false,
   checkLastPage: true,
-  debug: true,
 });
