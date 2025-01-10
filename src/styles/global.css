@@ -51,7 +51,7 @@ a.text {
   text-align: right;
   hyphens: none;
 
-  border-top: solid 3px #333;
+  border-top: solid 2px #333;
 }
 
 .container.wrapped .title {

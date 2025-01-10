@@ -1,37 +1,4 @@
----
-import BaseLayout from "../layouts/BaseLayout.astro";
-import {
-  getPosts,
-  groupByTagAndYear,
-  sortYearsDescending,
-} from "../scripts/posts";
-import PaginatedPosts from "../components/PaginatedPosts.astro";
-import SiteNavigation from "../layouts/SiteNavigation.astro";
-
-export const SUPERTAGS = ["media", "research", "vault"];
-
-export async function getStaticPaths() {
-  const grouped = groupByTagAndYear(await getPosts());
-  const paths = [];
-
-  for (const supertag of SUPERTAGS) {
-    const years = Object.keys(grouped[supertag]);
-    paths.push({
-      params: { supertag },
-      props: { years },
-    });
-  }
-
-  return paths;
-}
-
-const { supertag } = Astro.params;
-let { years } = Astro.props;
-
-years = sortYearsDescending(years);
----
-
-<BaseLayout pageTitle={Astro.url.pathname}>
+<div class="nav" style="background-color: white; margin-top: 0;">
   <div class="container">
     <div class="title">
       <div class="grid">
@@ -55,35 +22,37 @@ years = sortYearsDescending(years);
     </div>
 
     <div class="content">
-      <div class=`yearly ${supertag}`>
-        <PaginatedPosts
-          tag={supertag}
-          years={years}
-          target={`.yearly.${supertag}`}
-        />
-      </div>
+      <span>next post</span>
+      <span>previous post</span>
     </div>
   </div>
-</BaseLayout>
+</div>
 
 <style>
   .title {
     /*transform: translateY(-9.5em);*/
     display: flex;
     justify-content: right;
-    margin-top: 0rem;
+    gap: 2rem;
+    margin-bottom: 1rem;
 
-    border-top: solid 2px #333;
-    padding-top: 5px;
+    border-top: none;
+    border-bottom: solid 2px #333;
+    padding-bottom: 5px;
   }
 
   .grid {
     padding-top: 0.25em;
     display: grid;
     grid-template-columns: repeat(5, 1.2ch);
-    font-size: 18px;
+    font-size: 125%;
     justify-content: end; /* Align the grid to the right */
   }
+
+  .grid.narrow {
+    grid-template-columns: repeat(2, 1.2ch);
+  }
+
   .grid a {
     display: contents; /* Allow spans to integrate directly into the grid */
   }
@@ -91,5 +60,13 @@ years = sortYearsDescending(years);
   .grid span {
     line-height: 1.1em; /* Match row height for alignment */
     text-align: center;
+  }
+
+  .content {
+    display: flex;
+    align-content: flex-start;
+    justify-content: space-around;
+    width: 100%;
+    font-style: italic;
   }
 </style>
