@@ -1,0 +1,114 @@
+---
+import Monospaced from "../components/Monospaced.astro";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sticky Sidebar</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+      }
+
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        background-color: #642d2d;
+
+        max-width: 20ch;
+
+        flex-shrink: 10;
+      }
+
+      .content {
+        padding: 20px;
+        height: 1000px;
+        border: solid 5px #333;
+        max-width: 60ch;
+        flex-shrink: 1;
+      }
+
+      .footer {
+        padding: 20px;
+        display: none;
+      }
+
+      .top {
+        margin-bottom: auto; /* Pushes the bottom element down */
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+
+      .bottom {
+        position: sticky;
+        bottom: 20px;
+        background-color: #333;
+        color: white;
+        padding: 10px;
+        text-align: center;
+      }
+
+      @media all and (max-width: 640px) {
+        body {
+          flex-direction: column;
+          flex-grow: 1;
+        }
+
+        .sidebar {
+          max-width: initial;
+        }
+
+        .content {
+          max-width: initial;
+        }
+
+        .sidebar .bottom {
+          display: none;
+        }
+
+        .footer {
+          display: block;
+          position: sticky;
+          bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="top">
+        <p>Top Element</p>
+      </div>
+      <div class="bottom">
+        <p>Bottom Element</p>
+      </div>
+    </div>
+
+    <div class="content">
+      <h1>Content Section</h1>
+      <p>
+        This is a long content area. Scroll down to see the sidebar behavior.
+      </p>
+
+      <p>
+        <Monospaced content="This is a monospaced text." />
+      </p>
+    </div>
+
+    <div class="footer">
+      <div class="bottom">
+        <p>Bottom Element</p>
+      </div>
+    </div>
+  </body>
+</html>
