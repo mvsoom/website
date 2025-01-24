@@ -1,7 +1,7 @@
 /* Markdown content is scoped so need to style in this seperate file */
 .content {
   padding: 0;
-  
+
   flex-basis: 45ch;
   max-width: 45ch;
   flex-shrink: 1;
@@ -11,6 +11,10 @@
 
 .content > *:first-child {
   margin-top: 0;
+}
+
+.content > *:last-child {
+  margin-bottom: 0;
 }
 
 /* Apply a "lab notebook" style to all text paragraphs */
@@ -26,7 +30,6 @@
 .content p:not(:has(img)):nth-child(even) {
   transform: skewX(+0.5deg);
 }
-
 
 .content img {
   width: 100%;

@@ -115,6 +115,7 @@ const { Content } = await render(post);
 
         .content {
           max-width: initial;
+          margin-bottom: 1rem;
         }
 
         .footer {
@@ -128,7 +129,7 @@ const { Content } = await render(post);
   <body>
     <div class="sidebar">
       <div class="top">
-        <Title subtitle={post.data.title}>{post.id}</Title>
+        <Title subtitle={post.data.title}>◍ {post.id}</Title>
       </div>
       <div class="bottom">
         <SideNavigation />
@@ -138,9 +139,18 @@ const { Content } = await render(post);
     <div class="content">
       <Content />
 
+      <p style="font-style: italic;">
+        Go to <a href="">next post ▤</a> or <a href="">▥ previous post</a> in series.
+      </p>
+
+      
+      <!-- 
       <span style="height: 1rem;">&nbsp;</span>
 
-      <PostNavigation />
+      <div style="border: solid 1px #333;">
+        <PostNavigation />
+      </div>
+      -->
     </div>
 
     <div class="footer">
