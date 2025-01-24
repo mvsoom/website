@@ -47,10 +47,7 @@ const { Content } = await render(post);
       body {
         margin: 0;
 
-        padding-top: 4rem;
-        padding-bottom: 5rem;
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding: 3rem 1rem;
 
         display: flex;
         flex-direction: row;
@@ -65,7 +62,9 @@ const { Content } = await render(post);
         flex-direction: column;
 
         flex-basis: 14ch;
-        flex-shrink: 10;
+        flex-shrink: 1;
+
+        min-width: 0;
       }
 
       .sidebar .top {
@@ -89,8 +88,6 @@ const { Content } = await render(post);
         bottom: 1rem;
       }
 
-      
-
       @media all and (max-width: 530px) {
         body {
           padding-top: 1rem;
@@ -100,8 +97,6 @@ const { Content } = await render(post);
           flex-grow: 1;
 
           gap: 0rem;
-
-          
         }
 
         .sidebar {
@@ -125,7 +120,7 @@ const { Content } = await render(post);
         .footer {
           display: block;
           position: sticky;
-          bottom: -2px;
+          bottom: -2px; /* Hide bottom border if not at bottom */
         }
       }
     </style>

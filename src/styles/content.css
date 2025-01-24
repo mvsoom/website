@@ -1,9 +1,12 @@
 /* Markdown content is scoped so need to style in this seperate file */
 .content {
   padding: 0;
+  
   flex-basis: 45ch;
   max-width: 45ch;
   flex-shrink: 1;
+
+  min-width: 0;
 }
 
 .content > *:first-child {
