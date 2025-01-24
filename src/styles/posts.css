@@ -68,10 +68,6 @@
     grid-area: page;
   }
   
-  .container.wrapped .content .yearly.vault h1 {
-    text-align: left;
-  }
-  
   .content .yearly.vault li:last-child {
     margin-bottom: 1em;
   }
@@ -82,4 +78,11 @@
   
   .content .yearly.vault ol li .date {
     font-size: large;
+  }
+
+/* TODO: max-width should be a global variable */
+@media all and (max-width: 530px) {
+  .content .yearly.vault h1 {
+    text-align: left;
+  }
   }

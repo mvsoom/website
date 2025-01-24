@@ -1,10 +1,8 @@
 ---
-import "../styles/global.css";
+import PageLayout from "../layouts/PageLayout.astro";
+
 import { getSortedPosts } from "../scripts/posts";
 import { render } from "astro:content";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import Container from "../layouts/Container.astro";
-import Navigation from "../layouts/Navigation.astro";
 
 export async function getStaticPaths() {
   const posts = await getSortedPosts();
@@ -16,21 +14,21 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-
-/* Handle posts with the redirect property */
-if (post.data.redirect) {
-  return Astro.redirect(post.data.redirect);
-}
-
-
 const { Content } = await render(post);
-const pageTitle = post.data.title ? post.data.title : post.id;
 ---
 
-<BaseLayout pageTitle={pageTitle}>
-  <Container title={post.id} subtitle={post.data.title}>
-    <Content />
-  </Container>
+<PageLayout title={post.id} subtitle={post.data.title}>
+  <Content />
 
-  <Navigation />
-</BaseLayout>
+  <p style="font-style: italic;">
+    Go to <a href="">next post ▤</a> or <a href="">▥ previous post</a> in series.
+  </p>
+
+  <!-- 
+  <span style="height: 1rem;">&nbsp;</span>
+
+  <div style="border: solid 1px #333;">
+    <PostNavigation />
+  </div>
+  -->
+</PageLayout>
