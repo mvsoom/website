@@ -2,11 +2,21 @@
 const { tag, years, target } = Astro.props;
 ---
 
-<div
-  id="data"
-  data-tag={tag}
-  data-years={years.join(",")}
-  data-target={target}
->
+<div id="data" data-tag={tag} data-years={years.join(",")} data-target={target}>
   <script src="./default.js"></script>
 </div>
+
+<style>
+  #data {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+
+  /* TODO: max-width should be a global variable */
+  @media all and (max-width: 530px) {
+    #data {
+      margin-bottom: 1em;
+    }
+  }
+</style>

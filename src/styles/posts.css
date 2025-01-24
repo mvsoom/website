@@ -1,88 +1,92 @@
 /* .content .yearly */
 .content .yearly a {
-    font-weight: normal;
-    color: black;
-    text-decoration: none;
-  }
-  
-  .content .yearly ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  /* https://asaaki.github.io/responsive-toc-leaders-in-css */
-  .content .yearly ol li {
-    display: grid;
-    grid-template-columns: auto max-content;
-    grid-template-areas: "anchor date";
-    align-items: end;
-    gap: 0.25rem;
-    margin-bottom: 2em;
-  }
-  
-  .content .yearly ol li > a {
-    grid-area: anchor;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .content .yearly ol li > a::after {
-    position: absolute;
-    padding-left: 1ch;
-    content: "_______________________________________"
-      "______________________________________________"
-      "______________________________________________"
-      "______________________________________________"
-      "______________________________________________";
-    font-size: small;
-    font-weight: 100;
-    color: #666;
-  }
-  
-  .content .yearly ol li .date {
-    grid-area: date;
-    margin-left: 0.5ch;
-    text-align: left;
-    font-size: smaller;
-  }
-  
-  /* media tag */
-  .content .yearly.media ol {
-    padding: 0;
-    margin: 0;
-  }
-  
-  .content .yearly.media li {
-    margin: 0;
-    padding: 0;
-    margin-bottom: 1ch;
-  }
-  
-  /* vault tag */
-  .content .yearly.vault h1 {
-    font-size: 1.2em;
-    text-align: right;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    grid-area: page;
-  }
-  
-  .content .yearly.vault li:last-child {
-    margin-bottom: 1em;
-  }
-  
-  .content .yearly.vault ol li {
-    margin-bottom: 0;
-  }
-  
-  .content .yearly.vault ol li .date {
-    font-size: large;
-  }
+  font-weight: normal;
+  color: black;
+  text-decoration: none;
+}
+
+.content .yearly ol {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* https://asaaki.github.io/responsive-toc-leaders-in-css */
+.content .yearly ol li {
+  display: grid;
+  grid-template-columns: auto max-content;
+  grid-template-areas: "anchor date";
+  align-items: end;
+  gap: 0.25rem;
+  margin-bottom: 2em;
+}
+
+.content .yearly ol li:last-child {
+  margin-bottom: 0;
+}
+
+.content .yearly ol li > a {
+  grid-area: anchor;
+  position: relative;
+  overflow: hidden;
+}
+
+.content .yearly ol li > a::after {
+  position: absolute;
+  padding-left: 1ch;
+  content: "_______________________________________"
+    "______________________________________________"
+    "______________________________________________"
+    "______________________________________________"
+    "______________________________________________";
+  font-size: small;
+  font-weight: 100;
+  color: #666;
+}
+
+.content .yearly ol li .date {
+  grid-area: date;
+  margin-left: 0.5ch;
+  text-align: left;
+  font-size: smaller;
+}
+
+/* media tag */
+.content .yearly.media ol {
+  padding: 0;
+  margin: 0;
+}
+
+.content .yearly.media li {
+  margin: 0;
+  padding: 0;
+  margin-bottom: 1ch;
+}
+
+/* vault tag */
+.content .yearly.vault h1 {
+  font-size: 1.2em;
+  text-align: right;
+  margin-top: 0;
+  margin-bottom: 1rem;
+  grid-area: page;
+}
+
+.content .yearly.vault li:last-child {
+  margin-bottom: 0em;
+}
+
+.content .yearly.vault ol li {
+  margin-bottom: 0;
+}
+
+.content .yearly.vault ol li .date {
+  font-size: large;
+}
 
 /* TODO: max-width should be a global variable */
 @media all and (max-width: 530px) {
   .content .yearly.vault h1 {
     text-align: left;
   }
-  }
+}
