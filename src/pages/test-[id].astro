@@ -1,0 +1,157 @@
+---
+import "../global.css";
+import SideNavigation from "../layouts/SideNavigation.astro";
+import PostNavigation from "../layouts/PostNavigation.astro";
+import Title from "../components/Title.astro";
+
+import { getSortedPosts } from "../scripts/posts";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+
+  return posts.map((post) => ({
+    params: { id: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Test page</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/triplicate-heavy.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/core-fonts.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+
+        padding-top: 3rem;
+        padding-bottom: 5rem;
+        padding-left: 1rem;
+        padding-right: 1rem;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 3rem;
+      }
+
+      .sidebar {
+        padding: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        flex-basis: 14rch;
+        flex-shrink: 10;
+      }
+
+      .sidebar .top {
+        margin-bottom: auto; /* Pushes the bottom element down */
+
+        text-align: right;
+      }
+
+      .sidebar .bottom {
+        text-align: right;
+      }
+
+      .content {
+        padding: 0;
+        flex-basis: 45rch;
+        max-width: 45rch;
+        flex-shrink: 1;
+      }
+
+      .content > *:first-child {
+        margin-top: 0;
+      }
+
+      .footer {
+        padding: 20px;
+        display: none;
+      }
+
+      .bottom {
+        position: sticky;
+        bottom: -2px;
+        text-align: center;
+      }
+
+      @media all and (max-width: 640px) {
+        body {
+          padding-top: 1rem;
+
+          flex-direction: column;
+          flex-grow: 1;
+
+          gap: 0rem;
+        }
+
+        .sidebar {
+          max-width: initial;
+        }
+
+        .sidebar .top {
+          margin-bottom: 0;
+        }
+
+        .content {
+          max-width: initial;
+        }
+
+        .sidebar .bottom {
+          display: none;
+        }
+
+        .footer {
+          display: block;
+          position: sticky;
+          bottom: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="top">
+        <Title subtitle="Biography">about</Title>
+      </div>
+      <div class="bottom">
+        <SideNavigation />
+      </div>
+    </div>
+
+    <div class="content">
+      <Content />
+
+      <PostNavigation />
+    </div>
+
+    <div class="footer">
+      <div class="bottom">
+        <p>Bottom Element</p>
+      </div>
+    </div>
+  </body>
+</html>

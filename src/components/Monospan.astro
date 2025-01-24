@@ -1,0 +1,21 @@
+---
+const content = await Astro.slots.render('default'); // string rendition of <slot />
+---
+
+<div class="monospan">
+  {content.split("").map((c) => (
+    <span>{c}</span>
+  ))}
+</div>
+
+<style>
+  .monospan {
+    display: inline;
+  }
+
+  .monospan span {
+    display: inline-block;
+    width: 1.2ch;
+    text-align: center;
+  }
+</style>
