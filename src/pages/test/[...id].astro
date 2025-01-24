@@ -1,10 +1,5 @@
 ---
-import "../../global.css";
-import "../../styles/content.css";
-import SideNavigation from "../../layouts/SideNavigation.astro";
-import BottomNavigation from "../../layouts/BottomNavigation.astro";
-import PostNavigation from "../../layouts/PostNavigation.astro";
-import Title from "../../components/Title.astro";
+import PageLayout from "../../layouts/PageLayout.astro";
 
 import { getSortedPosts } from "../../scripts/posts";
 import { render } from "astro:content";
@@ -22,141 +17,18 @@ const { post } = Astro.props;
 const { Content } = await render(post);
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="generator" content={Astro.generator} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="format-detection" content="telephone=no" />
-    <title>Test page</title>
+<PageLayout title={post.id} subtitle={post.data.title}>
+  <Content />
 
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="all"
-      href="/butterick/triplicate-heavy.css"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      media="all"
-      href="/butterick/core-fonts.css"
-    />
+  <p style="font-style: italic;">
+    Go to <a href="">next post ▤</a> or <a href="">▥ previous post</a> in series.
+  </p>
 
-    <style>
-      body {
-        margin: 0;
+  <!-- 
+  <span style="height: 1rem;">&nbsp;</span>
 
-        padding: 3rem 1rem;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem;
-      }
-
-      .sidebar {
-        padding: 0;
-
-        display: flex;
-        flex-direction: column;
-
-        flex-basis: 14ch;
-        flex-shrink: 1;
-
-        min-width: 0;
-      }
-
-      .sidebar .top {
-        margin-bottom: auto; /* Pushes the bottom element down */
-        text-align: right;
-      }
-
-      .sidebar .bottom {
-        text-align: right;
-      }
-
-      .footer {
-        display: none;
-        background-color: white;
-
-        text-align: center;
-      }
-
-      .bottom {
-        position: sticky;
-        bottom: 1rem;
-      }
-
-      @media all and (max-width: 530px) {
-        body {
-          padding-top: 1rem;
-          padding-bottom: 1rem;
-
-          flex-direction: column;
-          flex-grow: 1;
-
-          gap: 0rem;
-        }
-
-        .sidebar {
-          max-width: initial;
-          flex-basis: auto;
-        }
-
-        .sidebar .top {
-          margin-bottom: 2rem;
-          text-align: left;
-        }
-
-        .sidebar .bottom {
-          display: none;
-        }
-
-        .content {
-          max-width: initial;
-          margin-bottom: 1rem;
-        }
-
-        .footer {
-          display: block;
-          position: sticky;
-          bottom: -2px; /* Hide bottom border if not at bottom */
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div class="sidebar">
-      <div class="top">
-        <Title subtitle={post.data.title}>◍ {post.id}</Title>
-      </div>
-      <div class="bottom">
-        <SideNavigation />
-      </div>
-    </div>
-
-    <div class="content">
-      <Content />
-
-      <p style="font-style: italic;">
-        Go to <a href="">next post ▤</a> or <a href="">▥ previous post</a> in series.
-      </p>
-
-      
-      <!-- 
-      <span style="height: 1rem;">&nbsp;</span>
-
-      <div style="border: solid 1px #333;">
-        <PostNavigation />
-      </div>
-      -->
-    </div>
-
-    <div class="footer">
-      <div class="bottom">
-        <BottomNavigation />
-      </div>
-    </div>
-  </body>
-</html>
+  <div style="border: solid 1px #333;">
+    <PostNavigation />
+  </div>
+  -->
+</PageLayout>

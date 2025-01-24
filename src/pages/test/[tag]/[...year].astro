@@ -1,0 +1,58 @@
+---
+import "../../../styles/posts.css";
+import PageLayout from "../../../layouts/PageLayout.astro";
+import Posts from "../../../components/Posts.astro";
+import PaginatedPosts from "../../../components/PaginatedPosts.astro";
+import {
+  getPosts,
+  groupByTagAndYear,
+  sortYearsDescending,
+  sortPostsDescending,
+  findTagPost,
+} from "../../../scripts/posts";
+
+export async function getStaticPaths() {
+  const grouped = groupByTagAndYear(await getPosts());
+  const paths = [];
+
+  for (const tag in grouped) {
+    const years = Object.keys(grouped[tag]);
+    paths.push({
+      params: { tag },
+      props: { years },
+    });
+
+    for (const year of years) {
+      const posts = grouped[tag][year];
+      paths.push({
+        params: { tag, year },
+        props: { posts },
+      });
+    }
+  }
+
+  return paths;
+}
+
+const { tag, year } = Astro.params;
+let { posts, years } = Astro.props;
+
+posts = posts && sortPostsDescending(posts);
+years = years && sortYearsDescending(years);
+
+const tagPost = await findTagPost(tag);
+---
+
+<PageLayout title={tag} subtitle={tagPost?.data.title}>
+  <Fragment set:html={tagPost?.rendered?.html} />
+
+  <div class=`yearly ${tag}`>
+    {posts && <Posts tag={tag} year={year} posts={posts} />}
+
+    {
+      years && (
+        <PaginatedPosts tag={tag} years={years} target={`.yearly.${tag}`} />
+      )
+    }
+  </div>
+</PageLayout>

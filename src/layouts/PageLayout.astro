@@ -1,0 +1,136 @@
+---
+import "../global.css";
+import "../styles/content.css";
+import SideNavigation from "./SideNavigation.astro";
+import BottomNavigation from "./BottomNavigation.astro";
+import Title from "../components/Title.astro";
+
+const { title, subtitle } = Astro.props;
+
+const pageTitle = Astro.url.pathname;
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>{pageTitle}</title>
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/triplicate-heavy.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      media="all"
+      href="/butterick/core-fonts.css"
+    />
+
+    <style>
+      body {
+        margin: 0;
+
+        padding: 3rem 1rem;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        gap: 2rem;
+      }
+      .sidebar {
+        padding: 0;
+
+        display: flex;
+        flex-direction: column;
+
+        flex-basis: 14ch;
+        flex-shrink: 1;
+
+        min-width: 0;
+      }
+
+      .sidebar .top {
+        margin-bottom: auto; /* Pushes the bottom element down */
+        text-align: right;
+      }
+
+      .sidebar .bottom {
+        text-align: right;
+      }
+
+      .footer {
+        display: none;
+        background-color: white;
+
+        text-align: center;
+      }
+
+      .bottom {
+        position: sticky;
+        bottom: 1rem;
+      }
+
+      @media all and (max-width: 530px) {
+        body {
+          padding-top: 1rem;
+          padding-bottom: 1rem;
+
+          flex-direction: column;
+          flex-grow: 1;
+
+          gap: 0rem;
+        }
+
+        .sidebar {
+          max-width: initial;
+          flex-basis: auto;
+        }
+
+        .sidebar .top {
+          margin-bottom: 2rem;
+          text-align: left;
+        }
+
+        .sidebar .bottom {
+          display: none;
+        }
+
+        .content {
+          max-width: initial;
+          margin-bottom: 1rem;
+        }
+
+        .footer {
+          display: block;
+          position: sticky;
+          bottom: -2px; /* Hide bottom border if not at bottom */
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="top">
+        <Title subtitle={subtitle}>◍ {title}</Title>
+      </div>
+      <div class="bottom">
+        <SideNavigation />
+      </div>
+    </div>
+
+    <div class="content">
+      <slot />
+    </div>
+
+    <div class="footer">
+      <div class="bottom">
+        <BottomNavigation />
+      </div>
+    </div>
+  </body>
+</html>
