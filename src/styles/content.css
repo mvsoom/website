@@ -1,0 +1,33 @@
+/* Markdown content is scoped so need to style in this seperate file */
+.content {
+  padding: 0;
+  flex-basis: 45ch;
+  max-width: 45ch;
+  flex-shrink: 1;
+}
+
+.content > *:first-child {
+  margin-top: 0;
+}
+
+/* Apply a "lab notebook" style to all text paragraphs */
+.content p:not(:has(img)) {
+  /* text-shadow: 0.0007em 0.0007em #00000040; */
+  /* filter: blur(0); */
+}
+
+.content p:not(:has(img)):nth-child(odd) {
+  transform: skewX(-0.5deg);
+}
+
+.content p:not(:has(img)):nth-child(even) {
+  transform: skewX(+0.5deg);
+}
+
+
+.content img {
+  width: 100%;
+  margin: 0 auto;
+  height: auto;
+  display: block;
+}

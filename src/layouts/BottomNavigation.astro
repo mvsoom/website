@@ -1,0 +1,48 @@
+---
+import Monospan from "../components/Monospan.astro";
+---
+
+<div class="sidenav">
+  <a class="text" href="/media">
+    <Monospan>media</Monospan>
+  </a>
+  <a class="text" href="/rsrch">
+    <Monospan>rsrch</Monospan>
+  </a>
+  <a class="text" href="/vault" style="font-weight: bold;">
+    <Monospan>vault</Monospan>
+  </a>
+  <a class="text" href="/about">
+    <Monospan>about</Monospan>
+  </a>
+</div>
+
+<style>
+  .sidenav {
+    padding-bottom: 8px;
+    padding-top: 8px;
+
+    border-top: solid 2px #333;
+    border-bottom: solid 2px #333;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: space-around;
+
+
+    line-height: 1;
+
+    font-style: italic;
+  }
+
+  .sidenav a {
+  }
+
+  /* a */
+  a.text {
+    text-decoration: none;
+    color: inherit;
+  }
+</style>
