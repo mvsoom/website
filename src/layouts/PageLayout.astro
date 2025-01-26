@@ -1,8 +1,7 @@
 ---
 import "../styles/global.css";
 import "../styles/content.css";
-import SideNavigation from "./SideNavigation.astro";
-import BottomNavigation from "./BottomNavigation.astro";
+import Navigation from "./Navigation.astro";
 import Title from "../components/Title.astro";
 
 const { title, subtitle, primaryTag } = Astro.props;
@@ -125,7 +124,7 @@ const pageTitle = Astro.url.pathname;
         <Title subtitle={subtitle}>&LessGreater;&nbsp;{title}</Title>
       </div>
       <div class="bottom">
-        <SideNavigation selectedTag={primaryTag} />
+        <Navigation location="side" selectedTag={primaryTag} />
       </div>
     </div>
 
@@ -135,7 +134,7 @@ const pageTitle = Astro.url.pathname;
 
     <div class="footer">
       <div class="bottom">
-        <BottomNavigation selectedTag={primaryTag} />
+        <Navigation location="bottom" selectedTag={primaryTag} />
       </div>
     </div>
   </body>

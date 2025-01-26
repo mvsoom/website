@@ -1,14 +1,14 @@
 ---
 import Monospan from "../components/Monospan.astro";
 
-const { selectedTag } = Astro.props;
+const { location, selectedTag } = Astro.props;
 
 function selected(s) {
   return selectedTag == s ? "selected" : "";
 }
 ---
 
-<div class="sidenav">
+<div class=`nav ${location}`>
   <a class={selected("media")} href="/media">
     <Monospan>media</Monospan>
   </a>
@@ -24,7 +24,18 @@ function selected(s) {
 </div>
 
 <style>
-  .sidenav {
+  .nav.side {
+    padding-bottom: 5px;
+    border-bottom: solid 2px #333;
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: 112.5%;
+    line-height: 1;
+  }
+
+  .nav.bottom {
     padding-bottom: 8px;
     padding-top: 8px;
 
