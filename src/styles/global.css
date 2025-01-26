@@ -55,3 +55,10 @@ code {
   filter: none;
   transform: none;
 }
+
+@supports (hyphenate-limit-chars: 6 3) {
+  p {
+    hyphens: auto;
+    hyphenate-limit-chars: 6 3;
+  }
+}
