@@ -70,7 +70,7 @@ export function findTagFile(posts: VaultPost[], tag: string) {
   return posts.find((post) => post.data.tags!.includes(tag));
 }
 
-export function getPrimaryTag(tags: string[]) {
+export function getPrimaryTag(tags: string[]): string {
   const specialTags = ["media", "rsrch", "about"]; // Ordered by importance
   for (const tag of specialTags) {
     if (tags.includes(tag)) {
@@ -80,28 +80,28 @@ export function getPrimaryTag(tags: string[]) {
   return "vault"; // Everything is always part of the vault
 }
 
-/* TODO: functions below are probably unused */
-export function groupByYear(posts) {
+export function groupByPrimaryTag(posts: VaultPost[]) {
   return posts.reduce(
     (acc, post) => {
-      const year = post.data.published!.getFullYear();
-      if (!acc[year]) {
-        acc[year] = [];
+      const tag = getPrimaryTag(post.data.tags!);
+      if (!acc[tag]) {
+        acc[tag] = [];
       }
-      acc[year].push(post);
+      acc[tag].push(post);
+
       return acc;
     },
-    {} as Record<number, typeof posts>
+    {} as Record<string, VaultPost[]>
   );
 }
 
-export function sortByDate(posts) {
-  return posts.sort((a, b) => {
-    return b.data.published!.valueOf() - a.data.published!.valueOf();
-  });
-}
+export function findNeighbors(post: VaultPost, grouped) {
+  const primaryTag = getPrimaryTag(post.data.tags!);
+  const posts = grouped[primaryTag];
+  const index = posts.findIndex((p) => p.id === post.id);
 
-export async function getSortedPosts() {
-  const posts = await getPosts();
-  return sortByDate(posts);
+  return {
+    prev: posts[index - 1] || undefined,
+    next: posts[index + 1] || undefined,
+  };
 }

@@ -1,34 +1,41 @@
 ---
 import PageLayout from "../layouts/PageLayout.astro";
+import PostNavigation from "../components/PostNavigation.astro";
 
-import { getSortedPosts, getPrimaryTag } from "../scripts/posts";
+import {
+  getPosts,
+  sortPostsDescending,
+  getPrimaryTag,
+  groupByPrimaryTag,
+  findNeighbors,
+} from "../scripts/posts";
 import { render } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getSortedPosts();
+  const posts = sortPostsDescending(await getPosts());
+  const grouped = groupByPrimaryTag(posts);
 
-  return posts.map((post) => ({
-    params: { id: post.id },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    const { prev, next } = findNeighbors(post, grouped);
+    return {
+      params: { id: post.id },
+      props: { prev, post, next },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { prev, post, next } = Astro.props;
 const { Content } = await render(post);
+
+const primaryTag = getPrimaryTag(post.data.tags!);
 ---
 
-<PageLayout title={post.id} subtitle={post.data.title} primaryTag={getPrimaryTag(post.data.tags)}>
+<PageLayout
+  title={post.id}
+  subtitle={post.data.title}
+  primaryTag={primaryTag}
+>
   <Content />
 
-  <p style="font-style: italic;">
-    Go to <a href="">next post ▤</a> or <a href="">▥ previous post</a> in series.
-  </p>
-
-  <!-- 
-  <span style="height: 1rem;">&nbsp;</span>
-
-  <div style="border: solid 1px #333;">
-    <PostNavigation />
-  </div>
-  -->
+  <PostNavigation prev={prev} next={next} primaryTag={primaryTag}/>
 </PageLayout>

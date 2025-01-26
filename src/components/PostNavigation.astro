@@ -1,0 +1,39 @@
+---
+const { prev, next, primaryTag } = Astro.props;
+---
+
+{
+  prev && next && (
+    <p>
+      Go to <a href={`/${next.id}`}>next post ▤</a> or{" "}
+      <a href={`/${prev.id}`}>▥ previous post</a> in <span class="series">{primaryTag}</span> series.
+    </p>
+  )
+}
+
+{
+  prev && !next && (
+    <p>
+      Go to <a href={`/${prev.id}`}>▥ previous post</a> in <span class="series">{primaryTag}</span> series.
+    </p>
+  )
+}
+
+{
+  !prev && next && (
+    <p>
+      Go to <a href={`/${next.id}`}>next post ▤</a> in <span class="series">{primaryTag}</span> series.
+    </p>
+  )
+}
+
+<style>
+  p {
+    font-style: italic;
+  }
+
+  .series {
+    font-weight: bold;
+    font-style: normal;
+  }
+</style>
