@@ -24,4 +24,13 @@ const { subtitle } = Astro.props;
   .title p {
     font-style: italic;
   }
+
+  /* TODO: refactor media queries */
+  @media all and (max-width: 530px) {
+    .title h1::before {
+      content: "≶";
+      margin-right: .5ch;
+      display: inline-block;
+    }
+  }
 </style>
