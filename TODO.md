@@ -17,5 +17,4 @@
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts
 - [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary
-- [ ] Fix redirect links eg http://localhost:4321/paper/interbank
 - [ ] /tags

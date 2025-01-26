@@ -27,6 +27,11 @@ export async function getStaticPaths() {
 const { prev, post, next } = Astro.props;
 const { Content } = await render(post);
 
+/* Handle posts with the redirect property */
+if (post.data.redirect) {
+  return Astro.redirect(post.data.redirect);
+}
+
 const primaryTag = getPrimaryTag(post.data.tags!);
 ---
 
