@@ -19,3 +19,4 @@
 - [ ] hyph-en-ation information plugin
 - [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary
 - [ ] Fix redirect links eg http://localhost:4321/paper/interbank
+- [ ] /tags

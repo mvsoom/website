@@ -1,18 +1,17 @@
 ---
-import PageLayout from "../../layouts/PageLayout.astro";
-import { getPosts } from "../../scripts/posts";
+import PageLayout from "../layouts/PageLayout.astro";
+import { getPosts } from "../scripts/posts";
 
 const allPosts = await getPosts();
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];
-const pageTitle = "Tag Index";
 ---
 
-<PageLayout>
+<PageLayout title="tags" subtitle="Posts tagged with ..." primaryTag="vault">
   <div class="tags">
     {
       tags.map((tag) => (
         <p class="tag">
-          <a href={`/vault/tags/${tag}`}>{tag}</a>
+          <a href={`/${tag}`}>{tag}</a>
         </p>
       ))
     }
