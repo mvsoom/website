@@ -5,7 +5,7 @@ import SideNavigation from "./SideNavigation.astro";
 import BottomNavigation from "./BottomNavigation.astro";
 import Title from "../components/Title.astro";
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, primaryTag } = Astro.props;
 
 const pageTitle = Astro.url.pathname;
 ---
@@ -117,10 +117,15 @@ const pageTitle = Astro.url.pathname;
   <body>
     <div class="sidebar">
       <div class="top">
-        <Title subtitle={subtitle}>◍ {title}</Title>
+        <!--https://dev.w3.org/html5/spec-LC/named-character-references.html
+        
+        ⪨ ⨳ ⊑ ≶ ⋛
+        
+        -->
+        <Title subtitle={subtitle}>&LessGreater;&nbsp;{title}</Title>
       </div>
       <div class="bottom">
-        <SideNavigation />
+        <SideNavigation selectedTag={primaryTag} />
       </div>
     </div>
 
@@ -130,7 +135,7 @@ const pageTitle = Astro.url.pathname;
 
     <div class="footer">
       <div class="bottom">
-        <BottomNavigation />
+        <BottomNavigation selectedTag={primaryTag} />
       </div>
     </div>
   </body>

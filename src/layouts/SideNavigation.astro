@@ -1,18 +1,24 @@
 ---
 import Monospan from "../components/Monospan.astro";
+
+const { selectedTag } = Astro.props;
+
+function selected(s) {
+  return selectedTag == s ? "selected" : "";
+}
 ---
 
 <div class="sidenav">
-  <a class="text" href="/media">
+  <a class={selected("media")} href="/media">
     <Monospan>media</Monospan>
   </a>
-  <a class="text" href="/rsrch">
+  <a class={selected("rsrch")} href="/rsrch">
     <Monospan>rsrch</Monospan>
   </a>
-  <a class="text" href="/vault" style="font-weight: bold;">
-    &GreaterEqualLess; <Monospan>vault</Monospan>
+  <a class={selected("vault")} href="/vault">
+    <Monospan>vault</Monospan>
   </a>
-  <a class="text" href="/about">
+  <a class={selected("about")} href="/about">
     <Monospan>about</Monospan>
   </a>
 </div>
@@ -29,6 +35,16 @@ import Monospan from "../components/Monospan.astro";
     line-height: 1;
   }
 
-  .sidenav a {
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .selected {
+    font-weight: bold;
+  }
+
+  .selected::before {
+    content: "⋛"; /* &GreaterEqualLess; */
   }
 </style>

@@ -70,6 +70,16 @@ export function findTagFile(posts: VaultPost[], tag: string) {
   return posts.find((post) => post.data.tags!.includes(tag));
 }
 
+export function getPrimaryTag(tags: string[]) {
+  const specialTags = ["media", "rsrch", "about"]; // Ordered by importance
+  for (const tag of specialTags) {
+    if (tags.includes(tag)) {
+      return tag;
+    }
+  }
+  return "vault"; // Everything is always part of the vault
+}
+
 /* TODO: functions below are probably unused */
 export function groupByYear(posts) {
   return posts.reduce(

@@ -9,6 +9,7 @@ import {
   sortYearsDescending,
   sortPostsDescending,
   findTagPost,
+  getPrimaryTag,
 } from "../../scripts/posts";
 
 export async function getStaticPaths() {
@@ -43,7 +44,7 @@ years = years && sortYearsDescending(years);
 const tagPost = await findTagPost(tag);
 ---
 
-<PageLayout title={tag} subtitle={tagPost?.data.title}>
+<PageLayout title={tag} subtitle={tagPost?.data.title} primaryTag={getPrimaryTag([tag])}>
   <Fragment set:html={tagPost?.rendered?.html} />
 
   <div class=`yearly ${tag}`>
