@@ -9,6 +9,8 @@ const { tag, years, target } = Astro.props;
   data-years={years.join(",")}
   data-target={target}
 >
+
+<div class="grid-sizer"></div>
   
 </div>
 
@@ -20,5 +22,9 @@ const { tag, years, target } = Astro.props;
     opacity: 0;
 
     height: 100%;
+  }
+
+  .grid-sizer {
+    width: 50%;
   }
 </style>

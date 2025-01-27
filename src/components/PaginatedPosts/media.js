@@ -34,12 +34,10 @@ let grid = document.querySelector(container);
 
 
 let msnry = new Masonry( grid, {
-  itemSelector: 'none', // select none at first
-  stagger: 30,
+  itemSelector: 'none', // select none at first, then set in imagesLoaded()
+  percentPosition: true,
+  columnWidth: '.grid-sizer',
 });
-
-console.log("data:", document.querySelector("#data"));
-
 
 // initial items reveal
 imagesLoaded( grid, function() {
@@ -52,8 +50,8 @@ imagesLoaded( grid, function() {
 
   console.log(grid);
 
-  msnry.options.itemSelector = 'li';
-  let items = grid.querySelectorAll('li');
+  msnry.options.itemSelector = '.grid-item';
+  let items = grid.querySelectorAll('.grid-item');
   console.log("items: ", items);
 
   msnry.appended( items );
@@ -64,13 +62,64 @@ InfiniteScroll.imagesLoaded = imagesLoaded;
 //-------------------------------------//
 // init Infinte Scroll
 
+console.log(target);
+
 let infScroll = new InfiniteScroll( grid, {
   path: getNextYearPath,
   
-  append: target + " ol",
+  append: target + " .grid-item",
   prefill: true,
   history: false,
   checkLastPage: true,
   outlayer: msnry,
   debug: true,
 });
+
+grid.addEventListener('click', (event) => {
+  const itemContent = event.target.closest('.grid-item-content');
+  if (!itemContent) return;
+  setItemContentPixelSize(itemContent);
+
+  const itemElem = itemContent.parentNode;
+  itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
+
+  const redraw = itemContent.offsetWidth; // force redraw
+  itemContent.style[transitionProp] = '';
+
+  addTransitionListener(itemContent);
+  setItemContentTransitionSize(itemContent, itemElem);
+
+  msnry.layout();
+});
+
+const docElem = document.documentElement;
+const transitionProp = typeof docElem.style.transition === 'string' ?
+  'transition' : 'WebkitTransition';
+const transitionEndEvent = {
+  WebkitTransition: 'webkitTransitionEnd',
+  transition: 'transitionend'
+}[transitionProp];
+
+function setItemContentPixelSize(itemContent) {
+  const { width, height } = itemContent.getBoundingClientRect();
+  itemContent.style[transitionProp] = 'none';
+  itemContent.style.width = `${width}px`;
+  itemContent.style.height = `${height}px`;
+}
+
+function addTransitionListener(itemContent) {
+  const onTransitionEnd = () => {
+      itemContent.style.width = '';
+      itemContent.style.height = '';
+      itemContent.removeEventListener(transitionEndEvent, onTransitionEnd, false);
+
+      msnry.layout();
+  };
+  itemContent.addEventListener(transitionEndEvent, onTransitionEnd, false);
+}
+
+function setItemContentTransitionSize(itemContent, itemElem) {
+  const { width, height } = itemElem.getBoundingClientRect();
+  itemContent.style.width = `${width}px`;
+  itemContent.style.height = `${height}px`;
+}

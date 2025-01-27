@@ -1,5 +1,6 @@
 // This needs to be in a separate file for the same reason as in infinite-scroll.js file
 import Masonry from 'masonry-layout';
+import imagesLoaded from 'imagesloaded';
 
 const dataset = document.querySelector("#data").dataset;
 
@@ -9,18 +10,23 @@ const grid = document.querySelector(target);
 const msnry = new Masonry(grid, {
     itemSelector: '.grid-item',
     columnWidth: '.grid-sizer',
-    percentPosition: true
+    percentPosition: true,
+});
+
+imagesLoaded(grid).on('progress', function () {
+    // layout Masonry after each image loads
+    msnry.layout();
 });
 
 grid.addEventListener('click', (event) => {
-    if (!event?.target?.matches('.grid-item-content')) return;
-    const itemContent = event.target;
+    const itemContent = event.target.closest('.grid-item-content');
+    if (!itemContent) return;
     setItemContentPixelSize(itemContent);
 
     const itemElem = itemContent.parentNode;
     itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
 
-    itemContent.offsetWidth; // force redraw
+    const redraw = itemContent.offsetWidth; // force redraw
     itemContent.style[transitionProp] = '';
 
     addTransitionListener(itemContent);
@@ -49,6 +55,8 @@ function addTransitionListener(itemContent) {
         itemContent.style.width = '';
         itemContent.style.height = '';
         itemContent.removeEventListener(transitionEndEvent, onTransitionEnd, false);
+
+        msnry.layout();
     };
     itemContent.addEventListener(transitionEndEvent, onTransitionEnd, false);
 }
