@@ -16,5 +16,7 @@
   ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts
-- [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary
+- [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary. can use hyphenation: auto and eg https://eatmon.co/blog/suggest-better-line-breaks-markdown
 - [ ] /tags
+- [ ] Fix titles (for google search): eg. About ⨳ /about
+- [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault 
