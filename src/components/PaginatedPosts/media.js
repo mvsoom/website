@@ -32,41 +32,25 @@ SOLVED by using <Image>s instead of <Picture>s !!! ???
 
 let grid = document.querySelector(container);
 
-
-let msnry = new Masonry( grid, {
+let msnry = new Masonry(grid, {
   itemSelector: 'none', // select none at first, then set in imagesLoaded()
   percentPosition: true,
   columnWidth: '.grid-sizer',
 });
 
 // initial items reveal
-imagesLoaded( grid, function() {
-  console.log('imagesLoaded');
-  
-  console.log(grid);
-
+imagesLoaded(grid, function() {
   grid.classList.remove('are-images-unloaded');
-
-
-  console.log(grid);
-
   msnry.options.itemSelector = '.grid-item';
   let items = grid.querySelectorAll('.grid-item');
-  console.log("items: ", items);
-
-  msnry.appended( items );
+  msnry.appended(items);
 });
 
 InfiniteScroll.imagesLoaded = imagesLoaded;
 
-//-------------------------------------//
-// init Infinte Scroll
-
-console.log(target);
-
-let infScroll = new InfiniteScroll( grid, {
+// init Infinite Scroll
+let infScroll = new InfiniteScroll(grid, {
   path: getNextYearPath,
-  
   append: target + " .grid-item",
   prefill: true,
   history: false,
@@ -84,7 +68,7 @@ grid.addEventListener('click', (event) => {
   itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
 
   const redraw = itemContent.offsetWidth; // force redraw
-  itemContent.style[transitionProp] = '';
+  itemContent.style.transition = '';
 
   addTransitionListener(itemContent);
   setItemContentTransitionSize(itemContent, itemElem);
@@ -92,30 +76,22 @@ grid.addEventListener('click', (event) => {
   msnry.layout();
 });
 
-const docElem = document.documentElement;
-const transitionProp = typeof docElem.style.transition === 'string' ?
-  'transition' : 'WebkitTransition';
-const transitionEndEvent = {
-  WebkitTransition: 'webkitTransitionEnd',
-  transition: 'transitionend'
-}[transitionProp];
-
 function setItemContentPixelSize(itemContent) {
   const { width, height } = itemContent.getBoundingClientRect();
-  itemContent.style[transitionProp] = 'none';
+  itemContent.style.transition = 'none';
   itemContent.style.width = `${width}px`;
   itemContent.style.height = `${height}px`;
 }
 
 function addTransitionListener(itemContent) {
   const onTransitionEnd = () => {
-      itemContent.style.width = '';
-      itemContent.style.height = '';
-      itemContent.removeEventListener(transitionEndEvent, onTransitionEnd, false);
+    itemContent.style.width = '';
+    itemContent.style.height = '';
+    itemContent.removeEventListener('transitionend', onTransitionEnd, false);
 
-      msnry.layout();
+    msnry.layout();
   };
-  itemContent.addEventListener(transitionEndEvent, onTransitionEnd, false);
+  itemContent.addEventListener('transitionend', onTransitionEnd, false);
 }
 
 function setItemContentTransitionSize(itemContent, itemElem) {
