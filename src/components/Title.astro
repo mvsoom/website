@@ -3,7 +3,7 @@ const { subtitle } = Astro.props;
 ---
 
 <div class="title">
-  <h1><slot /></h1>
+  <h1><a class="text" href={Astro.url.pathname}><slot /><a></h1>
   <p>{subtitle}</p>
 </div>
 
@@ -29,7 +29,7 @@ const { subtitle } = Astro.props;
   @media all and (max-width: 530px) {
     .title h1::before {
       content: "≶";
-      margin-right: .5ch;
+      margin-right: .3ch;
       display: inline-block;
     }
   }
