@@ -109,7 +109,7 @@ const pageTitle = Astro.url.pathname;
           display: block;
           position: sticky;
           bottom: -2px; /* Hide bottom border if not at bottom */
-          z-index: 100;
+          z-index: 100000000; /* Stay on top of images moving around in Masonry */
         }
       }
     </style>

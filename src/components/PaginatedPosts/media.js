@@ -4,6 +4,7 @@
 import InfiniteScroll from 'infinite-scroll';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
+import { galleryWidths } from "../../scripts/util.ts";
 
 const dataset = document.querySelector("#data").dataset;
 const tag = dataset.tag;
@@ -39,7 +40,7 @@ let msnry = new Masonry(grid, {
 });
 
 // initial items reveal
-imagesLoaded(grid, function() {
+imagesLoaded(grid, function () {
   grid.classList.remove('are-images-unloaded');
   msnry.options.itemSelector = '.grid-item';
   let items = grid.querySelectorAll('.grid-item');
@@ -59,12 +60,43 @@ let infScroll = new InfiniteScroll(grid, {
   debug: true,
 });
 
+/*
+grid.addEventListener('click', (event) => {
+  const gridItems = grid.querySelectorAll('.grid-item-content');
+  gridItems.forEach(itemContent => {
+    console.log(itemContent);
+
+    setItemContentPixelSize(itemContent);
+
+    const itemElem = itemContent.parentNode;
+
+    console.log(itemElem);
+
+
+    itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
+
+    const redraw = itemContent.offsetWidth; // force redraw
+    itemContent.style.transition = '';
+
+    addTransitionListener(itemContent);
+    setItemContentTransitionSize(itemContent, itemElem);
+
+    msnry.layout();
+  });
+});
+*/
+
+/*
 grid.addEventListener('click', (event) => {
   const itemContent = event.target.closest('.grid-item-content');
   if (!itemContent) return;
   setItemContentPixelSize(itemContent);
 
   const itemElem = itemContent.parentNode;
+
+  console.log(itemElem);
+
+
   itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
 
   const redraw = itemContent.offsetWidth; // force redraw
@@ -72,6 +104,60 @@ grid.addEventListener('click', (event) => {
 
   addTransitionListener(itemContent);
   setItemContentTransitionSize(itemContent, itemElem);
+
+  msnry.layout();
+});
+*/
+
+/* TODO: add gutter -- inter white space */
+
+grid.addEventListener('click', (event) => {
+  const itemContent = event.target.closest('.grid-item-content');
+  if (!itemContent) return;
+
+  const itemElem = itemContent.parentNode;
+  const siblings = Array.from(itemElem.parentNode.children).filter(child => child.querySelector('.grid-item-content'));
+
+  const N = siblings.length;
+  const C = siblings.indexOf(itemElem);
+
+  console.log('Clicked item index:', C, 'of', N);
+  const widths = galleryWidths(N, C);
+
+  console.log(widths);
+
+  siblings.forEach((sibling, siblingIndex) => {
+    const siblingContent = sibling.querySelector('.grid-item-content');
+
+    console.log(siblingIndex);
+    console.log(widths[siblingIndex]);
+    console.log(siblingContent);
+
+
+    if (siblingContent) {
+      setItemContentPixelSize(siblingContent);
+      //sibling.classList.toggle('is-expanded', sibling === itemElem);
+
+      /* set width and z-index of siblingContent */
+      const w = widths[siblingIndex];
+      const z = Math.ceil(1000 * widths[siblingIndex]);
+
+      sibling.style.width = `${w*100}%`;
+      sibling.style.zIndex = `${z}`;
+
+      /* hide or show ol child element */
+      const ol = sibling.querySelector('ol');
+      if (ol) {
+        //ol.style.display = sibling === itemElem ? 'block' : 'none';
+      }
+
+      const redraw = siblingContent.offsetWidth; // force redraw
+      siblingContent.style.transition = '';
+
+      addTransitionListener(siblingContent);
+      setItemContentTransitionSize(siblingContent, sibling);
+    }
+  });
 
   msnry.layout();
 });
