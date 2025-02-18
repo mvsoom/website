@@ -49,33 +49,32 @@ ol li {
  -->
 
 
-<div class="grid">
+ <div class="grid">
   <div class="grid-sizer"></div>
   {
     posts.map((post, index) => {
-      return (
-        <div class="grid-item">
+      return post.data.media.map((mediaItem, mediaIndex) => (
+        <div class="grid-item" key={`${post.id}-${mediaIndex}`}>
           <div class="grid-item-content">
-              <Image
-                src={post.data.cover}
-                alt={post.data.title}
-                title={post.data.title}
-              />
-              <ol>
-                <li>
-                  <RedirectedLink
-            href={`/${post.id}`}
-            title={post.data.title}
-            destination={post.data.redirect}
-          >
-            {post.id}
-          </RedirectedLink>
-                </li>
-              </ol>
-              
+            <Image
+              src={mediaItem}
+              alt={post.data.title}
+              title={post.data.title}
+            />
+            <ol>
+              <li>
+                <RedirectedLink
+                  href={`/${post.id}`}
+                  title={post.data.title}
+                  destination={post.data.redirect}
+                >
+                  
+                </RedirectedLink>
+              </li>
+            </ol>
           </div>
         </div>
-      );
+      ));
     })
   }
 </div>

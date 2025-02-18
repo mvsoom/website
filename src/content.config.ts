@@ -10,6 +10,7 @@ const vault = defineCollection({
       redirect: z.string().url().optional(),
       tags: z.array(z.string()).default([]),
       cover: image().optional(), // TODO: remove
+      media: z.array(image()).optional(),
     }),
 });
 
