@@ -64,7 +64,7 @@ function computeSideWidths(count: number, maxWidth: number): number[] {
  * @param maxWidth - The maximum allowed width (e.g., 4 means images never get smaller than 1/4).
  * @returns An array of numbers representing the widths for each image.
  */
-const MAXWIDTH = 8;
+const MAXWIDTH = 4;
 
 export function galleryWidths(N: number, C: number, maxWidth: number = MAXWIDTH): number[] {
   const leftCount = C;            // images to the left of the cover
@@ -75,7 +75,7 @@ export function galleryWidths(N: number, C: number, maxWidth: number = MAXWIDTH)
   // Compute widths for the right side (order is already from the cover outward).
   const rightSide: number[] = computeSideWidths(rightCount, maxWidth);
 
-  return [...leftSide, 1, ...rightSide];
+  return [...leftSide, 1/2, ...rightSide]; // HACK TODO
 }
 
 /*

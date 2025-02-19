@@ -1,4 +1,5 @@
 ---
+import "../../styles/grid.css";
 const { tag, years, target } = Astro.props;
 ---
 
@@ -9,22 +10,7 @@ const { tag, years, target } = Astro.props;
   data-years={years.join(",")}
   data-target={target}
 >
-
-<div class="grid-sizer"></div>
-  
+  <div class="grid-sizer"></div>
 </div>
 
 <script src="./media.js"></script>
-
-<style>
-  /* reveal grid after images loaded */
-  .grid.are-images-unloaded {
-    opacity: 0;
-
-    height: 100%;
-  }
-
-  .grid-sizer {
-    width: 50%;
-  }
-</style>

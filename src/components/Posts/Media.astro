@@ -1,125 +1,68 @@
 ---
+import "../../styles/grid.css";
 import { Image } from "astro:assets";
 import RedirectedLink from "../RedirectedLink.astro";
+import { galleryWidths } from "../../scripts/util.ts";
 const { posts } = Astro.props;
 ---
 
-<!--
-<ol>
-  {
-    posts.map((post) => {
-      return (
-        <li class="cover">
-          <a href={`/${post.id}`}>
-            <Image
-              src={post.data.cover}
-              alt={post.data.title}
-              title={post.data.title}
-            />
-          </a>
-        </li>
-      );
-    })
-  }
-</ol>
-
-
-<style>
-ol li {
-  width: 100%;
-}
-</style>
-
-
-<div id="data" data-target="ol">
-  <script src="./media.js"></script>
-</div>
- -->
-
-<!--
- LAYOUT idea
- Each post has 1 or more images
- First image is largest (has `grid-item is-expanded` class)
-  All other images are smaller (have `grid-item` class)
-
-  When a smaller image is clicked, it becomes the largest image
-  The previously largest image becomes a smaller image
-
-  Then again, just having all images be the same small size looks fine too, eg in http://localhost:4321/media/2024
- -->
-
-
- <div class="grid">
+<div class="grid">
   <div class="grid-sizer"></div>
   {
-    posts.map((post, index) => {
-      return post.data.media.map((mediaItem, mediaIndex) => (
-        <div class="grid-item" key={`${post.id}-${mediaIndex}`}>
-          <div class="grid-item-content">
-            <Image
-              src={mediaItem}
-              alt={post.data.title}
-              title={post.data.title}
-            />
-            <ol>
-              <li>
-                <RedirectedLink
-                  href={`/${post.id}`}
-                  title={post.data.title}
-                  destination={post.data.redirect}
-                >
-                  
-                </RedirectedLink>
-              </li>
-            </ol>
+    posts.map((post) => {
+      const widths = galleryWidths(post.data.media.length, 0);
+      console.log(widths);
+
+      return (
+        <>
+          {post.data.media.map((image, index) => {
+            const w = widths[index];
+            const z = Math.ceil(1000 * widths[index]);
+            return (
+              <div
+                class="grid-item"
+                data-id={post.id}
+                data-index={index}
+                style={`width: ${w * 100}%; z-index: ${z};`}
+              >
+                <div class="grid-item-content">
+                  <Image
+                    src={image}
+                    alt={post.data.title}
+                    title={post.data.title}
+                  />
+                </div>
+              </div>
+            );
+          })}
+          <div class="grid-item">
+            <div class="grid-item-content">
+              <ol>
+                <li>
+                  <RedirectedLink
+                    href={`/${post.id}`}
+                    title={post.data.title}
+                    destination={post.data.redirect}
+                  >
+                    <span style="">{post.id}</span>
+                  </RedirectedLink>
+                </li>
+              </ol>
+            </div>
           </div>
-        </div>
-      ));
+          
+
+          <div class="grid-item" style="height: 1rem; width: 100%;">
+            <div class="grid-item-content">
+              <span></span>
+            </div>
+          </div>
+        </>
+      );
     })
   }
 </div>
 
 <div id="data" data-target=".grid">
-  <script src="./media.js"></script>
+  <!-- <script src="./media.js"></script> -->
 </div>
-
-<style>
-  /* item is invisible, but used for layout */
-  .grid-item,
-  .grid-sizer {
-    width: 50%;
-  }
-
-  .grid-item {
-    float: left;
-  }
-
-  /* grid-item-content is visible, and transitions size */
-  .grid-item-content {
-    width: 100%;
-    height: 100%;
-    -webkit-transition:
-      width 0.4s,
-      height 0.4s;
-    transition:
-      width 0.4s,
-      height 0.4s;
-  }
-
-  .grid-item:hover .grid-item-content {
-    cursor: pointer;
-  }
-
-  /* both item and item content change size */
-  .grid-item.is-expanded {
-    width: 100%;
-    z-index: 2;
-  }
-
-  .grid-item.is-expanded .grid-item-content {
-  }
-
-  .grid-item .grid-item-content img {
-    width: 100%;
-  }
-</style>

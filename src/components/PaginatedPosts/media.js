@@ -37,6 +37,10 @@ let msnry = new Masonry(grid, {
   itemSelector: 'none', // select none at first, then set in imagesLoaded()
   percentPosition: true,
   columnWidth: '.grid-sizer',
+  horizontalOrder: true,
+  stagger: 80, // msec
+  originLeft: false,
+  resize: true,
 });
 
 // initial items reveal
@@ -60,63 +64,19 @@ let infScroll = new InfiniteScroll(grid, {
   debug: true,
 });
 
-/*
-grid.addEventListener('click', (event) => {
-  const gridItems = grid.querySelectorAll('.grid-item-content');
-  gridItems.forEach(itemContent => {
-    console.log(itemContent);
-
-    setItemContentPixelSize(itemContent);
-
-    const itemElem = itemContent.parentNode;
-
-    console.log(itemElem);
-
-
-    itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
-
-    const redraw = itemContent.offsetWidth; // force redraw
-    itemContent.style.transition = '';
-
-    addTransitionListener(itemContent);
-    setItemContentTransitionSize(itemContent, itemElem);
-
-    msnry.layout();
-  });
-});
-*/
-
-/*
-grid.addEventListener('click', (event) => {
-  const itemContent = event.target.closest('.grid-item-content');
-  if (!itemContent) return;
-  setItemContentPixelSize(itemContent);
-
-  const itemElem = itemContent.parentNode;
-
-  console.log(itemElem);
-
-
-  itemElem.classList.toggle('is-expanded', !itemElem.classList.contains('is-expanded'));
-
-  const redraw = itemContent.offsetWidth; // force redraw
-  itemContent.style.transition = '';
-
-  addTransitionListener(itemContent);
-  setItemContentTransitionSize(itemContent, itemElem);
-
-  msnry.layout();
-});
-*/
-
-/* TODO: add gutter -- inter white space */
-
 grid.addEventListener('click', (event) => {
   const itemContent = event.target.closest('.grid-item-content');
   if (!itemContent) return;
 
   const itemElem = itemContent.parentNode;
-  const siblings = Array.from(itemElem.parentNode.children).filter(child => child.querySelector('.grid-item-content'));
+  const id = itemElem.getAttribute('data-id');
+
+
+
+
+  const siblings = Array.from(itemElem.parentNode.children).filter(child => child.getAttribute('data-id') === id);
+
+  // siblings are of class "grid-item"
 
   const N = siblings.length;
   const C = siblings.indexOf(itemElem);
@@ -124,23 +84,26 @@ grid.addEventListener('click', (event) => {
   console.log('Clicked item index:', C, 'of', N);
   const widths = galleryWidths(N, C);
 
-  console.log(widths);
+  console.log("SIBLINGS:", siblings);
 
   siblings.forEach((sibling, siblingIndex) => {
     const siblingContent = sibling.querySelector('.grid-item-content');
-
-    console.log(siblingIndex);
-    console.log(widths[siblingIndex]);
-    console.log(siblingContent);
-
 
     if (siblingContent) {
       setItemContentPixelSize(siblingContent);
       //sibling.classList.toggle('is-expanded', sibling === itemElem);
 
-      /* set width and z-index of siblingContent */
-      const w = widths[siblingIndex];
+
+      /* set width and z-index of sibling */
+      let w = widths[siblingIndex];
+      if (siblingIndex === C) {
+        //w = 1.;
+      }
+        
+
       const z = Math.ceil(1000 * widths[siblingIndex]);
+
+      
 
       sibling.style.width = `${w*100}%`;
       sibling.style.zIndex = `${z}`;
