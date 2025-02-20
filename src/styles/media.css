@@ -7,6 +7,7 @@
 /* item is invisible, but used for layout */
 .grid-sizer {
   width: 25%; /* Must be inverse of MAXWIDTH in util.ts */
+  /* TODO is this necessary */
 }
 
 .grid-item {

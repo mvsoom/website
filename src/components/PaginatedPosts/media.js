@@ -4,7 +4,7 @@
 import InfiniteScroll from 'infinite-scroll';
 import Masonry from 'masonry-layout';
 import imagesLoaded from 'imagesloaded';
-import { galleryWidths } from "../../scripts/util.ts";
+import { computeWidths } from "../../scripts/media.ts";
 
 const dataset = document.querySelector("#data").dataset;
 const tag = dataset.tag;
@@ -70,50 +70,25 @@ grid.addEventListener('click', (event) => {
 
   const itemElem = itemContent.parentNode;
   const id = itemElem.getAttribute('data-id');
+  const siblings = Array.from(itemElem.parentNode.children).filter(child => child.getAttribute('data-id') === id); // siblings are of class "grid-item"
 
+  const n = siblings.length;
+  const center = siblings.indexOf(itemElem);
+  const widths = computeWidths(n, { center: center, max: 1. }); // Clicked item becomes center and gets max width
 
-
-
-  const siblings = Array.from(itemElem.parentNode.children).filter(child => child.getAttribute('data-id') === id);
-
-  // siblings are of class "grid-item"
-
-  const N = siblings.length;
-  const C = siblings.indexOf(itemElem);
-
-  console.log('Clicked item index:', C, 'of', N);
-  const widths = galleryWidths(N, C);
-
-  console.log("SIBLINGS:", siblings);
-
-  siblings.forEach((sibling, siblingIndex) => {
+  siblings.forEach((sibling, index) => {
     const siblingContent = sibling.querySelector('.grid-item-content');
 
     if (siblingContent) {
       setItemContentPixelSize(siblingContent);
-      //sibling.classList.toggle('is-expanded', sibling === itemElem);
 
+      // Set width and z-index of clicked item and its siblings
+      const w = widths[index];
+      const z = Math.ceil(1000 * widths[index]);
 
-      /* set width and z-index of sibling */
-      let w = widths[siblingIndex];
-      if (siblingIndex === C) {
-        //w = 1.;
-      }
-        
-
-      const z = Math.ceil(1000 * widths[siblingIndex]);
-
-      
-
-      sibling.style.width = `${w*100}%`;
+      sibling.style.width = `${w * 100}%`;
       sibling.style.zIndex = `${z}`;
-
-      /* hide or show ol child element */
-      const ol = sibling.querySelector('ol');
-      if (ol) {
-        //ol.style.display = sibling === itemElem ? 'block' : 'none';
-      }
-
+      
       const redraw = siblingContent.offsetWidth; // force redraw
       siblingContent.style.transition = '';
 

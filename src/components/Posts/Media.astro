@@ -1,8 +1,8 @@
 ---
-import "../../styles/grid.css";
+import "../../styles/media.css";
 import { Image } from "astro:assets";
 import RedirectedLink from "../RedirectedLink.astro";
-import { galleryWidths } from "../../scripts/util.ts";
+import { parseMedia } from "../../scripts/media.ts";
 const { posts } = Astro.props;
 ---
 
@@ -10,12 +10,10 @@ const { posts } = Astro.props;
   <div class="grid-sizer"></div>
   {
     posts.map((post) => {
-      const widths = galleryWidths(post.data.media.length, 0);
-      console.log(widths);
-
+      const { images, widths } = parseMedia(post.data.media);
       return (
         <>
-          {post.data.media.map((image, index) => {
+          {images.map((image, index) => {
             const w = widths[index];
             const z = Math.ceil(1000 * widths[index]);
             return (
@@ -44,7 +42,7 @@ const { posts } = Astro.props;
                     title={post.data.title}
                     destination={post.data.redirect}
                   >
-                    <span style="">{post.id}</span>
+                    <span style="">[{post.id}]</span>
                   </RedirectedLink>
                 </li>
               </ol>
