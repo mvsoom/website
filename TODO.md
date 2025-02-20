@@ -15,7 +15,7 @@
   <meta name="author" content="Your Name or Company" />
   ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
-- [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts
+- [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts. But make sure that about/website/1 and about/website point to the same path, as otherwise this will break current way to compute the hrefs of the titles, as in Title.astro
 - [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary. can use hyphenation: auto and eg https://eatmon.co/blog/suggest-better-line-breaks-markdown
 - [ ] /tags
 - [ ] Fix titles (for google search): eg. About ⨳ /about

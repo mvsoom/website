@@ -1,9 +1,21 @@
 ---
 const { subtitle } = Astro.props;
+
+/*
+The title link should just refer to the current page, except if:
+- ends in a year, eg. /media/2024
+- is part of a series, eg. /about/website/3
+In both cases it should link to the parent page, eg. to /media and /about/website in previous examples.
+*/
+let href = Astro.url.pathname;
+const regex = /\/\d+$/;
+if (regex.test(href)) {
+  href = href.replace(regex, '');
+}
 ---
 
 <div class="title">
-  <h1><a class="text" href={Astro.url.pathname}><slot /><a></h1>
+  <h1><a class="text" href={href}><slot /><a></h1>
   <p>{subtitle}</p>
 </div>
 
