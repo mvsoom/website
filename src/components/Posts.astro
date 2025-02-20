@@ -10,6 +10,7 @@ const { tag, year, posts } = Astro.props;
   (() => {
     switch (tag) {
       case "media":
+      case "music":
         return <MediaPosts posts={posts} />;
       case "vault":
         return <VaultPosts tag={tag} year={year} posts={posts} />;

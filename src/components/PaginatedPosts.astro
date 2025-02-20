@@ -9,6 +9,7 @@ const { tag, years, target } = Astro.props;
   (() => {
     switch (tag) {
       case "media":
+      case "music":
         return <PaginatedMediaPosts tag={tag} years={years} target={target} />;
       default:
         return <PaginatedDefaultPosts tag={tag} years={years} target={target} />;
