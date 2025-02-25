@@ -20,3 +20,8 @@
 - [ ] /tags
 - [ ] Fix titles (for google search): eg. About ⨳ /about
 - [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault 
+- [ ] font size of dates like dec^^31^^ is larger than slug names on the left
+- [ ] link symbols 🗗 in /research are not rendered on iPhone
+- [ ] for /media: remove scrollbar so layout is not shifted
+- [ ] on iPhone the text can slant too much (CSS angle transformation for lab notebook feel + too long paragraphs) so it goes out of frame a little
+- [ ] infinite scroll loading image for /media and /music based pagination pages, as it can take a long while to load 
