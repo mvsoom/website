@@ -42,7 +42,7 @@ const { posts } = Astro.props;
                     title={post.data.title}
                     destination={post.data.redirect}
                   >
-                    <span style="">[{post.id}]</span>
+                    <span style=""></span>
                   </RedirectedLink>
                 </li>
               </ol>
@@ -50,9 +50,9 @@ const { posts } = Astro.props;
           </div>
           
 
-          <div class="grid-item" style="height: 1rem; width: 100%;">
-            <div class="grid-item-content">
-              <span></span>
+          <div class="grid-item" style="height: 3rem; width: 100%;">
+            <div class="grid-item-content" style="display: flex; justify-content: center; align-items: center;">
+              <a href={`/${post.id}`}>{post.id}</a>
             </div>
           </div>
         </>
