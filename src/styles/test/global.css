@@ -1,5 +1,6 @@
 body {
   margin: 0;
+  padding: 1rem;
 }
 
 .ongrid {
@@ -7,7 +8,7 @@ body {
   grid-template-columns:
     1fr
     minmax(0, 5ch)
-    min(80ch, 100%)
+    min(45ch, 100%)
     minmax(0, 5ch)
     1fr;
 }

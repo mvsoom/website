@@ -1,6 +1,8 @@
 ---
+import "../styles/test/global.css";
 import "../styles/global.css";
 import "../styles/content.css";
+
 import Navigation from "./Navigation.astro";
 import Title from "../components/Title.astro";
 
@@ -29,114 +31,15 @@ const pageTitle = Astro.url.pathname;
       media="all"
       href="/butterick/core-fonts.css"
     />
-    
-    <style>
-      body {
-        margin: 0;
-
-        padding: 3rem 1rem;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        gap: 2rem;
-      }
-      .sidebar {
-        padding: 0;
-
-        display: flex;
-        flex-direction: column;
-
-        flex-basis: 14ch;
-        flex-shrink: 1;
-
-        min-width: 0;
-      }
-
-      .sidebar .top {
-        margin-bottom: auto; /* Pushes the bottom element down */
-        text-align: right;
-      }
-
-      .sidebar .bottom {
-        text-align: right;
-      }
-
-      .footer {
-        display: none;
-        background-color: white;
-
-        text-align: center;
-      }
-
-      .bottom {
-        position: sticky;
-        bottom: 1rem;
-      }
-
-      @media all and (max-width: 530px) {
-        body {
-          padding-top: 1rem;
-          padding-bottom: 1rem;
-
-          flex-direction: column;
-          flex-grow: 1;
-
-          gap: 0rem;
-        }
-
-        .sidebar {
-          max-width: initial;
-          flex-basis: auto;
-        }
-
-        .sidebar .top {
-          margin-bottom: 1rem;
-          text-align: left;
-        }
-
-        .sidebar .bottom {
-          display: none;
-        }
-
-        .content {
-          max-width: initial;
-          flex-basis: initial;
-          margin-bottom: 2rem;
-        }
-
-        .footer {
-          display: block;
-          position: sticky;
-          bottom: -2px; /* Hide bottom border if not at bottom */
-          z-index: 100000000; /* Stay on top of images moving around in Masonry */
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="footer">
-      <div class="bottom">
-        <Navigation location="bottom" selectedTag={primaryTag} />
-      </div>
-    </div>
-    
-    <div class="sidebar">
-      <div class="top">
-        <!--https://dev.w3.org/html5/spec-LC/named-character-references.html
-        
-        ⪨ ⨳ ⊑ ≶ ⋛
-        
-        -->
-        <Title subtitle={subtitle}>[{title}]</Title>
-      </div>
-      <div class="bottom">
-        <Navigation location="side" selectedTag={primaryTag} />
-      </div>
-    </div>
+    <nav class="ongrid">
+      <Navigation location="bottom" selectedTag={primaryTag} />
+    </nav>
 
-    <div class="content">
+    <main class="ongrid content">
+      <Title subtitle={subtitle}>[{title}]</Title>
       <slot />
-    </div>
+    </main>
   </body>
 </html>
