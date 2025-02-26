@@ -71,7 +71,7 @@ export function findTagFile(posts: VaultPost[], tag: string) {
 }
 
 export function getPrimaryTag(tags: string[]): string {
-  const specialTags = ["media", "rsrch", "about"]; // Ordered by importance
+  const specialTags = ["media", "research", "about"]; // Ordered by importance
   for (const tag of specialTags) {
     if (tags.includes(tag)) {
       return tag;

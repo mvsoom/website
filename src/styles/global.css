@@ -22,12 +22,13 @@ body {
 
 body {
   margin: 0;
-  padding: 2rem 0;
+  padding: 2.5rem 0;
 }
 
 @media all and (max-width: 530px) {
   body {
-    padding: 1rem 0;
+    padding: 0;
+    padding-bottom: 1rem;
   }
 }
 
@@ -72,12 +73,6 @@ header {
   position: sticky;
   top: 0;
   z-index: 10000000;
-}
-
-@media all and (min-width: 530px) {
-  header {
-    top: 1rem;
-  }
 }
 
 /* a */
