@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+}
+
+.ongrid {
+  display: grid;
+  grid-template-columns:
+    1fr
+    minmax(0, 5ch)
+    min(80ch, 100%)
+    minmax(0, 5ch)
+    1fr;
+}
+
+.ongrid > * {
+  grid-column: 3; /* Central column */
+
+  box-sizing: border-box; /* Make sure padding doesn't cause elements to overflow their place in the grid */
+
+  padding: 0 1rem;
+}
+
+.bleed {
+  width: 100%;
+  grid-column: 2 / 5; /* Central column plus gutter */
+
+  /* Span the full width of the page */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / -1; /* Entire page */
+
+  /* Span the full width of the page */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.test {
+  background-color: red;
+}
