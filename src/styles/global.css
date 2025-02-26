@@ -5,9 +5,79 @@ html {
   line-height: 1.45;
 }
 
+/* Always hide vertical scrollbar but allow scrolling */
+html {
+  overflow-y: scroll;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+html::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
 body {
   overflow-wrap: break-word;
   -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body {
+  margin: 0;
+  padding: 2rem 0;
+}
+
+@media all and (max-width: 530px) {
+  body {
+    padding: 1rem 0;
+  }
+}
+
+/* grid */
+.ongrid {
+  display: grid;
+  grid-template-columns:
+    1fr
+    minmax(0, 1ch)
+    min(50ch, 100%)
+    minmax(0, 1ch)
+    1fr;
+}
+
+.ongrid > * {
+  grid-column: 3; /* Central column */
+
+  box-sizing: border-box; /* Make sure padding doesn't cause elements to overflow their place in the grid */
+
+  padding: 0 1.5rem;
+}
+
+.bleed {
+  width: 100%;
+  grid-column: 2 / 5; /* Central column plus gutter */
+
+  /* Span the full width of the page */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.full-bleed {
+  width: 100%;
+  grid-column: 1 / -1; /* Entire page */
+
+  /* Span the full width of the page */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10000000;
+}
+
+@media all and (min-width: 530px) {
+  header {
+    top: 1rem;
+  }
 }
 
 /* a */

@@ -1,14 +1,14 @@
 ---
 import Monospan from "../components/Monospan.astro";
 
-const { location, selectedTag } = Astro.props;
+const { selectedTag } = Astro.props;
 
 function selected(s) {
   return selectedTag == s ? "selected" : "";
 }
 ---
 
-<div class=`nav ${location}`>
+<div class="bar">
   <a class={selected("media")} href="/media">
     <Monospan>media</Monospan>
   </a>
@@ -24,23 +24,12 @@ function selected(s) {
 </div>
 
 <style>
-  .nav.side {
-    padding-bottom: 5px;
-    border-bottom: solid 2px #333;
-
-    display: flex;
-    flex-direction: column;
-
-    font-size: 112.5%;
-    line-height: 1;
-  }
-
-  .nav.bottom {
+  .bar {
     padding-bottom: 8px;
     padding-top: 8px;
 
     border-top: solid 2px #333;
-    border-bottom: solid 2px #333;
+    border-bottom: solid 4px #333;
 
     display: flex;
     flex-direction: row;
@@ -50,22 +39,41 @@ function selected(s) {
 
     line-height: 1;
 
-    font-style: italic;
+    background-color: rgb(255, 255, 255);
+    background-image: linear-gradient(
+        135deg,
+        rgba(0, 0, 0, 0.075) 0%,
+        rgba(0, 0, 0, 0.075) 50%,
+        transparent 50%,
+        transparent 100%
+      ),
+      linear-gradient(
+        45deg,
+        transparent 0%,
+        transparent 50%,
+        rgba(0, 0, 0, 0.075) 50%,
+        rgba(0, 0, 0, 0.075) 100%
+      );
   }
 
   a {
     text-decoration: none;
     color: inherit;
+    background-color: yellow;
+    padding: 3px;
+  }
+
+  a:nth-child(odd) {
+    transform: skewX(-5deg);
+    background-color: red;
+  }
+
+  a:nth-child(even) {
+    transform: skewX(+5deg);
+    transform: translateY(-1px);
   }
 
   .selected {
     font-weight: bold;
-  }
-
-  .selected::before {
-    content: "⋛"; /* &GreaterEqualLess; */
-    margin-right: -.1ch;
-    display: inline-block;
-    font-style: normal;
   }
 </style>

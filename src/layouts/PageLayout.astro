@@ -1,5 +1,4 @@
 ---
-import "../styles/test/global.css";
 import "../styles/global.css";
 import "../styles/content.css";
 
@@ -33,13 +32,20 @@ const pageTitle = Astro.url.pathname;
     />
   </head>
   <body>
-    <nav class="ongrid">
-      <Navigation location="bottom" selectedTag={primaryTag} />
-    </nav>
+    <header class="ongrid">
+      <nav class="bleed">
+        <Navigation class="bleed" selectedTag={primaryTag} />
+      </nav>
+    </header>
 
-    <main class="ongrid content">
-      <Title subtitle={subtitle}>[{title}]</Title>
-      <slot />
+    <main>
+      <div class="ongrid">
+        <Title subtitle={subtitle}>[{title}]</Title>
+      </div>
+
+      <article class="ongrid content">
+        <slot />
+      </article>
     </main>
   </body>
 </html>
