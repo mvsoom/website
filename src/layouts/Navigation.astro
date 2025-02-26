@@ -59,18 +59,33 @@ function selected(s) {
   a {
     text-decoration: none;
     color: inherit;
-    background-color: yellow;
+    background-color: rgba(255, 255, 255, 0.523);
     padding: 3px;
   }
 
   a:nth-child(odd) {
     transform: skewX(-5deg);
-    background-color: red;
   }
 
   a:nth-child(even) {
     transform: skewX(+5deg);
     transform: translateY(-1px);
+  }
+
+  a:nth-child(1) {
+    border: thick solid rgb(255, 255, 0); /* Yellow */
+  }
+
+  a:nth-child(2) {
+    border: thick solid rgb(0, 255, 0); /* Green */
+  }
+
+  a:nth-child(3) {
+    border: thick solid rgb(255, 0, 255); /* Pink */
+  }
+
+  a:nth-child(4) {
+    border: thick solid rgb(0, 255, 255); /* Blue */
   }
 
   .selected {
