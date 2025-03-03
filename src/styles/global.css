@@ -8,6 +8,7 @@ html {
 /* Always hide vertical scrollbar but allow scrolling */
 html {
   overflow-y: scroll;
+  overflow-x: hidden;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
 }
@@ -48,7 +49,7 @@ body {
 
   box-sizing: border-box; /* Make sure padding doesn't cause elements to overflow their place in the grid */
 
-  padding: 0 1.5rem;
+  padding: 0 1rem;
 }
 
 .bleed {
@@ -75,11 +76,42 @@ header {
   z-index: 10000000;
 }
 
+/* img */
+
+.ongrid > img {
+  grid-column: 2 / 5; /* Central column plus gutter */
+
+  box-sizing: border-box;
+
+  /* Span the full width of the page */
+  padding-left: 0;
+  padding-right: 0;
+
+  transform: translateX(0px);
+}
+
 /* a */
 
 a.text {
   text-decoration: none;
   color: inherit;
+}
+
+/* https://stackoverflow.com/a/64127605/6783015 */
+a {
+      margin: 0 -0.4em;
+    padding: 0.1em 0.4em;
+    border-radius: 0.8em 0.3em;
+    background: transparent;
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 225, 0, 0.1),
+      rgba(255, 225, 0, 0.7) 4%,
+      rgba(255, 225, 0, 0.3)
+    );
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+    text-decoration: none;
 }
 
 /* sup sub */

@@ -9,16 +9,16 @@ function selected(s) {
 ---
 
 <div class="bar">
-  <a class={selected("media")} href="/media">
+  <a class={selected("media") + " highlight"} href="/media">
     <Monospan>media</Monospan>
   </a>
-  <a class={selected("research")} href="/research">
+  <a class={selected("research") + " highlight"} href="/research">
     <Monospan>research</Monospan>
   </a>
-  <a class={selected("vault")} href="/vault">
+  <a class={selected("vault") + " highlight"} href="/vault">
     <Monospan>vault</Monospan>
   </a>
-  <a class={selected("about")} href="/about">
+  <a class={selected("about") + " highlight"} href="/about">
     <Monospan>about</Monospan>
   </a>
 </div>
@@ -28,8 +28,10 @@ function selected(s) {
     padding-bottom: 8px;
     padding-top: 8px;
 
+    /*
     border-top: solid 2px #333;
     border-bottom: solid 4px #333;
+    */
 
     display: flex;
     flex-direction: row;
@@ -38,6 +40,8 @@ function selected(s) {
     justify-content: space-around;
 
     line-height: 1;
+
+    /*
 
     background-color: rgb(255, 255, 255);
     background-image: linear-gradient(
@@ -54,13 +58,15 @@ function selected(s) {
         rgba(0, 0, 0, 0.075) 50%,
         rgba(0, 0, 0, 0.075) 100%
       );
+
+      */
   }
 
   a {
     text-decoration: none;
     color: inherit;
-    background-color: rgba(255, 255, 255, 0.523);
-    padding: 3px;
+    background-color: white;
+    padding: 4px;
   }
 
   a:nth-child(odd) {
@@ -72,23 +78,36 @@ function selected(s) {
     transform: translateY(-1px);
   }
 
-  a:nth-child(1) {
-    border: thick solid rgb(255, 255, 0); /* Yellow */
-  }
-
-  a:nth-child(2) {
-    border: thick solid rgb(0, 255, 0); /* Green */
-  }
-
-  a:nth-child(3) {
-    border: thick solid rgb(255, 0, 255); /* Pink */
-  }
-
-  a:nth-child(4) {
-    border: thick solid rgb(0, 255, 255); /* Blue */
-  }
-
   .selected {
     font-weight: bold;
+    background-color: rgb(255, 255, 0);
+  }
+
+  /* https://stackoverflow.com/a/62484130/6783015 */
+  .highlight {
+    background: linear-gradient(
+        104deg,
+        rgba(130, 255, 173, 0) 0.9%,
+        rgba(130, 255, 173, 1.25) 2.4%,
+        rgba(130, 255, 173, 0.5) 5.8%,
+        rgba(130, 255, 173, 0.1) 93%,
+        rgba(130, 255, 173, 0.7) 96%,
+        rgba(130, 255, 1732, 0) 98%
+      ),
+      linear-gradient(
+        183deg,
+        rgba(130, 255, 173, 0) 0%,
+        rgba(130, 255, 173, 0.3) 7.9%,
+        rgba(130, 255, 173, 0) 15%
+      );
+    padding: 0.6em 13.7px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    margin: 0;
+    border-radius: 7.5px;
+    text-shadow:
+      -12px 12px 9.8px rgba(130, 255, 173, 0.7),
+      21px -18.1px 7.3px rgba(255, 255, 255, 1),
+      -18.1px -27.3px 30px rgba(255, 255, 255, 1);
   }
 </style>

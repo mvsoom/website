@@ -14,7 +14,10 @@ const pageTitle = Astro.url.pathname;
   <head>
     <meta charset="UTF-8" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Fixes glitch on iOS: https://stackoverflow.com/a/6138970/6783015 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+    
     <meta name="format-detection" content="telephone=no" />
     <title>{pageTitle}</title>
 
