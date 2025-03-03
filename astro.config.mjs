@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import rehypeAstroRelativeMarkdownLinks from "astro-rehype-relative-markdown-links";
+import rehypeUnwrapImages from 'rehype-unwrap-images';
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,6 +15,7 @@ export default defineConfig({
           collectionBase: false,
         },
       ],
+      rehypeUnwrapImages,
     ],
   },
   experimental: {
