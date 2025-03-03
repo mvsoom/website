@@ -25,13 +25,13 @@
   margin-bottom: 0;
 }
 
-.content .yearly ol li > a {
+.content .yearly ol li > span {
   grid-area: anchor;
   position: relative;
   overflow: hidden;
 }
 
-.content .yearly ol li > a::after {
+.content .yearly ol li > span::after {
   position: absolute;
   padding-left: 1ch;
   content: "_______________________________________"
@@ -48,7 +48,12 @@
   grid-area: date;
   margin-left: 0.5ch;
   text-align: left;
-  font-size: smaller;
+}
+
+.content .yearly ol li .date sup::before {
+  content: "";
+  display: inline-block;
+  width: 0.3em;
 }
 
 /* media tag */
@@ -78,10 +83,6 @@
 
 .content .yearly.vault ol li {
   margin-bottom: 0;
-}
-
-.content .yearly.vault ol li .date {
-  font-size: large;
 }
 
 /* TODO: max-width should be a global variable */

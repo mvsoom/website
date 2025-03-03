@@ -5,23 +5,25 @@ import { formatDate } from "../../scripts/util";
 const { tag, year, posts } = Astro.props;
 ---
 
-<a href=`/${tag}/${year}` class="text"><h1>{year}</h1></a>
+<h1><a href=`/${tag}/${year}` class="text">{year}</a></h1>
 <ol>
   {
     posts.map((post) => {
       const { dd, mmm } = formatDate(post.data.published);
       return (
         <li>
-          <RedirectedLink
-            href={`/${post.id}`}
-            title={post.data.title}
-            destination={post.data.redirect}
-          >
-            {post.id}
-          </RedirectedLink>
+          <span>
+            <RedirectedLink
+              href={`/${post.id}`}
+              title={post.data.title}
+              destination={post.data.redirect}
+            >
+              {post.id}
+            </RedirectedLink>
+          </span>
 
           <div class="date">
-            {mmm}&#8239;<sup>{dd}</sup>
+            {mmm}<sup>{dd}</sup>
           </div>
         </li>
       );

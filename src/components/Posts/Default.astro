@@ -10,18 +10,24 @@ const { tag, year, posts } = Astro.props;
       const { dd, mmm, yyyy } = formatDate(post.data.published);
       return (
         <li>
-          <RedirectedLink
-            href={`/${post.id}`}
-            title={post.data.redirect}
-            destination={post.data.redirect}
-          >
-            {post.data.title || <span style="text-transform: capitalize;">{post.id}</span>}
-          </RedirectedLink>
+          <span>
+            <RedirectedLink
+              href={`/${post.id}`}
+              title={post.data.redirect}
+              destination={post.data.redirect}
+            >
+              {post.data.title || (
+                <span style="text-transform: capitalize;">{post.id}</span>
+              )}
+            </RedirectedLink>
+          </span>
 
           <div class="date">
-            <a href={`/${tag}/${year}`} class="text">{yyyy}</a>
+            <a href={`/${tag}/${year}`} class="text">
+              {yyyy}
+            </a>
             <br />
-            {mmm}&#8239;<sup>{dd}</sup>
+            {mmm}<sup>{dd}</sup>
           </div>
         </li>
       );
