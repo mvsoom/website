@@ -4,10 +4,11 @@ import "../styles/content.css";
 
 import Navigation from "./Navigation.astro";
 import Title from "../components/Title.astro";
+import { formatSlug } from "../scripts/util";
 
 const { title, subtitle, primaryTag } = Astro.props;
 
-const pageTitle = Astro.url.pathname;
+const pageTitle = formatSlug(Astro.url.pathname);
 ---
 
 <html lang="en">
@@ -35,11 +36,11 @@ const pageTitle = Astro.url.pathname;
     />
   </head>
   <body>
-    <header class="ongrid">
-      <nav class="bleed">
+    <nav class="ongrid">
+      <div class="bleed">
         <Navigation class="bleed" selectedTag={primaryTag} />
-      </nav>
-    </header>
+      </div>
+    </nav>
 
     <main>
       <div class="ongrid">

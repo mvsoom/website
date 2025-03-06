@@ -1,8 +1,5 @@
 /* .content .yearly */
 .content .yearly a {
-  font-weight: normal;
-  color: black;
-  text-decoration: none;
 }
 
 .content .yearly ol {
@@ -69,7 +66,7 @@
 }
 
 /* vault tag */
-.content .yearly.vault h1 {
+.content .yearly.vault h2 {
   font-size: 1.2em;
   text-align: right;
   margin-top: 0;
@@ -87,7 +84,7 @@
 
 /* TODO: max-width should be a global variable */
 @media all and (max-width: 530px) {
-  .content .yearly.vault h1 {
+  .content .yearly.vault h2 {
     text-align: left;
   }
 }

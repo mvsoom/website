@@ -1,8 +1,6 @@
 ---
 const { title, subtitle } = Astro.props;
 
-const adjustedTitle = title.replace(/-/g, '\u2009');
-
 /*
 The title link should just refer to the current page, except if:
 - ends in a year, eg. /media/2024
@@ -17,10 +15,10 @@ if (regex.test(href)) {
 ---
 
 <div class="title">
-  <h1>
-    <a class="text" href={href}>[{adjustedTitle}]</a>
+  <header>
+    <a class="text" href={href}>[{title}]</a>
     <p>{subtitle}</p>
-  </h1>
+  <header>
 
   <style>
     .title {
@@ -34,7 +32,7 @@ if (regex.test(href)) {
       text-align: center;
     }
 
-    .title h1 {
+    .title header {
       margin-top: 1.25em;
 
       font-size: 125%;

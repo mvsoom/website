@@ -1,6 +1,6 @@
 ---
 import RedirectedLink from "../RedirectedLink.astro";
-import { formatDate } from "../../scripts/util";
+import { formatDate, formatSlug } from "../../scripts/util";
 const { tag, year, posts } = Astro.props;
 ---
 
@@ -17,7 +17,7 @@ const { tag, year, posts } = Astro.props;
               destination={post.data.redirect}
             >
               {post.data.title || (
-                <span style="text-transform: capitalize;">{post.id}</span>
+                <span style="text-transform: capitalize;">{formatSlug(post.id)}</span>
               )}
             </RedirectedLink>
           </span>
