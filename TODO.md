@@ -25,3 +25,4 @@
 - [ ] for /media: remove scrollbar so layout is not shifted
 - [ ] on iPhone the text can slant too much (CSS angle transformation for lab notebook feel + too long paragraphs) so it goes out of frame a little
 - [ ] infinite scroll loading image for /media and /music based pagination pages, as it can take a long while to load 
+- [ ] check out https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#using-plugins
