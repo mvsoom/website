@@ -33,3 +33,33 @@
 .grid-item:hover .grid-item-content {
   cursor: pointer;
 }
+
+/* More lab feel images */
+img {
+
+  /* Default transform for a bit of perspective */
+  /* 'perspective(1000px)' + small rotateX/Y for a subtle 3D tilt */
+  transform: perspective(1000px) rotateX(1deg) rotateY(-1deg);
+  transform-origin: center center;
+
+  /* Smooth transitions if you want hover effects, etc. */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Hover effects */
+img:hover {
+  box-shadow:
+    0 0 0 2px #fff,
+    0 8px 16px rgba(0, 0, 0, 0.25);
+  transform: perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1.02);
+}
+
+/* Alternating rotations:
+   even images tilt one way, odd images tilt the other.
+   Tweak these to your liking! */
+img:nth-of-type(even) {
+  transform: perspective(1000px) rotateX(2deg) rotateY(-2deg);
+}
+img:nth-of-type(odd) {
+  transform: perspective(1000px) rotateX(-2deg) rotateY(2deg);
+}

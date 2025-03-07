@@ -3,6 +3,7 @@ import "../../styles/media.css";
 import { Image } from "astro:assets";
 import RedirectedLink from "../RedirectedLink.astro";
 import { parseMedia } from "../../scripts/media.ts";
+import { formatSlug } from "../../scripts/util";
 const { posts } = Astro.props;
 ---
 
@@ -52,7 +53,7 @@ const { posts } = Astro.props;
 
           <div class="grid-item" style="height: 3rem; width: 100%;">
             <div class="grid-item-content" style="display: flex; justify-content: center; align-items: center;">
-              <a href={`/${post.id}`}>{post.id}</a>
+              <a href={`/${post.id}`}>{formatSlug(post.id)}</a>
             </div>
           </div>
         </>

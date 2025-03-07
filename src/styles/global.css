@@ -24,6 +24,9 @@ body {
 body {
   margin: 0;
   padding: 2.5rem 0;
+
+  color: hsl(0, 5%, 10%);
+  background-color: hsl(210, 20%, 99%);
 }
 
 @media all and (max-width: 530px) {
