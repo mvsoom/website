@@ -36,7 +36,6 @@
 
 /* More lab feel images */
 img {
-
   /* Default transform for a bit of perspective */
   /* 'perspective(1000px)' + small rotateX/Y for a subtle 3D tilt */
   transform: perspective(1000px) rotateX(1deg) rotateY(-1deg);
@@ -44,6 +43,10 @@ img {
 
   /* Smooth transitions if you want hover effects, etc. */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+
+  outline: 2px solid #fff;
+  outline-offset: -4px;
 }
 
 /* Hover effects */
