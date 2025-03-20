@@ -31,4 +31,5 @@ export default defineConfig({
   experimental: {
     svg: true,
   },
+  site: 'https://mvsoom.github.io',
 });
