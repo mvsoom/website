@@ -52,7 +52,7 @@ body {
 
   box-sizing: border-box; /* Make sure padding doesn't cause elements to overflow their place in the grid */
 
-  padding: 0 0rem;
+  padding: 0 1rem; /* Quick fix for now */
 }
 
 .ongrid > p {
@@ -60,7 +60,7 @@ body {
 
   box-sizing: border-box; /* Make sure padding doesn't cause elements to overflow their place in the grid */
 
-  padding: 0 1rem;
+  padding: 0 1.5rem; /* Quick fix for now */
 }
 
 .bleed {

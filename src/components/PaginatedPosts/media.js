@@ -38,7 +38,7 @@ let msnry = new Masonry(grid, {
   percentPosition: true,
   columnWidth: '.grid-sizer',
   horizontalOrder: true,
-  stagger: 80, // msec
+  stagger: 20, // msec
   originLeft: true,
   resize: true,
 });
