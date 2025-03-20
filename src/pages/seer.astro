@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      html {
+        --bloom-blur: 0.5px;
+      }
+
+      @keyframes cycleColors {
+        0% {
+          filter: drop-shadow(2px 2px var(--bloom-blur) rgb(182, 182, 182));
+        }
+        33% {
+          filter: drop-shadow(
+            1.5px 0px calc(var(--bloom-blur) * 2) rgb(186, 30, 30)
+          );
+        }
+        66% {
+          filter: drop-shadow(0px 1px var(--bloom-blur) rgb(193, 193, 193));
+        }
+        100% {
+          filter: drop-shadow(0.5px 1.5px var(--bloom-blur) grey);
+        }
+      }
+
+      @keyframes pulseGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .text {
+        width: 23ch;
+        height: 4lh;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 43px;
+        line-height: 1;
+        font-weight: 700;
+        color: #fff;
+        position: relative;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column-reverse;
+        overflow: hidden;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        animation: cycleColors 2s infinite;
+      }
+
+      .border {
+        border: 5px solid #fff;
+        padding: 2.5em;
+        border-radius: 29px;
+        outline: 3px solid #fff;
+        outline-offset: 7px;
+        animation: cycleColors 0.5s infinite;
+      }
+
+      .wake-button {
+        background: linear-gradient(45deg, #777, #fff, #da9494);
+        background-size: 300% 300%;
+        color: #000;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 43px;
+        font-weight: 700;
+        padding: 0.5em 1em;
+        border: none;
+        border-radius: 29px;
+        outline: 3px solid #fff;
+        outline-offset: 7px;
+        cursor: pointer;
+        animation: pulseGradient 3s ease infinite, cycleColors 3s infinite;
+        transition: background 0.5s, opacity 0.5s;
+      }
+
+      .wake-button.connecting {
+        background: linear-gradient(-45deg, #777, #fff, #94a8da);
+        background-size: 300% 300%;
+        animation: pulseGradient 3s ease infinite, cycleColors 3s infinite;
+      }
+
+      .instagram-link {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+        opacity: 0.7;
+      }
+
+      .instagram-link:hover {
+        opacity: 1;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <svg width="0" height="0">
+      <filter id="glow">
+        <feGaussianBlur
+          in="SourceGraphic"
+          stdDeviation="1.5"
+          result="glow__svg__blur"
+        />
+        <feBlend mode="lighten" in="SourceGraphic" in2="glow__svg__blur" />
+      </filter>
+    </svg>
+  </head>
+  <body>
+    <button id="wakeButton" class="wake-button">Wake me up</button>
+    <div class="border hidden" id="textContainer">
+      <div class="text" id="text"></div>
+    </div>
+    <video id="video" autoplay class="hidden"></video>
+
+    <a
+      href="https://www.instagram.com/marnixvansoom"
+      class="instagram-link"
+      target="_blank"
+    >
+      Instagram
+    </a>
+
+    <script is:inline>
+      /* Click sound based on Kellet pink noise */
+      const AUDIO_GAIN = 2.0;
+      const CLICK_SOUND_DURATION = 80; // msec
+
+      let audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
+      let pinkNoise = createPinkNoise(audioContext);
+      let gainNode = audioContext.createGain();
+      gainNode.gain.value = AUDIO_GAIN;
+
+      function normalRandom() {
+        let u = 0,
+          v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+      }
+
+      function createPinkNoise(audioContext) {
+        const bufferSize = 4096;
+        const node = audioContext.createScriptProcessor(bufferSize, 1, 1);
+        let b0, b1, b2, b3, b4, b5, b6;
+        b0 = b1 = b2 = b3 = b4 = b5 = b6 = 0.0;
+
+        node.onaudioprocess = function (e) {
+          const output = e.outputBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            const white = normalRandom();
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.969 * b2 + white * 0.153852;
+            b3 = 0.8665 * b3 + white * 0.3104856;
+            b4 = 0.55 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.016898;
+            output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+            output[i] *= 0.11;
+            b6 = white * 0.115926;
+            output[i] /= 400;
+            output[i] /= Math.sqrt(1 - i / bufferSize);
+          }
+        };
+        return node;
+      }
+
+      function playClickSound() {
+        if (!pinkNoise || !gainNode) return;
+        pinkNoise.connect(gainNode).connect(audioContext.destination);
+        setTimeout(() => pinkNoise.disconnect(), CLICK_SOUND_DURATION);
+      }
+    </script>
+
+    <script is:inline>
+      const wakeButton = document.getElementById("wakeButton");
+      const textContainer = document.getElementById("textContainer");
+      const video = document.getElementById("video");
+      const text = document.getElementById("text");
+      let firstChunkReceived = false;
+      let socket;
+
+      function connectWebSocket() {
+        socket = new WebSocket("wss://app-480952408705.europe-west1.run.app");
+        socket.binaryType = "arraybuffer";
+        const decoder = new TextDecoder("utf-8", { stream: true });
+
+        socket.onopen = () => {
+          console.log("WebSocket connected");
+          setInterval(sendFrame, 100);
+        };
+
+        socket.onmessage = (event) => {
+          const chunk = decoder.decode(event.data, { stream: true });
+          if (chunk) {
+            text.textContent += chunk;
+            if (chunk.trim().length !== 0) playClickSound();
+            if (text.textContent.length > 1000) {
+              text.textContent = text.textContent.slice(-500);
+            }
+            // On first received chunk, morph the UI: fade out button, fade in text container
+            if (!firstChunkReceived) {
+              firstChunkReceived = true;
+              wakeButton.style.opacity = 0; // triggers 0.5s fade-out (transition set on click)
+              setTimeout(() => {
+                wakeButton.classList.add("hidden");
+                textContainer.classList.remove("hidden");
+                textContainer.style.opacity = 0;
+                textContainer.style.transition = "opacity 0.5s";
+                setTimeout(() => {
+                  textContainer.style.opacity = 1;
+                }, 10);
+              }, 500);
+            }
+          }
+        };
+
+        socket.onclose = () => {
+          console.log("WebSocket connection closed");
+          setTimeout(connectWebSocket, 2000);
+        };
+        socket.onerror = (error) => {
+          console.error(
+            "WebSocket error:",
+            error?.message || "No message available",
+            error
+          );
+          socket.close();
+        };
+      }
+
+      function sendFrame() {
+        if (!video.videoWidth) return;
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+          if (blob && socket.readyState === WebSocket.OPEN) {
+            blob.arrayBuffer().then((buffer) => socket.send(buffer));
+          }
+        }, "image/jpeg");
+      }
+
+      wakeButton.addEventListener("click", () => {
+        connectWebSocket();
+
+        if (audioContext.state === "suspended") {
+          audioContext.resume();
+        }
+
+        navigator.mediaDevices
+          .getUserMedia({ video: true })
+          .then((stream) => {
+            video.srcObject = stream;
+            // If PiP is supported, open the webcam feed in Picture-in-Picture
+            if (
+              document.pictureInPictureEnabled &&
+              !video.disablePictureInPicture
+            ) {
+              // Wait for video to be ready and playing before requesting PiP
+              video.addEventListener("loadedmetadata", () => {
+                video
+                  .play()
+                  .then(() => {
+                    if (video.requestPictureInPicture) {
+                      video.requestPictureInPicture().catch((err) => {
+                        console.error("PiP request failed:", err);
+                      });
+                    } else if (video.webkitSetPresentationMode) {
+                      try {
+                        video.webkitSetPresentationMode("picture-in-picture");
+                      } catch (err) {
+                        console.error("Safari PiP failed:", err);
+                      }
+                    }
+                  })
+                  .catch((err) => {
+                    console.error("Video play failed:", err);
+                  });
+              });
+            }
+          })
+          .catch(console.error);
+        
+        wakeButton.disabled = true;
+        wakeButton.textContent = "Connecting...";
+        wakeButton.classList.add("connecting");
+      });
+    </script>
+  </body>
+</html>
