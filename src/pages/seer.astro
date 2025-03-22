@@ -134,7 +134,8 @@
     <div class="border hidden" id="textContainer">
       <div class="text" id="text"></div>
     </div>
-    <video id="video" autoplay class="hidden"></video>
+
+    <video id="video" playsinline autoplay muted hidden></video>
 
     <a
       href="https://www.instagram.com/marnixvansoom"
@@ -144,7 +145,7 @@
       Instagram
     </a>
 
-    <script is:inline>
+    <script client:load>
       /* Click sound based on Kellet pink noise */
       const AUDIO_GAIN = 2.0;
       const CLICK_SOUND_DURATION = 80; // msec
@@ -196,13 +197,29 @@
       }
     </script>
 
-    <script is:inline>
+    <style>
+      #video.fake-pip {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        width: 200px;
+        z-index: 9999;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        cursor: move;
+      }
+    </style>
+
+    <script client:load>
       const wakeButton = document.getElementById("wakeButton");
       const textContainer = document.getElementById("textContainer");
       const video = document.getElementById("video");
       const text = document.getElementById("text");
+
       let firstChunkReceived = false;
       let socket;
+      let currentFacingMode = "user";
+      let currentStream = null;
 
       function connectWebSocket() {
         socket = new WebSocket("wss://app-480952408705.europe-west1.run.app");
@@ -222,10 +239,9 @@
             if (text.textContent.length > 1000) {
               text.textContent = text.textContent.slice(-500);
             }
-            // On first received chunk, morph the UI: fade out button, fade in text container
             if (!firstChunkReceived) {
               firstChunkReceived = true;
-              wakeButton.style.opacity = 0; // triggers 0.5s fade-out (transition set on click)
+              wakeButton.style.opacity = 0;
               setTimeout(() => {
                 wakeButton.classList.add("hidden");
                 textContainer.classList.remove("hidden");
@@ -243,6 +259,7 @@
           console.log("WebSocket connection closed");
           setTimeout(connectWebSocket, 2000);
         };
+
         socket.onerror = (error) => {
           console.error(
             "WebSocket error:",
@@ -267,6 +284,35 @@
         }, "image/jpeg");
       }
 
+      async function startCamera(facingMode = "user") {
+        try {
+          if (currentStream) {
+            currentStream.getTracks().forEach((track) => track.stop());
+          }
+
+          console.log(`🔄 Switching to ${facingMode} camera`);
+
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode },
+          });
+
+          currentStream = stream;
+          video.srcObject = stream;
+          video.hidden = false;
+
+          await video.play();
+
+          console.log(
+            "📐 Video resolution:",
+            video.videoWidth,
+            "×",
+            video.videoHeight
+          );
+        } catch (err) {
+          console.error("Failed to start camera:", err);
+        }
+      }
+
       wakeButton.addEventListener("click", () => {
         connectWebSocket();
 
@@ -274,44 +320,101 @@
           audioContext.resume();
         }
 
-        navigator.mediaDevices
-          .getUserMedia({ video: true })
-          .then((stream) => {
-            video.srcObject = stream;
-            // If PiP is supported, open the webcam feed in Picture-in-Picture
-            if (
-              document.pictureInPictureEnabled &&
-              !video.disablePictureInPicture
-            ) {
-              // Wait for video to be ready and playing before requesting PiP
-              video.addEventListener("loadedmetadata", () => {
-                video
-                  .play()
-                  .then(() => {
-                    if (video.requestPictureInPicture) {
-                      video.requestPictureInPicture().catch((err) => {
-                        console.error("PiP request failed:", err);
-                      });
-                    } else if (video.webkitSetPresentationMode) {
-                      try {
-                        video.webkitSetPresentationMode("picture-in-picture");
-                      } catch (err) {
-                        console.error("Safari PiP failed:", err);
-                      }
-                    }
-                  })
-                  .catch((err) => {
-                    console.error("Video play failed:", err);
-                  });
-              });
-            }
-          })
-          .catch(console.error);
-        
+        startCamera(currentFacingMode).then(() => {
+          console.log("▶️ Video is playing (fake PiP mode)");
+          enableFakePiP(video);
+        });
+
         wakeButton.disabled = true;
         wakeButton.textContent = "Connecting...";
         wakeButton.classList.add("connecting");
       });
+
+      function enableFakePiP(video) {
+        console.log("🧩 Using fake PiP");
+        video.classList.add("fake-pip");
+        video.hidden = false;
+        makeDraggable(video);
+
+        let wasDragging = false;
+
+        video.addEventListener("mousedown", () => {
+          wasDragging = false;
+        });
+
+        video.addEventListener("mousemove", () => {
+          wasDragging = true;
+        });
+
+        video.addEventListener("click", () => {
+          if (wasDragging) {
+            console.log("🛑 Click ignored due to drag");
+            return;
+          }
+          console.log("🔁 Switching camera via click");
+          currentFacingMode =
+            currentFacingMode === "user" ? "environment" : "user";
+          startCamera(currentFacingMode);
+        });
+      }
+
+      function makeDraggable(el) {
+        let isDragging = false,
+          offsetX = 0,
+          offsetY = 0;
+
+        const startDrag = (x, y) => {
+          const rect = el.getBoundingClientRect();
+          offsetX = x - rect.left;
+          offsetY = y - rect.top;
+          isDragging = true;
+        };
+
+        const doDrag = (x, y) => {
+          if (!isDragging) return;
+          el.style.left = x - offsetX + "px";
+          el.style.top = y - offsetY + "px";
+          el.style.right = "auto";
+          el.style.bottom = "auto";
+        };
+
+        const stopDrag = () => {
+          isDragging = false;
+        };
+
+        // Mouse events
+        el.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          startDrag(e.clientX, e.clientY);
+          document.addEventListener("mousemove", mouseMove);
+          document.addEventListener("mouseup", mouseUp);
+        });
+
+        const mouseMove = (e) => doDrag(e.clientX, e.clientY);
+        const mouseUp = () => {
+          stopDrag();
+          document.removeEventListener("mousemove", mouseMove);
+          document.removeEventListener("mouseup", mouseUp);
+        };
+
+        // Touch events for iOS
+        el.addEventListener("touchstart", (e) => {
+          const touch = e.touches[0];
+          startDrag(touch.clientX, touch.clientY);
+        });
+
+        el.addEventListener(
+          "touchmove",
+          (e) => {
+            e.preventDefault(); // ✅ prevent scrolling the page
+            const touch = e.touches[0];
+            doDrag(touch.clientX, touch.clientY);
+          },
+          { passive: false }
+        );
+
+        el.addEventListener("touchend", stopDrag);
+      }
     </script>
   </body>
 </html>

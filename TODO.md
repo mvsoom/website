@@ -26,3 +26,4 @@
 - [ ] on iPhone the text can slant too much (CSS angle transformation for lab notebook feel + too long paragraphs) so it goes out of frame a little
 - [ ] infinite scroll loading image for /media and /music based pagination pages, as it can take a long while to load 
 - [ ] check out https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#using-plugins
+- [ ] Use view transitions: https://www.reddit.com/r/astrojs/comments/1jbsndb/comment/mhwmqg2/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
