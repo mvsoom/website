@@ -2,7 +2,6 @@
 
 - [ ] Licenses for font and metafizzy plugins (infinite scroll, masonry)
 - [ ] [RSS](https://docs.astro.build/en/tutorial/5-astro-api/4/) with [content collections](https://docs.astro.build/en/tutorial/6-islands/4/)
-- [ ] Replace favicon
 - [ ] Check SEO stats
 - [ ] Sitemap: https://docs.astro.build/en/guides/integrations-guide/sitemap/
 - [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
