@@ -13,16 +13,19 @@
   <meta name="keywords" content="keyword1, keyword2, keyword3" />
   <meta name="author" content="Your Name or Company" />
   ```
-- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`
+- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`. NOTE: does not work with prebuilt deployment on Cloudflare I think
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts. But make sure that about/website/1 and about/website point to the same path, as otherwise this will break current way to compute the hrefs of the titles, as in Title.astro
 - [ ] line/words break in Title: break on "/", replace "-" as space; eg. http://localhost:4321/tmwt/summary. can use hyphenation: auto and eg https://eatmon.co/blog/suggest-better-line-breaks-markdown
 - [ ] /tags
-- [ ] Fix titles (for google search): eg. About ⨳ /about
-- [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault 
-- [ ] font size of dates like dec^^31^^ is larger than slug names on the left
+- [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault
 - [ ] link symbols 🗗 in /research are not rendered on iPhone
 - [ ] on iPhone the text can slant too much (CSS angle transformation for lab notebook feel + too long paragraphs) so it goes out of frame a little
-- [ ] infinite scroll loading image for /media and /music based pagination pages, as it can take a long while to load 
+- [ ] infinite scroll: have "Loading..." indicator or text for /media and /music based pagination pages, as it can take a long while to load 
 - [ ] check out https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#using-plugins
 - [ ] Use view transitions: https://www.reddit.com/r/astrojs/comments/1jbsndb/comment/mhwmqg2/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
 - [ ] Use Cloudflare Stream for videos: tutorial: https://kristianfreeman.com/cloudflare-stream. And perhaps Cloudflare Images too, but this requires batch uploading the vault
+- [ ] Sidenotes: https://gwern.net/sidenote
+  * Next to title: creation date, prev/next, etc
+  * Footnotes: we will need a custom filter to do that properly
+- [ ] Style <a> links
+- [ ] Night mode: see latex.css

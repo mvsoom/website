@@ -17,7 +17,6 @@ html::-webkit-scrollbar {
 }
 
 body {
-  overflow-wrap: break-word;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
