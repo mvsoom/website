@@ -66,7 +66,7 @@ export function parseMedia(media) {
   // Optionally override ranks per image if defined
   ranks = media.map((item, index) => item.rank || ranks[index]);
 
-  const widths = computeWidthsFromRanks(ranks, { max: 0.5 });
+  const widths = computeWidthsFromRanks(ranks, { max: 1.0 });
 
   return { images, widths };
 }

@@ -7,6 +7,13 @@ import { formatSlug } from "../../scripts/util";
 const { posts } = Astro.props;
 ---
 
+<style>
+  /* Must be declared here and not in media.css; otherwise Astro strips this out in build */
+  .grid-sizer {
+    width: 25%; /* Must be inverse of MAXWIDTH in util.ts */
+  }
+</style>
+
 <div class="grid">
   <div class="grid-sizer"></div>
   {
@@ -14,6 +21,21 @@ const { posts } = Astro.props;
       const { images, widths } = parseMedia(post.data.media);
       return (
         <>
+          <div class="grid-item" style="height: 3rem; width: 100%;">
+            <div
+              class="grid-item-content"
+              style="display: flex; justify-content: center; align-items: center;"
+            >
+              <RedirectedLink
+                href={`/${post.id}`}
+                title={post.data.title}
+                destination={post.data.redirect}
+              >
+                {formatSlug(post.id)}
+              </RedirectedLink>
+            </div>
+          </div>
+
           {images.map((image, index) => {
             const w = widths[index];
             const z = Math.ceil(1000 * widths[index]);
@@ -34,28 +56,6 @@ const { posts } = Astro.props;
               </div>
             );
           })}
-          <div class="grid-item">
-            <div class="grid-item-content">
-              <ol>
-                <li>
-                  <RedirectedLink
-                    href={`/${post.id}`}
-                    title={post.data.title}
-                    destination={post.data.redirect}
-                  >
-                    <span style=""></span>
-                  </RedirectedLink>
-                </li>
-              </ol>
-            </div>
-          </div>
-          
-
-          <div class="grid-item" style="height: 3rem; width: 100%;">
-            <div class="grid-item-content" style="display: flex; justify-content: center; align-items: center;">
-              <a href={`/${post.id}`}>{formatSlug(post.id)}</a>
-            </div>
-          </div>
         </>
       );
     })

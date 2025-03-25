@@ -4,12 +4,6 @@
   height: 100%;
 }
 
-/* item is invisible, but used for layout */
-.grid-sizer {
-  width: 25%; /* Must be inverse of MAXWIDTH in util.ts */
-  /* TODO is this necessary */
-}
-
 .grid-item {
   float: left;
 }
@@ -42,11 +36,15 @@ img {
   transform-origin: center center;
 
   /* Smooth transitions if you want hover effects, etc. */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 
+  outline: 1px solid #fff;
+  outline-offset: -2px;
 
-  outline: 2px solid #fff;
-  outline-offset: -4px;
+  /* rounded corners for borders and outline */
+  border-radius: 13px;
 }
 
 /* Hover effects */
