@@ -27,4 +27,5 @@
 - [ ] Sidenotes: https://gwern.net/sidenote
   * Next to title: creation date, prev/next, etc
   * Footnotes: we will need a custom filter to do that properly
+  * In /media: explain stuff etc
 - [ ] Night mode: see latex.css
