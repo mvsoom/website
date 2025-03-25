@@ -24,11 +24,11 @@ const { tag, year, posts } = Astro.props;
           </span>
 
           <div class="date">
+            <span style="font-size: smaller;">{mmm}</span>
+            <br />
             <a href={`/${tag}/${year}`} class="text">
               {yyyy}
             </a>
-            <br />
-            {mmm}<sup>{dd}</sup>
           </div>
         </li>
       );

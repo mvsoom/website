@@ -44,7 +44,7 @@
 .content .yearly ol li .date {
   grid-area: date;
   margin-left: 0.5ch;
-  text-align: left;
+  text-align: right;
 }
 
 .content .yearly ol li .date sup::before {
