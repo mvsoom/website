@@ -1,12 +1,12 @@
 ---
 import { getBaseDomain } from "../scripts/util";
 
-const { href, title, destination } = Astro.props;
+const { class: className, href, title, destination } = Astro.props;
 
 // Convert `https://sub.domain.com/path` to `domain.com`
 const domain = destination ? getBaseDomain(destination) : null;
 ---
-<a href={href} title={title} target={domain ? "_blank" : "_self"} rel={domain ? "noopener noreferrer" : undefined}>
+<a class={className} href={href} title={title} target={domain ? "_blank" : "_self"} rel={domain ? "noopener noreferrer" : undefined}>
   <slot />
   {domain ? <sup style="font-size: x-small">🗗&#8239;{domain}</sup> : null}
 </a>

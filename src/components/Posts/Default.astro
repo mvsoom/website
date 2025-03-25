@@ -12,6 +12,7 @@ const { tag, year, posts } = Astro.props;
         <li>
           <span>
             <RedirectedLink
+              class = "text"
               href={`/${post.id}`}
               title={post.data.redirect}
               destination={post.data.redirect}
