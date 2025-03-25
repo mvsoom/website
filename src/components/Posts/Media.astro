@@ -3,8 +3,8 @@ import "../../styles/media.css";
 import { Image } from "astro:assets";
 import RedirectedLink from "../RedirectedLink.astro";
 import { parseMedia } from "../../scripts/media.ts";
-import { formatSlug } from "../../scripts/util";
-const { posts } = Astro.props;
+import { formatDate, formatSlug } from "../../scripts/util";
+const { tag, year, posts } = Astro.props;
 ---
 
 <style>
@@ -18,21 +18,34 @@ const { posts } = Astro.props;
   <div class="grid-sizer"></div>
   {
     posts.map((post) => {
+      const { dd, mmm, yyyy } = formatDate(post.data.published);
       const { images, widths } = parseMedia(post.data.media);
       return (
         <>
           <div class="grid-item title-tile">
             <div
               class="grid-item-content"
-              style="display: flex; justify-content: center; align-items: center;"
             >
-              <RedirectedLink
-                href={`/${post.id}`}
-                title={post.data.title}
-                destination={post.data.redirect}
-              >
-                {formatSlug(post.id)}
-              </RedirectedLink>
+              <ol>
+                <li>
+                  <span>
+                    <RedirectedLink
+                      class="text"
+                      href={`/${post.id}`}
+                      title={post.data.redirect}
+                      destination={post.data.redirect}
+                    >
+                      {formatSlug(post.id)}
+                    </RedirectedLink>
+                  </span>
+
+                  <div class="date">
+                    <a href={`/${tag}/${year}`} class="text">
+                      {yyyy}
+                    </a>
+                  </div>
+                </li>
+              </ol>
             </div>
           </div>
 
