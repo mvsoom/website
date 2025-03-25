@@ -4,9 +4,12 @@ import rehypeAstroRelativeMarkdownLinks from "astro-rehype-relative-markdown-lin
 import rehypeUnwrapImages from 'rehype-unwrap-images';
 import rehypeCitation from 'rehype-citation'
 
+import sitemap from "@astrojs/sitemap";
+
 // https://astro.build/config
 export default defineConfig({
-  integrations: [],
+  site: "https://mvsoom.pages.dev",
+  integrations: [sitemap()],
   markdown: {
     rehypePlugins: [
       [
@@ -19,11 +22,11 @@ export default defineConfig({
         }
       ],
       [
-      rehypeAstroRelativeMarkdownLinks,
-      {
-        /* Set the base path to / such that the Markdown content in src/content/vault all just map to mysite.com/[...slug] instead of mysite.com/vault/[...slug] */
-        collectionBase: false,
-      },
+        rehypeAstroRelativeMarkdownLinks,
+        {
+          /* Set the base path to / such that the Markdown content in src/content/vault all just map to mysite.com/[...slug] instead of mysite.com/vault/[...slug] */
+          collectionBase: false,
+        },
       ],
       rehypeUnwrapImages,
     ],
