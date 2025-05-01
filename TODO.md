@@ -29,4 +29,4 @@
   * In /media: explain stuff etc
 - [ ] Night mode: see latex.css for how this is done
 - [ ] /media/2024 : images do not react when clicked. in fact maybe set clicked image to just 100%, no fancy stuff
-- [ ] Style references
+- [ ] Attribute pictures to Lina

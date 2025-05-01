@@ -1,0 +1,16 @@
+/* #footnote-label { display:none; } */
+
+section.footnotes {
+    font-size: small;
+}
+
+section.footnotes > ol {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Break long footnote links */
+.footnotes li a {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
