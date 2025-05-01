@@ -30,3 +30,5 @@
 - [ ] Night mode: see latex.css for how this is done
 - [ ] /media/2024 : images do not react when clicked. in fact maybe set clicked image to just 100%, no fancy stuff
 - [ ] Attribute pictures to Lina
+- [ ] Fix static redirect "mvsoom.pages.dev/mvsoom_academic_cv.pdf" in academic-cv file in Obsidian
+- [ ] Change "publish" dates to "last updated"
