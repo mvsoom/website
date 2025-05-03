@@ -32,3 +32,4 @@
 - [ ] Attribute pictures to Lina
 - [ ] Fix static redirect "mvsoom.pages.dev/mvsoom_academic_cv.pdf" in academic-cv file in Obsidian
 - [ ] Change "publish" dates to "last updated"
+- [ ] Fix www redirect to root on Cloudflare

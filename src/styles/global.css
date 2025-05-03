@@ -1,7 +1,8 @@
+@import "./fonts.css";
+
 html {
   font-size: 16px;
-  font-family: triplicate, monospace;
-  font-feature-settings: "ss01";
+  font-family: triplicate_a_poly, monospace; /* Note: triplicate_a_poly is **not** a monospace font */
   line-height: 1.45;
 }
 
@@ -14,6 +15,10 @@ html {
 }
 html::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
+}
+html, body {
+  overscroll-behavior-x: none;
+  touch-action: pan-y;
 }
 
 body {
@@ -167,9 +172,9 @@ blockquote {
 /* code (TODO) */
 
 code {
-  font-family: inherit;
+  font-family: triplicate_a_code;
   font-size: 90%;
-  font-feature-settings: initial;
+  font-feature-settings: initial; /* Revert to monospaced font */
 
   padding: 0 0.2em;
 
