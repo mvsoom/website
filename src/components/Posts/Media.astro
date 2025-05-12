@@ -28,14 +28,32 @@ async function chafaHtml(viteSrc: string) {
   const buf = await fs.readFile(resolveSrc(viteSrc));
   const arrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
   const {html} = await imageToHtml(arrayBuffer, {
-    format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
-    height: 5,
-    colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_TRUECOLOR.value
+    // Default values:
+  format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
+  width: 10,
+  fontRatio: 0.5,
+  colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_256.value,
+  colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_AVERAGE.value,
+  colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
+  symbols: "all",
+  fill: "none",
+  fg: 0xffffff,
+  bg: 0x000000,
+  fgOnly: false,
+  dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
+  ditherGrainWidth: 4,
+  ditherGrainHeight: 4,
+  ditherIntensity: 1.0,
+  preprocess: true,
+  threshold: 0.5,
+  optimize: 5,
+  work: 5,
   });
   return html;
 }
 
 /* -------- pre-compute ANSI blocks for each post -------- */
+// apparently needs to be done cos we cant use await below
 const { posts } = Astro.props;
 
 for (const p of posts) {
@@ -46,44 +64,58 @@ for (const p of posts) {
 }
 ---
 
-<style>
-/* global ASCII styling */
-pre.ascii {
-  font-family: triplicate_a_code, monospace;
-  white-space: pre;
-  line-height: 1.2;
-  font-size: clamp(9px, 1.8vw, 14px);
-  margin: 1rem 0;
-  overflow-x: auto;
-}
+<ol>
+  {
+    posts.map((post) => {
+      const { dd, mmm, yyyy } = formatDate(post.data.published);
+      const images = post.data.media.map((item) => item.image || item);
+      for (const img of images) {
+        const html = chafaHtml(img.src);
+      }
 
-/* per-project colours (slug = css class) */
-pre.ascii.graphomaniac { color: #ff7f50; }  /* warm coral */
-pre.ascii.melancholic  { color: #3ab09e; }  /* soft teal  */
-pre.ascii.neoseer      { color: #7f8cff; }  /* cool lilac */
+      return (
+        <li>
+          <span>
+            <RedirectedLink
+              class = "text"
+              href={`/${post.id}`}
+              title={post.data.redirect}
+              destination={post.data.redirect}
+            >
+
+<style>
+pre.ascii span.graphomaniac { color: #ff7f50; } /* Warm coral-like tones */
+pre.ascii span.melancholic { color: #3ab09e; } /* Soft teal-mint, meditative feel */
+pre.ascii span.neoseer { color: #7f8cff; }     /* Futuristic cool blue/purple */
 </style>
 
-<ol>
-  {posts.map((post) => {
-    const { dd, mmm, yyyy } = formatDate(post.data.published);
-    const slug = formatSlug(post.id);
+<quote style="font-size: small">In all likelihood… we will be surrounded by animate objects in the future. A considerable part of how the near future will look and feel is being decided now by big corporations and upcoming scientific-economical paradigms such as mortal computing (Hinton 2022). Whatever one’s economic stance, developments this [...]</quote>
 
-    return (
-      <li>
-        <RedirectedLink
-          href={`/${post.id}`}
-          class="text"
-          title={post.data.redirect}
-          destination={post.data.redirect}
-        >
-          <span>{slug}</span>
-        </RedirectedLink>
 
-        {/* inject chafa-rendered blocks */}
+                <span>{formatSlug(post.id)}</span>
+              
+            </RedirectedLink>
+          </span>
+
+          <div class="date">
+
+            {/* inject chafa-rendered blocks */}
         {post._ascii.map((html, i) => (
-          <pre class={`ascii ${slug}`} set:html={html} key={i} />
+          <pre class="ascii"} set:html={html} />
         ))}
-      </li>
-    );
-  })}
+            
+          </div>
+        </li>
+      );
+    })
+  }
 </ol>
+
+<style>
+  .ascii {
+    font-family: triplicate_a_code;
+    white-space: pre;
+  line-height: 1.2;
+  /*font-size: clamp(10px, 2vw, 14px); /* Responsive sizing */
+  }
+  </style>
