@@ -6,10 +6,20 @@ import rehypeCitation from 'rehype-citation'
 
 import sitemap from "@astrojs/sitemap";
 
+import itsmatteomanfsecurityTxt from "@itsmatteomanf/astro-security-txt";
+
 // https://astro.build/config
 export default defineConfig({
-  site: "https://mvsoom.pages.dev",
-  integrations: [sitemap()],
+  site: "https://marnixvanso.om",
+  integrations: [
+    sitemap(),
+    itsmatteomanfsecurityTxt(
+      {
+        contact: 'mailto:info@marnixvanso.om',
+        canonical: 'https://marnixvanso.om/.well-known/security.txt',
+      }
+    )
+  ],
   markdown: {
     rehypePlugins: [
       [

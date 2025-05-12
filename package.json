@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.3.0",
+    "@itsmatteomanf/astro-security-txt": "^0.4.0",
     "astro": "^5.0.9",
     "astro-rehype-relative-markdown-links": "^0.18.1",
     "imagesloaded": "^5.0.0",
