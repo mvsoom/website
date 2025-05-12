@@ -8,11 +8,17 @@ const domain = destination ? getBaseDomain(destination) : null;
 ---
 <a class={className} href={href} title={title} target={domain ? "_blank" : "_self"} rel={domain ? "noopener noreferrer" : undefined}>
   <slot />
-  {domain ? <sup style="font-size: x-small">↗&#8239;{domain}</sup> : null}
+  {domain ? <sup style="font-size: x-small">{domain}</sup> : null}
 </a>
 
 <style>
   a sup {
     font-weight: normal;
+    margin-left: -0.35em;
+  }
+
+  a sup::before {
+    content: "↗";
+    margin-right: 0.25em;
   }
 </style>
