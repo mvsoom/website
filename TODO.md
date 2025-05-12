@@ -10,7 +10,6 @@
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts. But make sure that about/website/1 and about/website point to the same path, as otherwise this will break current way to compute the hrefs of the titles, as in Title.astro
 - [ ] /tags
 - [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault
-- [ ] link symbols 🗗 in /research are not rendered on iPhone
 - [ ] on iPhone the text can slant too much (CSS angle transformation for lab notebook feel + too long paragraphs) so it goes out of frame a little
 - [ ] infinite scroll: have "Loading..." indicator or text for /media and /music based pagination pages, as it can take a long while to load 
 - [ ] check out https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#using-plugins

@@ -8,7 +8,7 @@ const domain = destination ? getBaseDomain(destination) : null;
 ---
 <a class={className} href={href} title={title} target={domain ? "_blank" : "_self"} rel={domain ? "noopener noreferrer" : undefined}>
   <slot />
-  {domain ? <sup style="font-size: x-small">🗗&#8239;{domain}</sup> : null}
+  {domain ? <sup style="font-size: x-small">↗&#8239;{domain}</sup> : null}
 </a>
 
 <style>
