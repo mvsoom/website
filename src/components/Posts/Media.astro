@@ -12,13 +12,20 @@ import { promisify } from "node:util";
 const chafa = await Chafa();
 const imageToHtml = promisify(chafa.imageToHtml);
 
-function viteSrcToAbs(src: string) {
-  /* strip Vite’s /@fs prefix (dev) and ?query */
+function viteSrcToAbs(src) {
   return path.resolve(src.replace(/^\/@fs/, "").split("?")[0]);
 }
 
+function resolveSrc(src) {
+  if (src.startsWith("/@fs")) return viteSrcToAbs(src);
+  if (src.startsWith("/_astro/")) {
+    return path.resolve(`./dist/${src}`);    // <- adjust glob root if needed
+  }
+  return path.resolve(src);
+}
+
 async function chafaHtml(viteSrc: string) {
-  const buf = await fs.readFile(viteSrcToAbs(viteSrc));
+  const buf = await fs.readFile(resolveSrc(viteSrc));
   const arrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
   const {html} = await imageToHtml(arrayBuffer, {
     format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
