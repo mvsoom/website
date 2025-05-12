@@ -41,7 +41,4 @@ export default defineConfig({
       rehypeUnwrapImages,
     ],
   },
-  experimental: {
-    svg: true,
-  },
 });

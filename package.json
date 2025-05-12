@@ -9,9 +9,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.3.0",
+    "@astrojs/sitemap": "^3.4.0",
     "@itsmatteomanf/astro-security-txt": "^0.4.0",
-    "astro": "^5.0.9",
+    "astro": "^5.7.12",
     "astro-rehype-relative-markdown-links": "^0.18.1",
     "imagesloaded": "^5.0.0",
     "infinite-scroll": "^4.0.1",
