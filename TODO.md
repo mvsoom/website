@@ -6,12 +6,6 @@
 - [ ] [Ensure slugs are unique](https://github.com/withastro/astro/issues/12788)
 - [ ] Clean up /public dir
 - [ ] Symbols in footer: good example, see bottom of https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
-- [ ] SEO optimization; like fill in on each page:
-  ```
-  <meta name="description" content="A brief description of your page for search engines." />
-  <meta name="keywords" content="keyword1, keyword2, keyword3" />
-  <meta name="author" content="Your Name or Company" />
-  ```
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`. NOTE: does not work with prebuilt deployment on Cloudflare I think
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts. But make sure that about/website/1 and about/website point to the same path, as otherwise this will break current way to compute the hrefs of the titles, as in Title.astro
 - [ ] /tags
@@ -30,3 +24,4 @@
 - [ ] /media/2024 : images do not react when clicked. in fact maybe set clicked image to just 100%, no fancy stuff
 - [ ] Attribute pictures to Lina
 - [ ] Change "publish" dates to "last updated"
+- [ ] `keywords` prop per article -- see `<meta name="keywords" content={keywords} />`
