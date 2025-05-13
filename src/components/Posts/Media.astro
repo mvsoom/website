@@ -30,16 +30,16 @@ async function chafaHtml(viteSrc: string) {
   const {html} = await imageToHtml(arrayBuffer, {
     // Default values:
   format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
-  width: 10,
-  fontRatio: 0.5,
+  width: 60,
+  fontRatio: 0.5, // TODO
   colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_256.value,
-  colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_AVERAGE.value,
+  colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
   colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
-  symbols: "all",
+  symbols: "ascii",
   fill: "none",
-  fg: 0xffffff,
-  bg: 0x000000,
-  fgOnly: false,
+  fg: 0x000000,
+  bg: 0xffffff,
+  fgOnly: true,
   dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
   ditherGrainWidth: 4,
   ditherGrainHeight: 4,
@@ -47,7 +47,7 @@ async function chafaHtml(viteSrc: string) {
   preprocess: true,
   threshold: 0.5,
   optimize: 5,
-  work: 5,
+  work: 1, // TODO
   });
   return html;
 }
@@ -76,6 +76,7 @@ for (const p of posts) {
       return (
         <li>
           <span>
+            
             <RedirectedLink
               class = "text"
               href={`/${post.id}`}
@@ -83,18 +84,24 @@ for (const p of posts) {
               destination={post.data.redirect}
             >
 
-<style>
-pre.ascii span.graphomaniac { color: #ff7f50; } /* Warm coral-like tones */
-pre.ascii span.melancholic { color: #3ab09e; } /* Soft teal-mint, meditative feel */
-pre.ascii span.neoseer { color: #7f8cff; }     /* Futuristic cool blue/purple */
-</style>
 
-<quote style="font-size: small">In all likelihood… we will be surrounded by animate objects in the future. A considerable part of how the near future will look and feel is being decided now by big corporations and upcoming scientific-economical paradigms such as mortal computing (Hinton 2022). Whatever one’s economic stance, developments this [...]</quote>
+<quote style="font-size: small; color: grey;">I made music about an unused recording booth standing in the lab where I used to work. Sometimes I would lie down there to decompress and think about stuff. It feels like a long time ago.
+
+[Bandcamp]
+
+Instruments and vocals by Marnix Van Soom
+Mixed by Marnix Van Soom
+Mastered by Jussi De Nys
+
+Much thanks to Hannes Blommaert, Thalïa Viaene, Quinten De Cuyper, Simen Wouters, Miki Lamiroy, Simon Beekaert & Frankie Fame for having been a part of this <3 [...]</quote>
+<em style="background-color: antiquewhite">EP, 8:56, digital release</em>
 
 
                 <span>{formatSlug(post.id)}</span>
               
             </RedirectedLink>
+
+            
           </span>
 
           <div class="date">
@@ -113,9 +120,10 @@ pre.ascii span.neoseer { color: #7f8cff; }     /* Futuristic cool blue/purple */
 
 <style>
   .ascii {
-    font-family: triplicate_a_code;
+    font-family: monospace;
     white-space: pre;
   line-height: 1.2;
+  font-size: 0.25em;
   /*font-size: clamp(10px, 2vw, 14px); /* Responsive sizing */
   }
   </style>
