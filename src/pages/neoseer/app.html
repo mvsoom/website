@@ -98,7 +98,7 @@
         animation: pulseGradient 3s ease infinite, cycleColors 3s infinite;
       }
 
-      .instagram-link {
+      .backlink {
         position: fixed;
         bottom: 10px;
         left: 10px;
@@ -109,7 +109,7 @@
         opacity: 0.7;
       }
 
-      .instagram-link:hover {
+      .backlink:hover {
         opacity: 1;
       }
 
@@ -138,14 +138,14 @@
     <video id="video" playsinline autoplay muted hidden></video>
 
     <a
-      href="https://www.instagram.com/marnixvansoom"
-      class="instagram-link"
+      href="https://marnixvanso.om/neoseer"
+      class="backlink"
       target="_blank"
     >
-      Instagram
+      marnixvanso.om
     </a>
 
-    <script client:load>
+    <script>
       /* Click sound based on Kellet pink noise */
       const AUDIO_GAIN = 2.0;
       const CLICK_SOUND_DURATION = 80; // msec
@@ -210,7 +210,7 @@
       }
     </style>
 
-    <script client:load>
+    <script>
       const wakeButton = document.getElementById("wakeButton");
       const textContainer = document.getElementById("textContainer");
       const video = document.getElementById("video");
@@ -236,9 +236,10 @@
           if (chunk) {
             text.textContent += chunk;
             if (chunk.trim().length !== 0) playClickSound();
-            if (text.textContent.length > 1000) {
-              text.textContent = text.textContent.slice(-500);
-            }
+            /* No need to limit text length */
+            // if (text.textContent.length > 1000) {
+            //  text.textContent = text.textContent.slice(-500);
+            // }
             if (!firstChunkReceived) {
               firstChunkReceived = true;
               wakeButton.style.opacity = 0;
@@ -415,6 +416,30 @@
 
         el.addEventListener("touchend", stopDrag);
       }
+
+      textContainer.addEventListener("click", () => {
+        const content = text.textContent || "";
+        if (!content.trim()) return; // nothing to download
+
+        // Create a .txt blob and fire a download
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+
+        const now = new Date();
+        const formattedDate = now.toISOString().replace(/T/, '_').replace(/:/g, '-').split('.')[0];
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `neoseer_${formattedDate}.txt`;
+        document.body.appendChild(a);
+        a.click();
+
+        // Clean‑up
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 0);
+      });
     </script>
   </body>
 </html>
