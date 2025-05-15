@@ -56,7 +56,7 @@ function selected(s) {
   }
 
   .selected {
-    font-weight: bolder;
+    /*font-weight: bolder;*/
   }
 
   /* https://stackoverflow.com/a/62484130/6783015 */
@@ -74,11 +74,31 @@ function selected(s) {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 0.3em;  /* Adjust this to change the thickness of the underline */
+  bottom: 3px;
+  
+  height: 0.4em;  /* Adjust this to change the thickness of the underline */
   z-index: -1;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+}
+
+.highlight:nth-child(4)::after {
+  background-image: 
+    linear-gradient(
+      104deg,
+      rgba(128, 128, 128, 0) 0.9%,
+      rgba(128, 128, 128, 1.25) 2.4%,
+      rgba(128, 128, 128, 0.5) 5.8%,
+      rgba(128, 128, 128, 0.1) 93%,
+      rgba(128, 128, 128, 0.7) 96%,
+      rgba(128, 128, 128, 0) 98%
+    ),
+    linear-gradient(
+      183deg,
+      rgba(128, 128, 128, 0) 0%,
+      rgba(128, 128, 128, 0.3) 7.9%,
+      rgba(128, 128, 128, 0) 15%
+    );
 }
 
 /* First menu item – Blue (Media) */
@@ -141,7 +161,9 @@ function selected(s) {
     );
 }
 
+
 /* Fourth menu item – Purple (About) */
+/*
 .highlight:nth-child(4)::after {
   background-image: 
     linear-gradient(
@@ -160,5 +182,6 @@ function selected(s) {
       rgba(200, 100, 255, 0) 15%
     );
 }
+    */
 
 </style>
