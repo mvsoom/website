@@ -12,7 +12,7 @@ const fontFamily  = 'triplicate_a_code_regular';
 const fontRatio  = FONT_RATIO[fontFamily];
 const fontSymbols = FONT_SYMBOLS[fontFamily];
 
-const chafaHeight = 1; // Number of text lines
+const chafaHeight = 2; // Number of text lines
 const chafaDensity = 4; // Number of Chafa blocks per line
 
 /* initialise a single WASM instance */
@@ -42,11 +42,11 @@ async function chafaHtml(viteSrc: string) {
   //colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_TRUECOLOR.value,
   colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
   colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
-  symbols: fontSymbols,
+  symbols: "all",
   fill: "none",
-  fg: 0x000000,
-  bg: 0xffffff,
-  fgOnly: true,
+  fg: 0xcccccc,
+  bg: 0xdddddd, // 0x00ff00,
+  fgOnly: false,
   dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
   ditherGrainWidth: 4,
   ditherGrainHeight: 4,
@@ -54,7 +54,7 @@ async function chafaHtml(viteSrc: string) {
   preprocess: true,
   threshold: 0.5,
   optimize: 5,
-  work: 1, // TODO
+  work: 9 // TODO
   });
   return html;
 }
@@ -81,12 +81,16 @@ for (const p of posts) {
     margin: 0;
     padding: 0;
 
+    /* light border */
+    /*border: 1px solid #000;*/
+
     /* ↓ new stuff ↓ */
   display: inline-block;     /* let them sit side-by-side */
   vertical-align: text-bottom;       /* align all “images” by their tops */
   /* optional spacing between them: */
   margin-right: 0.5em;
   }
+
 </style>
 
 <ol>
@@ -115,17 +119,11 @@ for (const p of posts) {
 
 
 
-{/* inject chafa-rendered blocks */}
-[{post._ascii.map((html, i) => (
-          <pre class="ascii"} set:html={html} />
-        ))}]
 
 
+<em style="background-color: none">EP, 8:56, digital release</em>
 
-
-[<em style="background-color: none">EP, 8:56, digital release</em>]
-
-
+<br/>
 
 
 <span>{formatSlug(post.id)}</span>
@@ -137,11 +135,20 @@ for (const p of posts) {
           </span>
 
           <div class="date">
+
+            {/* inject chafa-rendered blocks */}
+{post._ascii.map((html, i) => (
+          <pre class="ascii"} set:html={html} />
+        ))}
+
+        <span style="display: inline-block">
+
             <span style="font-size: smaller;">{mmm}</span>
             <br />
             <a href={`/${tag}/${year}`} class="text">
               {yyyy}
             </a>
+        </span>
           </div>
         </li>
       );
