@@ -7,6 +7,15 @@ import { promises as fs } from "node:fs";
 import path from "node:path";
 import { promisify } from "node:util";
 
+<<<<<<< Updated upstream
+=======
+const fontFamily  = 'triplicate_a_code_regular';
+const fontRatio  = FONT_RATIO[fontFamily];
+const fontSymbols = FONT_SYMBOLS[fontFamily];
+
+const chafaHeight = 8; // Number of text lines
+const chafaDensity = 3; // Number of Chafa blocks per line
+>>>>>>> Stashed changes
 
 /* initialise a single WASM instance */
 const chafa = await Chafa();
@@ -30,6 +39,7 @@ async function chafaHtml(viteSrc: string) {
   const {html} = await imageToHtml(arrayBuffer, {
     // Default values:
   format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
+<<<<<<< Updated upstream
   width: 60,
   fontRatio: 0.5, // TODO
   colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_256.value,
@@ -40,6 +50,21 @@ async function chafaHtml(viteSrc: string) {
   fg: 0x000000,
   bg: 0xffffff,
   fgOnly: true,
+=======
+  width: chafaHeight*chafaDensity,
+  fontRatio: fontRatio,
+  colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_FGBG.value,
+  //colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_16.value,
+  colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
+  colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
+  symbols: fontSymbols,
+  fill: "none",
+  //fg: 0xcccccc,
+  //bg: 0xdddddd, // 0x00ff00,
+  fg: 0x1b1818,
+  bg: 0x00ff00,
+  fgOnly: false,
+>>>>>>> Stashed changes
   dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
   ditherGrainWidth: 4,
   ditherGrainHeight: 4,
@@ -85,7 +110,11 @@ for (const p of posts) {
             >
 
 
+<<<<<<< Updated upstream
 <quote style="font-size: small; color: grey;">I made music about an unused recording booth standing in the lab where I used to work. Sometimes I would lie down there to decompress and think about stuff. It feels like a long time ago.
+=======
+<quote style="font-size: small; color: grey; display: none">I made music about an unused recording booth standing in the lab where I used to work. Sometimes I would lie down there to decompress and think about stuff. It feels like a long time ago.
+>>>>>>> Stashed changes
 
 [Bandcamp]
 
@@ -107,9 +136,22 @@ Much thanks to Hannes Blommaert, Thalïa Viaene, Quinten De Cuyper, Simen Wouter
           <div class="date">
 
             {/* inject chafa-rendered blocks */}
+<<<<<<< Updated upstream
         {post._ascii.map((html, i) => (
           <pre class="ascii"} set:html={html} />
         ))}
+=======
+        {
+          
+
+        
+        post._ascii.map((html, i) => (
+          <br/>
+          <pre class="ascii"} set:html={html} />
+        ))
+        
+        }
+>>>>>>> Stashed changes
             
           </div>
         </li>
