@@ -24,3 +24,4 @@
 - [ ] Attribute pictures to Lina
 - [ ] Change "publish" dates to "last updated"
 - [ ] `keywords` prop per article -- see `<meta name="keywords" content={keywords} />`
+- [ ] Yellow line under "research" (navigation) could be "antiquewhite" instead, and "about" could be grey

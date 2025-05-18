@@ -12,8 +12,8 @@ const fontFamily  = 'triplicate_a_code_regular';
 const fontRatio  = FONT_RATIO[fontFamily];
 const fontSymbols = FONT_SYMBOLS[fontFamily];
 
-const chafaHeight = 2; // Number of text lines
-const chafaDensity = 4; // Number of Chafa blocks per line
+const chafaHeight = 8; // Number of text lines
+const chafaDensity = 3; // Number of Chafa blocks per line
 
 /* initialise a single WASM instance */
 const chafa = await Chafa();
@@ -36,16 +36,18 @@ async function chafaHtml(viteSrc: string) {
   const arrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
   const {html} = await imageToHtml(arrayBuffer, {
   format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
-  height: chafaHeight*chafaDensity,
+  width: chafaHeight*chafaDensity,
   fontRatio: fontRatio,
   colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_FGBG.value,
-  //colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_TRUECOLOR.value,
+  //colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_16.value,
   colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
   colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
-  symbols: "all",
+  symbols: fontSymbols,
   fill: "none",
-  fg: 0xcccccc,
-  bg: 0xdddddd, // 0x00ff00,
+  //fg: 0xcccccc,
+  //bg: 0xdddddd, // 0x00ff00,
+  fg: 0x1b1818,
+  bg: 0x00ff00,
   fgOnly: false,
   dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
   ditherGrainWidth: 4,
@@ -105,6 +107,8 @@ for (const p of posts) {
       return (
         <li>
           <span>
+
+            
             
             <RedirectedLink
               class = "text"
@@ -112,24 +116,9 @@ for (const p of posts) {
               title={post.data.redirect}
               destination={post.data.redirect}
             >
+          <span>{formatSlug(post.id)}</span>
 
-
-
-
-
-
-
-
-
-<em style="background-color: none">EP, 8:56, digital release</em>
-
-<br/>
-
-
-<span>{formatSlug(post.id)}</span>
-                
-              
-            </RedirectedLink>
+</RedirectedLink>
 
             
           </span>
@@ -137,11 +126,17 @@ for (const p of posts) {
           <div class="date">
 
             {/* inject chafa-rendered blocks */}
-{post._ascii.map((html, i) => (
+{/*post._ascii.map((html, i) => (
           <pre class="ascii"} set:html={html} />
-        ))}
+        ))*/ /*<pre class="ascii"} set:html={post._ascii[0]}/>*/}
+
+
 
         <span style="display: inline-block">
+
+          
+
+          
 
             <span style="font-size: smaller;">{mmm}</span>
             <br />
@@ -150,6 +145,12 @@ for (const p of posts) {
             </a>
         </span>
           </div>
+
+          {
+            post._ascii.map((html, i) => (
+          <pre class="ascii"} set:html={html} />
+        ))} 
+
         </li>
       );
     })
