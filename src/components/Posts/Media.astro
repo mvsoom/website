@@ -2,6 +2,8 @@
 import RedirectedLink from "../RedirectedLink.astro";
 import { formatDate, formatSlug } from "../../scripts/util";
 import { FONT_RATIO, FONT_SYMBOLS } from "../../scripts/chafa";
+import { Markdown } from '@astropub/md'
+
 
 import Chafa from "chafa-wasm";
 import { promises as fs } from "node:fs";
@@ -105,11 +107,11 @@ for (const p of posts) {
               title={post.data.redirect}
               destination={post.data.redirect}
             >
-              <span>{formatSlug(post.id)}</span>
-              <span style="font-size: smaller; font-style: italic;">
-                {description}
-              </span>
+              {formatSlug(post.id)}
             </RedirectedLink>
+            <span style="font-size: smaller; font-style: italic;">
+                {description && <Markdown.Inline of={description} />}
+            </span>
           </span>
 
           <div class="date" style="display: inline-block">
@@ -121,7 +123,7 @@ for (const p of posts) {
             ))}
 
             <span style="font-size: smaller;">
-             <a href={`/${tag}/${year}`} class="text">{yyyy}</a>  <sup>{mmm}</sup>
+             <a href={`/${tag}/${year}`} class="text">{yyyy}</a> <sup>{mmm}</sup>
             </span>
           </div>
         </li>
