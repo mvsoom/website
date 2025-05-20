@@ -9,27 +9,15 @@ const vault = defineCollection({
       published: z.date().optional(),
       redirect: z.string().url().optional(),
       tags: z.array(z.string()).default([]),
-      cover: image().optional(), // TODO: remove
-      /*
-      Example for media scheme below:
 
-        media:
-        - path/to/img1
-        - src: path/to/img2
-          center: true
-          width: 2
-        - path/to/img3
-      */
-      media: z.array(
-        z.union([
-          image(),
-          z.object({
-            image: image(),
-            center: z.boolean().default(false),
-            rank: z.number().optional(),
-          }),
-        ])
-      ).optional(),
+      media: z
+      .array(
+        z.object({
+          description: z.string().optional(),
+          image:       image().optional(),
+        })
+      )
+      .optional(),
     }),
 });
 

@@ -12,8 +12,8 @@ const fontFamily  = 'triplicate_a_code_regular';
 const fontRatio  = FONT_RATIO[fontFamily];
 const fontSymbols = FONT_SYMBOLS[fontFamily];
 
-const chafaHeight = 8; // Number of text lines
-const chafaDensity = 3; // Number of Chafa blocks per line
+const chafaWidth = 6; // Number of text lines
+const chafaDensity = 4; // Number of Chafa blocks per line
 
 /* initialise a single WASM instance */
 const chafa = await Chafa();
@@ -26,37 +26,34 @@ function viteSrcToAbs(src) {
 function resolveSrc(src) {
   if (src.startsWith("/@fs")) return viteSrcToAbs(src);
   if (src.startsWith("/_astro/")) {
-    return path.resolve(`./dist/${src}`);    // <- adjust glob root if needed
+    return path.resolve(`./dist/${src}`);
   }
   return path.resolve(src);
 }
 
-async function chafaHtml(viteSrc: string) {
+async function chafaHtml(viteSrc) {
   const buf = await fs.readFile(resolveSrc(viteSrc));
   const arrayBuffer = buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength);
-  const {html} = await imageToHtml(arrayBuffer, {
-  format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
-  width: chafaHeight*chafaDensity,
-  fontRatio: fontRatio,
-  colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_FGBG.value,
-  //colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_INDEXED_16.value,
-  colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
-  colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
-  symbols: fontSymbols,
-  fill: "none",
-  //fg: 0xcccccc,
-  //bg: 0xdddddd, // 0x00ff00,
-  fg: 0x1b1818,
-  bg: 0x00ff00,
-  fgOnly: false,
-  dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
-  ditherGrainWidth: 4,
-  ditherGrainHeight: 4,
-  ditherIntensity: 1.0,
-  preprocess: true,
-  threshold: 0.5,
-  optimize: 5,
-  work: 9 // TODO
+  const { html } = await imageToHtml(arrayBuffer, {
+    format: chafa.ChafaPixelMode.CHAFA_PIXEL_MODE_SYMBOLS.value,
+    width: chafaWidth * chafaDensity,
+    fontRatio,
+    colors: chafa.ChafaCanvasMode.CHAFA_CANVAS_MODE_FGBG.value,
+    colorExtractor: chafa.ChafaColorExtractor.CHAFA_COLOR_EXTRACTOR_MEDIAN.value,
+    colorSpace: chafa.ChafaColorSpace.CHAFA_COLOR_SPACE_RGB.value,
+    symbols: fontSymbols,
+    fill: "none",
+    fg: 0x1b1818,
+    bg: 0x00ff00,
+    fgOnly: false,
+    dither: chafa.ChafaDitherMode.CHAFA_DITHER_MODE_NONE.value,
+    ditherGrainWidth: 4,
+    ditherGrainHeight: 4,
+    ditherIntensity: 1.0,
+    preprocess: true,
+    threshold: 0.5,
+    optimize: 5,
+    work: 9
   });
   return html;
 }
@@ -65,10 +62,14 @@ async function chafaHtml(viteSrc: string) {
 // apparently needs to be done cos we cant use await below
 const { tag, year, posts } = Astro.props;
 
+function getImages(media = []) {
+  return media.filter((i) => i.image).map((i) => i.image);
+}
+
 for (const p of posts) {
   p._ascii = [];
-  for (const itm of p.data.media.map((m) => m.image || m)) {
-    p._ascii.push(await chafaHtml(itm.src));
+  for (const img of getImages(p.data.media)) {
+    p._ascii.push(await chafaHtml(img.src));
   }
 }
 ---
@@ -82,75 +83,47 @@ for (const p of posts) {
     line-height: calc(1em / var(--fontRatio));
     margin: 0;
     padding: 0;
-
-    /* light border */
-    /*border: 1px solid #000;*/
-
-    /* ↓ new stuff ↓ */
-  display: inline-block;     /* let them sit side-by-side */
-  vertical-align: text-bottom;       /* align all “images” by their tops */
-  /* optional spacing between them: */
-  margin-right: 0.5em;
+    display: inline-block;
+    vertical-align: text-bottom;
+    margin-right: 0.5em;
   }
-
 </style>
 
 <ol>
   {
     posts.map((post) => {
       const { dd, mmm, yyyy } = formatDate(post.data.published);
-      const images = post.data.media.map((item) => item.image || item);
-      for (const img of images) {
-        const html = chafaHtml(img.src);
-      }
+      const media = post.data.media ?? [];
+      const description = media.find((i) => i.description)?.description ?? "";
 
       return (
         <li>
           <span>
-
-            
-            
             <RedirectedLink
-              class = "text"
+              class="text"
               href={`/${post.id}`}
               title={post.data.redirect}
               destination={post.data.redirect}
             >
-          <span>{formatSlug(post.id)}</span>
-
-</RedirectedLink>
-
-            
+              <span>{formatSlug(post.id)}</span>
+              <span style="font-size: smaller; font-style: italic;">
+                {description}
+              </span>
+            </RedirectedLink>
           </span>
 
-          <div class="date">
+          <div class="date" style="display: inline-block">
+            {post._ascii.map((html) => (
+              <>
+                <pre class="ascii" set:html={html} />
+                <br />
+              </>
+            ))}
 
-            {/* inject chafa-rendered blocks */}
-{/*post._ascii.map((html, i) => (
-          <pre class="ascii"} set:html={html} />
-        ))*/ /*<pre class="ascii"} set:html={post._ascii[0]}/>*/}
-
-
-
-        <span style="display: inline-block">
-
-          
-
-          
-
-            <span style="font-size: smaller;">{mmm}</span>
-            <br />
-            <a href={`/${tag}/${year}`} class="text">
-              {yyyy}
-            </a>
-        </span>
+            <span style="font-size: smaller;">
+             <a href={`/${tag}/${year}`} class="text">{yyyy}</a>  <sup>{mmm}</sup>
+            </span>
           </div>
-
-          {
-            post._ascii.map((html, i) => (
-          <pre class="ascii"} set:html={html} />
-        ))} 
-
         </li>
       );
     })
