@@ -10,12 +10,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.0",
+    "@astropub/md": "^1.0.0",
     "@itsmatteomanf/astro-security-txt": "^0.4.0",
     "astro": "^5.7.12",
     "astro-rehype-relative-markdown-links": "^0.18.1",
+    "chafa-wasm": "^0.2.5",
     "imagesloaded": "^5.0.0",
     "infinite-scroll": "^4.0.1",
-    "masonry-layout": "^4.2.2",
     "psl": "^1.15.0",
     "rehype-citation": "^2.2.2",
     "rehype-unwrap-images": "^1.0.0"

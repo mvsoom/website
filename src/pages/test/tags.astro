@@ -1,6 +1,6 @@
 ---
-import PageLayout from "../layouts/PageLayout.astro";
-import { getPosts } from "../scripts/posts";
+import PageLayout from "../../layouts/PageLayout.astro";
+import { getPosts } from "../../scripts/posts";
 
 const allPosts = await getPosts();
 const tags = [...new Set(allPosts.map((post) => post.data.tags).flat())];

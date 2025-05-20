@@ -1,23 +1,22 @@
 ---
-import "../../styles/media.css";
 const { tag, years, target } = Astro.props;
 ---
 
-<style>
-  /* Must be declared here and not in media.css; otherwise Astro strips this out in build */
-  .grid-sizer {
-    width: 25%; /* Must be inverse of MAXWIDTH in util.ts */
-  }
-</style>
-
-<div
-  id="data"
-  class="grid are-images-unloaded"
-  data-tag={tag}
-  data-years={years.join(",")}
-  data-target={target}
->
-  <div class="bleed grid-sizer"></div>
+<div id="data" data-tag={tag} data-years={years.join(",")} data-target={target}>
+  <script src="./default.js"></script>
 </div>
 
-<script src="./media.js"></script>
+<style>
+  #data {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+  }
+
+  /* TODO: max-width should be a global variable */
+  @media all and (max-width: 530px) {
+    #data {
+      margin-bottom: 1em;
+    }
+  }
+</style>
