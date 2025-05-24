@@ -4,6 +4,7 @@ import { formatDate } from "../../scripts/util";
 const { tag, year, posts } = Astro.props;
 ---
 
+<div class="yearly">
 <ol>
   {
     posts.map((post) => {
@@ -31,3 +32,4 @@ const { tag, year, posts } = Astro.props;
     })
   }
 </ol>
+</div>

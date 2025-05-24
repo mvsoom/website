@@ -1,5 +1,5 @@
 ---
-import DefaultPosts from "./Posts/Default.astro";
+import ResearchPosts from "./Posts/Research.astro";
 import MediaPosts from "./Posts/Media.astro";
 import VaultPosts from "./Posts/Vault.astro";
 
@@ -12,10 +12,14 @@ const { tag, year, posts } = Astro.props;
       case "media":
       case "music":
         return <MediaPosts tag={tag} year={year} posts={posts} />;
-      case "vault":
-        return <VaultPosts tag={tag} year={year} posts={posts} />;
+
+      case "about":
+      case "research":
+      case "publications":
+        return <ResearchPosts tag={tag} year={year} posts={posts} />;
+
       default:
-        return <DefaultPosts tag={tag} year={year} posts={posts} />;
+        return <VaultPosts tag={tag} year={year} posts={posts} />;
     }
   })()
 }

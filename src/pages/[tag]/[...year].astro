@@ -57,13 +57,15 @@ const tagPost = await findTagPost(tag);
     )
   }
 
-  <div class=`yearly ${tag}`>
+  
     {posts && <Posts tag={tag} year={year} posts={posts} />}
 
     {
       years && (
-        <PaginatedPosts tag={tag} years={years} target={`.yearly.${tag}`} />
+      <div class={`yearly ${tag}`}>
+        <PaginatedPosts tag={tag} years={years} target={`.yearly`} />
+      </div>
       )
     }
-  </div>
+  
 </PageLayout>

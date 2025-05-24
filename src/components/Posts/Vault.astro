@@ -14,6 +14,8 @@ const { tag, year, posts } = Astro.props;
 const MAX_TITLE_LENGTH = 60;
 ---
 
+<div class="yearly vault">
+
 <h2><a href={`/${tag}/${year}`} class="text">{year}</a></h2>
 <ol>
   {
@@ -49,6 +51,7 @@ const MAX_TITLE_LENGTH = 60;
     })
   }
 </ol>
+</div>
 
 <style>
 .title-text {
