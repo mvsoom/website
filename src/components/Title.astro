@@ -1,5 +1,5 @@
 ---
-const { title, subtitle } = Astro.props;
+const { title } = Astro.props;
 
 /*
 The title link should just refer to the current page, except if:
@@ -16,12 +16,12 @@ if (regex.test(href)) {
 
 <div class="title">
   <header>
-    <a class="text" href={href}>{title}</a>
+    <a class="text" href={href}><span style="text-transform: lowercase;">{title}</span></a>
   <header>
 
   <style>
     .title {
-      line-height: 1.1;
+      line-height: 1.2;
       hyphens: none;
     }
 
@@ -33,13 +33,10 @@ if (regex.test(href)) {
 
     .title header {
       margin-top: 1.25em;
+      max-width: 65%;
 
       font-size: 125%;
       font-weight: bolder;
-    }
-
-    .title p {
-      font-style: italic;
     }
   </style>
 </div>

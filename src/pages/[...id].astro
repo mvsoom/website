@@ -12,7 +12,6 @@ import {
   findNeighbors,
 } from "../scripts/posts";
 import { render } from "astro:content";
-import { formatSlug } from "../scripts/util";
 
 export async function getStaticPaths() {
   const posts = sortPostsDescending(await getPosts());
@@ -39,8 +38,7 @@ const primaryTag = getPrimaryTag(post.data.tags!);
 ---
 
 <PageLayout
-  title={formatSlug(post.id)}
-  subtitle={post.data.title}
+  title={post.data.title}
   primaryTag={primaryTag}
 >
   <Content />

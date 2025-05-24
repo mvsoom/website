@@ -4,11 +4,14 @@ import "../styles/content.css";
 
 import Navigation from "./Navigation.astro";
 import Title from "../components/Title.astro";
-import { formatSlug } from "../scripts/util";
 
-const { title, subtitle, primaryTag } = Astro.props;
+const { title, primaryTag } = Astro.props;
 
-const pageTitle = formatSlug(Astro.url.pathname);
+export function replaceHyphens(slug: string) {
+  return slug.replace(/-/g, ' ');
+}
+
+const pageTitle = replaceHyphens(Astro.url.pathname);
 
 const {
   canonical = `https://marnixvanso.om${Astro.url.pathname}`,
@@ -53,7 +56,7 @@ const {
 
     <main>
       <div class="ongrid">
-        <Title title={title} subtitle={subtitle} />
+        <Title title={title} />
       </div>
 
       <article class="ongrid content">

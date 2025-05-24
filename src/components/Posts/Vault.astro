@@ -1,6 +1,16 @@
 ---
 import RedirectedLink from "../RedirectedLink.astro";
-import { formatDate, formatSlug } from "../../scripts/util";
+import { formatDate } from "../../scripts/util";
+
+function makeTighter(str: string): string {
+  return str.replace(/-/g, '\u2009');
+}
+
+function limitLength(str: string, maxLength: number): string {
+  if (str.length <= maxLength) return str;
+  const truncated = str.slice(0, maxLength).trimEnd();
+  return truncated.slice(0, truncated.lastIndexOf(' ')) + '…';
+}
 
 const { tag, year, posts } = Astro.props;
 ---
@@ -19,7 +29,7 @@ const { tag, year, posts } = Astro.props;
               title={post.data.title}
               destination={post.data.redirect}
             >
-              {formatSlug(post.id)}
+              <span style="text-transform: lowercase;">{makeTighter(limitLength(post.data.title, 60))}</span>
             </RedirectedLink>
           </span>
 

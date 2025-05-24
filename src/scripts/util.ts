@@ -20,7 +20,3 @@ export function formatDate(date) {
   const yyyy = date.getFullYear(); // "2020"
   return { dd, mmm, yyyy };
 }
-
-export function formatSlug(slug: string) {
-  return slug.replace(/-/g, '\u2009');
-}

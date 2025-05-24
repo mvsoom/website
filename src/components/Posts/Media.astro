@@ -1,6 +1,6 @@
 ---
 import RedirectedLink from "../RedirectedLink.astro";
-import { formatDate, formatSlug } from "../../scripts/util";
+import { formatDate } from "../../scripts/util";
 import { FONT_RATIO, FONT_SYMBOLS } from "../../scripts/chafa";
 import { Markdown } from '@astropub/md'
 
@@ -107,7 +107,7 @@ for (const p of posts) {
               title={post.data.redirect}
               destination={post.data.redirect}
             >
-              {formatSlug(post.id)}
+              <span style="text-transform: lowercase;">{post.data.title}</span>
             </RedirectedLink>
             <span style="font-size: smaller; font-style: italic;">
                 {description && <Markdown.Inline of={description} />}

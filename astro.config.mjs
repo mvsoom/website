@@ -8,6 +8,8 @@ import sitemap from "@astrojs/sitemap";
 
 import itsmatteomanfsecurityTxt from "@itsmatteomanf/astro-security-txt";
 
+import remarkNotePreprocess from './src/scripts/remark-note-preprocess';
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://marnixvanso.om",
@@ -21,6 +23,7 @@ export default defineConfig({
     )
   ],
   markdown: {
+    remarkPlugins: [remarkNotePreprocess],
     rehypePlugins: [
       [
         rehypeCitation,
