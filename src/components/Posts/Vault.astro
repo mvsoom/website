@@ -2,34 +2,42 @@
 import RedirectedLink from "../RedirectedLink.astro";
 import { formatDate } from "../../scripts/util";
 
-function makeTighter(str: string): string {
-  return str.replace(/-/g, '\u2009');
-}
-
-function limitLength(str: string, maxLength: number): string {
-  if (str.length <= maxLength) return str;
-  const truncated = str.slice(0, maxLength).trimEnd();
-  return truncated.slice(0, truncated.lastIndexOf(' ')) + '…';
+function smartTruncate(str: string, max: number): string {
+  if (str.length <= max) return str;
+  const slice = str.slice(0, max);
+  const nextChar = str[max];
+  const isMidWord = nextChar && /\w/.test(nextChar);
+  return isMidWord ? slice.replace(/\s+\S*$/, '') : slice;
 }
 
 const { tag, year, posts } = Astro.props;
+const MAX_TITLE_LENGTH = 60;
 ---
 
-<h2><a href=`/${tag}/${year}` class="text">{year}</a></h2>
+<h2><a href={`/${tag}/${year}`} class="text">{year}</a></h2>
 <ol>
   {
-    posts.map((post) => {
+    posts.map((post, i) => {
       const { dd, mmm } = formatDate(post.data.published);
+      const title = post.data.title;
+      const shouldTruncate = title.length > MAX_TITLE_LENGTH;
+      const truncated = smartTruncate(title, MAX_TITLE_LENGTH);
       return (
         <li>
           <span>
             <RedirectedLink
-              class = "text"
+              class="text"
               href={`/${post.id}`}
-              title={post.data.title}
+              title={title}
               destination={post.data.redirect}
             >
-              <span style="text-transform: lowercase;">{makeTighter(limitLength(post.data.title, 60))}</span>
+              <span class="title-text">
+                <span class="title-hover-expand">
+                  <span class="short">{truncated}</span>
+                  {shouldTruncate && <span class="ellipsis">[…]</span>}
+                  <span class="full">{title}</span>
+                </span>
+              </span>
             </RedirectedLink>
           </span>
 
@@ -41,3 +49,40 @@ const { tag, year, posts } = Astro.props;
     })
   }
 </ol>
+
+<style>
+.title-text {
+  text-transform: lowercase;
+}
+
+.title-hover-expand {
+  display: inline;           /* acts like a word-level container */
+}
+
+.title-hover-expand .short,
+.title-hover-expand .ellipsis,
+.title-hover-expand .full {
+  display: inline;           /* keep everything inline */
+}
+
+.title-hover-expand .full {
+  display: none;
+}
+
+.title-hover-expand:hover .short,
+.title-hover-expand:hover .ellipsis {
+  display: none;
+}
+
+.title-hover-expand:hover .full {
+  display: inline;
+}
+
+.ellipsis {
+  font-size: 0.75em;
+  opacity: 0.6;
+  margin-left: 0.2em;
+  vertical-align: baseline;
+}
+
+</style>
