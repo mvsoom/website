@@ -7,11 +7,15 @@ import Title from "../components/Title.astro";
 
 const { title, primaryTag } = Astro.props;
 
-export function replaceHyphens(slug: string) {
+function replaceHyphens(slug: string) {
   return slug.replace(/-/g, ' ');
 }
 
-const pageTitle = replaceHyphens(Astro.url.pathname);
+function removeTrailingSlash(path: string) {
+  return path.endsWith('/') ? path.slice(0, -1) : path;
+}
+
+const pageTitle = replaceHyphens(removeTrailingSlash(Astro.url.pathname));
 
 const {
   canonical = `https://marnixvanso.om${Astro.url.pathname}`,
