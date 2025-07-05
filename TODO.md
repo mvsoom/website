@@ -2,7 +2,6 @@
 
 - [ ] [RSS](https://docs.astro.build/en/tutorial/5-astro-api/4/) with [content collections](https://docs.astro.build/en/tutorial/6-islands/4/)
 - [ ] Check SEO stats
-- [ ] Clean up /public dir
 - [ ] Symbols in footer: good example, see bottom of https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
 - [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`. NOTE: does not work with prebuilt deployment on Cloudflare I think
 - [ ] Posts should be chopped up in small pieces. Slugs ending with a number, like /about/website/1, signal to be part of a series of posts. But make sure that about/website/1 and about/website point to the same path, as otherwise this will break current way to compute the hrefs of the titles, as in Title.astro
@@ -21,3 +20,4 @@
 - [ ] `keywords` prop per article -- see `<meta name="keywords" content={keywords} />`
 - [ ] Yellow line under "research" (navigation) could be "antiquewhite" instead, and "about" could be grey
 - [ ] Replace obsolete infinite-scroll with modern solution
+- [ ] Tags withotu files dont render titles, eg /mmu/ tag
