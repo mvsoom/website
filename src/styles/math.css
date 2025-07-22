@@ -1,0 +1,9 @@
+@import "katex/dist/katex.min.css";
+
+.katex {
+  font-size: 110%;
+}
+
+.katex-display {
+  margin: 0;
+}

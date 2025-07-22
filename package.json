@@ -18,9 +18,12 @@
     "gray-matter": "^4.0.3",
     "imagesloaded": "^5.0.0",
     "infinite-scroll": "^4.0.1",
+    "katex": "^0.16.22",
     "psl": "^1.15.0",
     "rehype-citation": "^2.2.2",
+    "rehype-katex": "^7.0.1",
     "rehype-unwrap-images": "^1.0.0",
+    "remark-math": "^6.0.0",
     "slugify": "^1.6.6"
   },
   "devDependencies": {

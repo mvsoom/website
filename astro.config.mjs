@@ -2,7 +2,9 @@
 import { defineConfig } from "astro/config";
 import rehypeAstroRelativeMarkdownLinks from "astro-rehype-relative-markdown-links";
 import rehypeUnwrapImages from 'rehype-unwrap-images';
-import rehypeCitation from 'rehype-citation'
+import rehypeCitation from 'rehype-citation';
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
 
 import sitemap from "@astrojs/sitemap";
 
@@ -23,7 +25,7 @@ export default defineConfig({
     )
   ],
   markdown: {
-    remarkPlugins: [remarkNotePreprocess],
+    remarkPlugins: [remarkNotePreprocess, remarkMath],
     rehypePlugins: [
       [
         rehypeCitation,
@@ -34,6 +36,7 @@ export default defineConfig({
           csl: "chicago",
         }
       ],
+      rehypeKatex,
       [
         rehypeAstroRelativeMarkdownLinks,
         {
