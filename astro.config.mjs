@@ -46,5 +46,6 @@ export default defineConfig({
       ],
       rehypeUnwrapImages,
     ],
+    syntaxHighlight: false, // For code blocks
   },
 });
