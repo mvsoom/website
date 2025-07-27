@@ -62,7 +62,7 @@
 .content .yearly.media li {
   margin: 0;
   padding: 0;
-  margin-bottom: 3ch;
+  margin-bottom: 2ch;
 }
 
 /* vault tag */
@@ -79,7 +79,7 @@
 }
 
 .content .yearly.vault ol li {
-  margin-bottom: 0;
+  margin-bottom: .2em;
 }
 
 /* TODO: max-width should be a global variable */
