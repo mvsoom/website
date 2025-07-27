@@ -22,3 +22,6 @@
 - [ ] Replace obsolete infinite-scroll with modern solution
 - [ ] Tags withotu files dont render titles, eg /mmu/ tag
 - [ ] Need scrollbar back, at least for sure on pc
+- [ ] The titles should just be <h1> tags, this really works best. And can handle capitals. There is an Obsidian plugin also I think which handles title: in YAML vs # Title in text
+- [ ] Internal links ; all redirects should cease to be pages anyway. Links from our publications to /paper pdfs
+- [ ] Current "research" or "about" sections (main tags) should be indicated with some funky unicode asterisk

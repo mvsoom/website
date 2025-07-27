@@ -15,12 +15,12 @@ function removeTrailingSlash(path: string) {
   return path.endsWith('/') ? path.slice(0, -1) : path;
 }
 
-const pageTitle = replaceHyphens(removeTrailingSlash(Astro.url.pathname));
+const pageTitle = title; //replaceHyphens(removeTrailingSlash(Astro.url.pathname));
 
 const {
   canonical = `https://marnixvanso.om${Astro.url.pathname}`,
-  description = "marnixvanso.om",
-  keywords = "R&D, blog, research, media art, machine learning, probability, alexander technique, music, Marnix Van Soom"
+  description = "R&D blog of Marnix Van Soom",
+  keywords = "Marnix Van Soom, R&D, blog, research, media art, machine learning, probability, alexander technique, music"
 } = Astro.props;
 
 ---

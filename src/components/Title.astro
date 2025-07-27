@@ -1,4 +1,6 @@
 ---
+import Monospan from "../components/Monospan.astro";
+
 const { title } = Astro.props;
 
 /*
@@ -15,11 +17,21 @@ if (regex.test(href)) {
 ---
 
 <div class="title">
-  <header>
-    <a class="text" href={href}><span style="text-transform: lowercase;">{title}</span></a>
-  <header>
+  <!-- Wrap in h2 as temporary hack -->
+  <h2>
+    <a class="text" href={href}>{title}</a>
+  </h2>
 
   <style>
+    .title .text::before {
+        content: "#";
+        position: absolute;
+        color: #bc8dd7;
+        transform: translateX(-.8em);
+        font-size: 90%
+        
+    }
+
     .title {
       line-height: 1.2;
       hyphens: none;
@@ -31,12 +43,18 @@ if (regex.test(href)) {
       text-align: center;
     }
 
-    .title header {
-      margin-top: 1.25em;
-      max-width: 65%;
-
-      font-size: 125%;
-      font-weight: bolder;
+    .title h2 {
+      max-width: 90%;
     }
+
+
+  /* 𖠁𖢫𖠄𖤕𖤍 𖢫𖤕 𖤓𖤂𖤍 ✶☆⚝🟂 ⛞ ⛞ ↈ 𒈨؆ 𒆙 ᨟ᨘᨗᨔ 𒐹𒐫𒀱𒀽
+𖡤𖡴𖣘𖣐𖣔 𖢫𖢒𖢅𖠁𖠄𖡗𖡦𖡛 ⬢⬤⬟ ∇🗰 ▧▩▨ 𝍭
+
+𝍤𝍡𝍣𝍢𝍠 𝍢𝍠𝍡𝍤𝍣  ⬠◇△ ꧂ ꧁ ༗ ░▒▓█
+
+🐺
+
+ */
   </style>
 </div>
