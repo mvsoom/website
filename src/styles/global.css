@@ -124,31 +124,17 @@ a.text:focus {
   text-shadow: grey 0 0 1px;
 }
 
-/* https://stackoverflow.com/a/64127605/6783015 */
-header a {
-  margin: 0 -0.4em;
-  padding: 0.1em 0.4em;
-  border-radius: 0.8em 0.3em;
-  background: transparent;
-  background-image: linear-gradient(
-    to right,
-    rgba(240, 240, 240, 0.5),
-    rgba(240, 240, 240, 1) 4%,
-    rgba(240, 240, 240, 0.7)
-  );
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  text-decoration: none;
-  color: black;
-}
-
 /* headers */
 h1 {
-  font-size: 1.5rem;     /* demoted from 1.75rem */
+  font-size: 1.5rem;
   font-weight: 700;
   line-height: 1.25;
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+
+  max-width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h2 {
@@ -189,42 +175,6 @@ h6 {
   line-height: 1.4;
   margin-top: 1rem;
   margin-bottom: 0.5rem;
-  color: #666; /* slightly softer, optional */
-}
-
-
-h1::before,
-h2::before,
-h3::before,
-h4::before,
-h5::before,
-h6::before {
-  position: absolute;
-  left: 0;
-  transform: translateX(-100%);
-  padding-right: 0ch;
-
-  color: #8c8c8c80;
-  font-weight: 400;
-  white-space: pre;
-  pointer-events: none;
-}
-
-/* Hash content */
-h1::before { content: "#"; }
-h2::before { content: "##"; }
-h3::before { content: "###"; }
-h4::before { content: "####"; }
-h5::before { content: "#####"; }
-h6::before { content: "######"; }
-
-/* Ensure headings are centered visually */
-h1, h2, h3, h4, h5, h6 {
-  position: relative;
-  text-align: center;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 /* sup sub */

@@ -1,7 +1,13 @@
 ---
 import Monospan from "../components/Monospan.astro";
+import { PRIMARY_TAG_SYMBOLS, PRIMARY_TAG_COLORS } from "../scripts/constants";
 
 const { selectedTag } = Astro.props;
+
+// Wrap the raw glyph in JS‐side quotes so CSS sees a string literal
+const rawSymbol  = PRIMARY_TAG_SYMBOLS[selectedTag];
+const symbol     = `"${rawSymbol}"`;
+const symbolColor = PRIMARY_TAG_COLORS[selectedTag];
 
 function selected(s) {
   return selectedTag == s ? "selected" : "";
@@ -23,7 +29,7 @@ function selected(s) {
   </a>
 </div>
 
-<style>
+<style define:vars={{ symbol, symbolColor }}>
   .bar {
     padding-bottom: 9px;
     padding-top: 9px;
@@ -55,127 +61,119 @@ function selected(s) {
     transform: translateY(-1px);
   }
 
+  /* TODO: this could be cool but for now doesn't really look good as yet
   .selected::before {
-    /* font-weight: bolder; */
-    /* place a nice funky unicode symbol directly before the text with absolute positioning */
-    content: "✶"; /* 𖠁𖢫𖠄𖤕𖤍 𖢫𖤕 𖤓𖤂𖤍 ✶☆⚝🟂 ⛞ ⛞ ↈ 𒈨؆ 𒆙 ᨟ᨘᨗᨔ 𒐹𒐫𒀱𒀽
-𖡤𖡴𖣘𖣐𖣔 𖢫𖢒𖢅𖠁𖠄𖡗𖡦𖡛 ⬢⬤⬟ ∇🗰 ▧▩▨ 𝍭
-
-𝍤𝍡𝍣𝍢𝍠 𝍢𝍠𝍡𝍤𝍣  ⬠◇△ ꧂ ꧁ ༗ ░▒▓█
-
-🐺
-
- */
+    content: var(--symbol);
     position: absolute;
-    left: -0.7em;
+    left: -0.55em;
     font-size: 1em;
     transform: translateY(-0.3em);
-    color: hsl(59, 70%, 59%);
-}
-
+    color: var(--symbolColor);
+  }
+  */
 
   /* https://stackoverflow.com/a/62484130/6783015 */
  
   /* Base .highlight style for underline effect */
-.highlight {
-  position: relative;
-  display: inline;  /* ensures the underline only spans the text */
-  padding-bottom: 0.2em;  /* space for the underline */
-}
+  .highlight {
+    position: relative;
+    display: inline;  /* ensures the underline only spans the text */
+    padding-bottom: 0.2em;  /* space for the underline */
+  }
 
-/* The pseudo-element creates the colored underline */
-.highlight::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 2px;
-  
-  height: 0.4em;  /* Adjust this to change the thickness of the underline */
-  z-index: -1;
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-}
+  /* The pseudo-element creates the colored underline */
+  .highlight::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 2px;
+    
+    height: 0.4em;  /* Adjust this to change the thickness of the underline */
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+  }
 
-/* First menu item – Blue (Media) */
-.highlight:nth-child(1)::after {
-  background-image: 
-    linear-gradient(
-      104deg,
-      rgba(66, 135, 245, 0) 0.9%,
-      rgba(66, 135, 245, 1.25) 2.4%,
-      rgba(66, 135, 245, 0.5) 5.8%,
-      rgba(66, 135, 245, 0.1) 93%,
-      rgba(66, 135, 245, 0.7) 96%,
-      rgba(66, 135, 245, 0) 98%
-    ),
-    linear-gradient(
-      183deg,
-      rgba(66, 135, 245, 0) 0%,
-      rgba(66, 135, 245, 0.3) 7.9%,
-      rgba(66, 135, 245, 0) 15%
-    );
-}
+  /* First menu item – Blue (Media) */
+  .highlight:nth-child(1)::after {
+    background-image: 
+      linear-gradient(
+        104deg,
+        rgba(66, 135, 245, 0) 0.9%,
+        rgba(66, 135, 245, 1.25) 2.4%,
+        rgba(66, 135, 245, 0.5) 5.8%,
+        rgba(66, 135, 245, 0.1) 93%,
+        rgba(66, 135, 245, 0.7) 96%,
+        rgba(66, 135, 245, 0) 98%
+      ),
+      linear-gradient(
+        183deg,
+        rgba(66, 135, 245, 0) 0%,
+        rgba(66, 135, 245, 0.3) 7.9%,
+        rgba(66, 135, 245, 0) 15%
+      );
+  }
 
-/* Second menu item – Yellow (Research) */
-.highlight:nth-child(2)::after {
-  background-image: 
-    linear-gradient(
-      104deg,
-      rgba(255, 225, 0, 0) 0.9%,
-      rgba(255, 225, 0, 1.25) 2.4%,
-      rgba(255, 225, 0, 0.5) 5.8%,
-      rgba(255, 225, 0, 0.1) 93%,
-      rgba(255, 225, 0, 0.7) 96%,
-      rgba(255, 225, 0, 0) 98%
-    ),
-    linear-gradient(
-      183deg,
-      rgba(255, 225, 0, 0) 0%,
-      rgba(255, 225, 0, 0.3) 7.9%,
-      rgba(255, 225, 0, 0) 15%
-    );
-}
+  /* Second menu item – Yellow (Research) */
+  .highlight:nth-child(2)::after {
+    background-image: 
+      linear-gradient(
+        104deg,
+        rgba(255, 225, 0, 0) 0.9%,
+        rgba(255, 225, 0, 1.25) 2.4%,
+        rgba(255, 225, 0, 0.5) 5.8%,
+        rgba(255, 225, 0, 0.1) 93%,
+        rgba(255, 225, 0, 0.7) 96%,
+        rgba(255, 225, 0, 0) 98%
+      ),
+      linear-gradient(
+        183deg,
+        rgba(255, 225, 0, 0) 0%,
+        rgba(255, 225, 0, 0.3) 7.9%,
+        rgba(255, 225, 0, 0) 15%
+      );
+  }
 
-/* Third menu item – Green (Vault) */
-.highlight:nth-child(3)::after {
-  background-image: 
-    linear-gradient(
-      104deg,
-      rgba(130, 255, 173, 0) 0.9%,
-      rgba(130, 255, 173, 1.25) 2.4%,
-      rgba(130, 255, 173, 0.5) 5.8%,
-      rgba(130, 255, 173, 0.1) 93%,
-      rgba(130, 255, 173, 0.7) 96%,
-      rgba(130, 255, 173, 0) 98%
-    ),
-    linear-gradient(
-      183deg,
-      rgba(130, 255, 173, 0) 0%,
-      rgba(130, 255, 173, 0.3) 7.9%,
-      rgba(130, 255, 173, 0) 15%
-    );
-}
+  /* Third menu item – Green (Vault) */
+  .highlight:nth-child(3)::after {
+    background-image: 
+      linear-gradient(
+        104deg,
+        rgba(130, 255, 173, 0) 0.9%,
+        rgba(130, 255, 173, 1.25) 2.4%,
+        rgba(130, 255, 173, 0.5) 5.8%,
+        rgba(130, 255, 173, 0.1) 93%,
+        rgba(130, 255, 173, 0.7) 96%,
+        rgba(130, 255, 173, 0) 98%
+      ),
+      linear-gradient(
+        183deg,
+        rgba(130, 255, 173, 0) 0%,
+        rgba(130, 255, 173, 0.3) 7.9%,
+        rgba(130, 255, 173, 0) 15%
+      );
+  }
 
 
-/* Fourth menu item – Purple (About) */
-.highlight:nth-child(4)::after {
-  background-image: 
-    linear-gradient(
-      104deg,
-      rgba(200, 100, 255, 0) 0.9%,
-      rgba(200, 100, 255, 1.25) 2.4%,
-      rgba(200, 100, 255, 0.5) 5.8%,
-      rgba(200, 100, 255, 0.1) 93%,
-      rgba(200, 100, 255, 0.7) 96%,
-      rgba(200, 100, 255, 0) 98%
-    ),
-    linear-gradient(
-      183deg,
-      rgba(200, 100, 255, 0) 0%,
-      rgba(200, 100, 255, 0.3) 7.9%,
-      rgba(200, 100, 255, 0) 15%
-    );
-}
+  /* Fourth menu item – Purple (About) */
+  .highlight:nth-child(4)::after {
+    background-image: 
+      linear-gradient(
+        104deg,
+        rgba(200, 100, 255, 0) 0.9%,
+        rgba(200, 100, 255, 1.25) 2.4%,
+        rgba(200, 100, 255, 0.5) 5.8%,
+        rgba(200, 100, 255, 0.1) 93%,
+        rgba(200, 100, 255, 0.7) 96%,
+        rgba(200, 100, 255, 0) 98%
+      ),
+      linear-gradient(
+        183deg,
+        rgba(200, 100, 255, 0) 0%,
+        rgba(200, 100, 255, 0.3) 7.9%,
+        rgba(200, 100, 255, 0) 15%
+      );
+  }
 
 </style>
