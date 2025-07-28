@@ -1,20 +1,52 @@
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
+import { render } from "astro:content";
+import slugify from 'slugify';
 
 type VaultPost = CollectionEntry<"vault">;
 
 export async function getPosts() {
-  const posts = await getCollection("vault", ({ data }) => {
-    return data.published !== undefined;
-  });
+  const posts = await getCollection('vault', ({ data }) => data.published !== undefined);
 
-  // Add the "vault" tag to all posts (making it always defined)
-  return posts.map((post) => {
-    if (!post.data.tags.includes("vault")) {
-      post.data.tags.push("vault");
+  const seenIds = new Set();
+
+  for (const post of posts) {
+    const { headings } = await render(post);
+
+    const { slug: h1Slug, text: h1Text } = getSingleH1(headings, post.filePath);
+
+    // The slug is derived from the H1 text (or can be set manually in frontmatter)
+    const pick = (v) => (typeof v === 'string' && v.trim() !== '' ? v.trim() : null);
+
+    const newId =
+      pick(post.data.slug) ??
+      pick(h1Slug) ??
+      slugify(h1Text, { lower: true, strict: true });
+
+    if (seenIds.has(newId)) {
+      throw new Error(`[getPosts] duplicate id "${newId}" (source: ${post.filePath})`);
     }
-    return post;
-  });
+    seenIds.add(newId);
+
+    // Overwrite in place
+    post.id = newId;
+    post.data.title = h1Text;
+
+    // Add the "vault" tag to all posts (making it always defined)
+    if (!post.data.tags.includes('vault')) {
+      post.data.tags.push('vault');
+    }
+  }
+
+  return posts;
+}
+
+function getSingleH1(headings, filePath) {
+  const h1s = headings.filter((h) => h.depth === 1);
+  if (h1s.length !== 1) {
+    throw new Error(`[getPosts] ${filePath}: expected exactly 1 H1, found ${h1s.length}`);
+  }
+  return h1s[0];
 }
 
 export async function getTagPosts() {

@@ -10,7 +10,6 @@ import sitemap from "@astrojs/sitemap";
 
 import itsmatteomanfsecurityTxt from "@itsmatteomanf/astro-security-txt";
 
-import remarkNotePreprocess from './src/scripts/remark-note-preprocess';
 
 // https://astro.build/config
 export default defineConfig({
@@ -25,7 +24,7 @@ export default defineConfig({
     )
   ],
   markdown: {
-    remarkPlugins: [remarkNotePreprocess, remarkMath],
+    remarkPlugins: [remarkMath],
     rehypePlugins: [
       [
         rehypeCitation,
