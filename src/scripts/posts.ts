@@ -13,6 +13,8 @@ export async function getPosts() {
   for (const post of posts) {
     const { headings } = await render(post);
 
+    /* Note: we use an Obsidian plugin to make sure slug is populated from H1 using slugify() -- this is needed because astro-rehype-relative-markdown-links needs the slug info to be in the file. We keep code below as a fallback and a way to make sure slugs are unique. */
+
     const { slug: h1Slug, text: h1Text } = getSingleH1(headings, post.filePath);
 
     // The slug is derived from the H1 text (or can be set manually in frontmatter)
