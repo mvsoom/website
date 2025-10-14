@@ -1,0 +1,456 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title></title>
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="apple-mobile-web-app-title" content="Neoseer" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      html {
+        --bloom-blur: 0.5px;
+      }
+
+      @keyframes cycleColors {
+        0% {
+          filter: drop-shadow(2px 2px var(--bloom-blur) rgb(182, 182, 182));
+        }
+        33% {
+          filter: drop-shadow(
+            1.5px 0px calc(var(--bloom-blur) * 2) rgb(186, 30, 30)
+          );
+        }
+        66% {
+          filter: drop-shadow(0px 1px var(--bloom-blur) rgb(193, 193, 193));
+        }
+        100% {
+          filter: drop-shadow(0.5px 1.5px var(--bloom-blur) grey);
+        }
+      }
+
+      @keyframes pulseGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* iPad-safe scroller: no filter/animation here */
+      .text {
+        width: 23ch;
+        height: 4em; /* equals 4 lines with line-height:1 */
+        max-height: 4em;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 43px;
+        line-height: 1;
+        font-weight: 700;
+        color: #fff;
+        position: relative;
+        box-sizing: border-box;
+        overflow-y: auto;
+        overflow-x: hidden;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        white-space: pre-wrap;
+        -webkit-overflow-scrolling: touch;
+        filter: none !important;
+        animation: none !important;
+      }
+      .text::-webkit-scrollbar {
+        display: none;
+      }
+      @supports (height: 1lh) {
+        .text {
+          height: 4lh;
+          max-height: 4lh;
+        }
+      }
+
+      /* Animated frame keeps your glow */
+      .border {
+        border: 5px solid #fff;
+        padding: 2.5em;
+        border-radius: 29px;
+        outline: 3px solid #fff;
+        outline-offset: 7px;
+        animation: cycleColors 0.5s infinite;
+      }
+
+      /* Optional: static subtle glow on the content only */
+      #textInner {
+        filter: drop-shadow(0.5px 1.5px var(--bloom-blur) grey);
+      }
+
+      .wake-button {
+        background: linear-gradient(45deg, #777, #fff, #da9494);
+        background-size: 300% 300%;
+        color: #000;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 43px;
+        font-weight: 700;
+        padding: 0.5em 1em;
+        border: none;
+        border-radius: 29px;
+        outline: 3px solid #fff;
+        outline-offset: 7px;
+        cursor: pointer;
+        animation:
+          pulseGradient 3s ease infinite,
+          cycleColors 3s infinite;
+        transition:
+          background 0.5s,
+          opacity 0.5s;
+      }
+
+      .wake-button.connecting {
+        background: linear-gradient(-45deg, #777, #fff, #94a8da);
+        background-size: 300% 300%;
+        animation:
+          pulseGradient 3s ease infinite,
+          cycleColors 3s infinite;
+      }
+
+      .backlink {
+        position: fixed;
+        bottom: 10px;
+        left: 10px;
+        font-family: "Ubuntu Mono", monospace;
+        font-size: 18px;
+        color: #fff;
+        text-decoration: none;
+        opacity: 0.7;
+      }
+
+      .backlink:hover {
+        opacity: 1;
+      }
+      .hidden {
+        display: none;
+      }
+    </style>
+
+    <svg width="0" height="0" aria-hidden="true">
+      <filter id="glow">
+        <feGaussianBlur
+          in="SourceGraphic"
+          stdDeviation="1.5"
+          result="glow__svg__blur"
+        />
+        <feBlend mode="lighten" in="SourceGraphic" in2="glow__svg__blur" />
+      </filter>
+    </svg>
+  </head>
+  <body>
+    <button id="wakeButton" class="wake-button">Wake me up</button>
+
+    <div class="border hidden" id="textContainer">
+      <div class="text" id="text"><div id="textInner"></div></div>
+    </div>
+
+    <video id="video" playsinline autoplay muted hidden></video>
+
+    <a href="https://marnixvanso.om/neoseer" class="backlink" target="_blank"
+      >marnixvanso.om</a
+    >
+
+    <script>
+      /* Click sound based on Kellet pink noise */
+      const AUDIO_GAIN = 2.0;
+      const CLICK_SOUND_DURATION = 80; // msec
+
+      let audioContext = new (window.AudioContext ||
+        window.webkitAudioContext)();
+      let pinkNoise = createPinkNoise(audioContext);
+      let gainNode = audioContext.createGain();
+      gainNode.gain.value = AUDIO_GAIN;
+
+      function normalRandom() {
+        let u = 0,
+          v = 0;
+        while (u === 0) u = Math.random();
+        while (v === 0) v = Math.random();
+        return Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
+      }
+
+      function createPinkNoise(audioContext) {
+        const bufferSize = 4096;
+        const node = audioContext.createScriptProcessor(bufferSize, 1, 1);
+        let b0 = 0,
+          b1 = 0,
+          b2 = 0,
+          b3 = 0,
+          b4 = 0,
+          b5 = 0,
+          b6 = 0;
+
+        node.onaudioprocess = function (e) {
+          const output = e.outputBuffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            const white = normalRandom();
+            b0 = 0.99886 * b0 + white * 0.0555179;
+            b1 = 0.99332 * b1 + white * 0.0750759;
+            b2 = 0.969 * b2 + white * 0.153852;
+            b3 = 0.8665 * b3 + white * 0.3104856;
+            b4 = 0.55 * b4 + white * 0.5329522;
+            b5 = -0.7616 * b5 - white * 0.016898;
+            output[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+            output[i] *= 0.11;
+            b6 = white * 0.115926;
+            output[i] /= 400;
+            output[i] /= Math.sqrt(1 - i / bufferSize);
+          }
+        };
+        return node;
+      }
+
+      function playClickSound() {
+        if (!pinkNoise || !gainNode) return;
+        pinkNoise.connect(gainNode).connect(audioContext.destination);
+        setTimeout(() => pinkNoise.disconnect(), CLICK_SOUND_DURATION);
+      }
+    </script>
+
+    <style>
+      /* keep your original fake PiP styles */
+      #video.fake-pip {
+        position: fixed;
+        bottom: 16px;
+        right: 16px;
+        width: 200px;
+        z-index: 9999;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+        cursor: move;
+      }
+    </style>
+
+    <script>
+      const wakeButton = document.getElementById("wakeButton");
+      const textContainer = document.getElementById("textContainer");
+      const video = document.getElementById("video");
+      const textViewport =
+        document.getElementById("text"); /* fixed-height scroller */
+      const textInner =
+        document.getElementById("textInner"); /* growing content */
+
+      let firstChunkReceived = false;
+      let socket;
+      let currentFacingMode = "user";
+      let currentStream = null;
+
+      function connectWebSocket() {
+        socket = new WebSocket("wss://app-480952408705.europe-west1.run.app");
+        socket.binaryType = "arraybuffer";
+        const decoder = new TextDecoder("utf-8", { stream: true });
+
+        socket.onopen = () => {
+          setInterval(sendFrame, 100);
+        };
+
+        socket.onmessage = (event) => {
+          const chunk = decoder.decode(event.data, { stream: true });
+          if (!chunk) return;
+
+          textInner.textContent += chunk;
+          if (chunk.trim().length !== 0) playClickSound();
+
+          if (!firstChunkReceived) {
+            firstChunkReceived = true;
+            wakeButton.style.opacity = 0;
+            setTimeout(() => {
+              wakeButton.classList.add("hidden");
+              textContainer.classList.remove("hidden");
+              textContainer.style.opacity = 0;
+              textContainer.style.transition = "opacity 0.5s";
+              setTimeout(() => {
+                textContainer.style.opacity = 1;
+              }, 10);
+            }, 500);
+          }
+
+          requestAnimationFrame(() => {
+            textViewport.scrollTop = textViewport.scrollHeight;
+          });
+        };
+
+        socket.onclose = () => {
+          setTimeout(connectWebSocket, 2000);
+        };
+
+        socket.onerror = (error) => {
+          socket.close();
+        };
+      }
+
+      function sendFrame() {
+        if (!video.videoWidth) return;
+        const canvas = document.createElement("canvas");
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.toBlob((blob) => {
+          if (blob && socket && socket.readyState === WebSocket.OPEN) {
+            blob.arrayBuffer().then((buffer) => socket.send(buffer));
+          }
+        }, "image/jpeg");
+      }
+
+      async function startCamera(facingMode = "user") {
+        try {
+          if (currentStream)
+            currentStream.getTracks().forEach((track) => track.stop());
+          const stream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode },
+          });
+          currentStream = stream;
+          video.srcObject = stream;
+          video.hidden = false;
+          await video.play();
+        } catch (err) {
+          console.error("Failed to start camera:", err);
+        }
+      }
+
+      /* keep your original click flow exactly: socket first, then camera */
+      wakeButton.addEventListener("click", () => {
+        connectWebSocket();
+
+        if (audioContext.state === "suspended") {
+          audioContext.resume();
+        }
+
+        startCamera(currentFacingMode).then(() => {
+          enableFakePiP(video);
+        });
+
+        wakeButton.disabled = true;
+        wakeButton.textContent = "Connecting...";
+        wakeButton.classList.add("connecting");
+      });
+
+      function enableFakePiP(video) {
+        video.classList.add("fake-pip");
+        video.hidden = false;
+        makeDraggable(video);
+
+        let wasDragging = false;
+        video.addEventListener("mousedown", () => {
+          wasDragging = false;
+        });
+        video.addEventListener("mousemove", () => {
+          wasDragging = true;
+        });
+        video.addEventListener("click", () => {
+          if (wasDragging) return;
+          currentFacingMode =
+            currentFacingMode === "user" ? "environment" : "user";
+          startCamera(currentFacingMode);
+        });
+      }
+
+      function makeDraggable(el) {
+        let isDragging = false,
+          offsetX = 0,
+          offsetY = 0;
+
+        const startDrag = (x, y) => {
+          const rect = el.getBoundingClientRect();
+          offsetX = x - rect.left;
+          offsetY = y - rect.top;
+          isDragging = true;
+        };
+
+        const doDrag = (x, y) => {
+          if (!isDragging) return;
+          el.style.left = x - offsetX + "px";
+          el.style.top = y - offsetY + "px";
+          el.style.right = "auto";
+          el.style.bottom = "auto";
+        };
+
+        const stopDrag = () => {
+          isDragging = false;
+        };
+
+        el.addEventListener("mousedown", (e) => {
+          e.preventDefault();
+          startDrag(e.clientX, e.clientY);
+          document.addEventListener("mousemove", mouseMove);
+          document.addEventListener("mouseup", mouseUp);
+        });
+
+        const mouseMove = (e) => doDrag(e.clientX, e.clientY);
+        const mouseUp = () => {
+          stopDrag();
+          document.removeEventListener("mousemove", mouseMove);
+          document.removeEventListener("mouseup", mouseUp);
+        };
+
+        el.addEventListener("touchstart", (e) => {
+          const touch = e.touches[0];
+          startDrag(touch.clientX, touch.clientY);
+        });
+
+        el.addEventListener(
+          "touchmove",
+          (e) => {
+            e.preventDefault();
+            const touch = e.touches[0];
+            doDrag(touch.clientX, touch.clientY);
+          },
+          { passive: false }
+        );
+
+        el.addEventListener("touchend", stopDrag);
+      }
+
+      /* Save-on-click uses the inner content */
+      textContainer.addEventListener("click", () => {
+        const content = textInner.textContent || "";
+        if (!content.trim()) return;
+        const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const now = new Date();
+        const formattedDate = now
+          .toISOString()
+          .replace(/T/, "_")
+          .replace(/:/g, "-")
+          .split(".")[0];
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `neoseer_${formattedDate}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 0);
+      });
+    </script>
+  </body>
+</html>
