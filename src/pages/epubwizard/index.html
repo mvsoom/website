@@ -1,0 +1,330 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Wizard Room Viewer</title>
+
+    <!-- Import map for Three.js r162 -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.162.0/three.module.js",
+          "three/examples/jsm/": "https://cdn.jsdelivr.net/npm/three@0.162.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        touch-action: none; /* allow finger drag without scrolling */
+        font-family: monospace;
+      }
+      #viewer {
+        width: 100%;
+        height: 100%;
+      }
+      #hud {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        padding: 8px 12px;
+        background: rgba(0, 0, 0, 0.6);
+        color: #0f0;
+        font-size: 13px;
+        line-height: 1.4em;
+        white-space: pre;
+        display: none;
+        border: 1px solid #0f0;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="viewer"></div>
+    <div id="hud"></div>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+      import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+
+      /////////////////////////////////////////////////////
+      // Basic Scene + Renderer
+      /////////////////////////////////////////////////////
+
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x202020);
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      document.getElementById("viewer").appendChild(renderer.domElement);
+
+      // highlight material (simple emissive shader)
+      const highlightMaterial = new THREE.MeshBasicMaterial({
+        color: 0xffff00,
+        wireframe: true,
+      });
+
+      let highlightedMesh = null;
+      let highlightedOriginalMaterial = null;
+      let hoveredName = "";
+
+      /////////////////////////////////////////////////////
+      // Camera + Controls (look around + zoom)
+      /////////////////////////////////////////////////////
+
+      const camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        100
+      );
+
+      // good starting viewpoint inside the room
+      camera.position.set(5.07, 3.21, 2.27);
+
+      const controls = new OrbitControls(camera, renderer.domElement);
+
+      controls.enableZoom = true; // mouse wheel / pinch zoom
+      controls.enablePan = false; // disable panning
+      controls.minPolarAngle = Math.PI * 0.15;
+      controls.maxPolarAngle = Math.PI * 0.85;
+
+      // movement speeds
+      const verticalSpeed = 0.25;
+      const horizontalSpeed = 0.25;
+
+      window.addEventListener("keydown", (ev) => {
+        // up/down (already working)
+        if (ev.key === "q" || ev.key === "ArrowDown") {
+          camera.position.y -= verticalSpeed;
+        }
+        if (ev.key === "e" || ev.key === "ArrowUp") {
+          camera.position.y += verticalSpeed;
+        }
+
+        // sideways motion: A / D
+        if (ev.key === "a") {
+          // compute camera's right vector
+          const dir = new THREE.Vector3();
+          camera.getWorldDirection(dir); // forward vector
+          const right = new THREE.Vector3();
+          right.crossVectors(dir, camera.up).normalize(); // right = forward × up
+          camera.position.addScaledVector(right, -horizontalSpeed); // move left
+        }
+
+        if (ev.key === "d") {
+          const dir = new THREE.Vector3();
+          camera.getWorldDirection(dir);
+          const right = new THREE.Vector3();
+          right.crossVectors(dir, camera.up).normalize();
+          camera.position.addScaledVector(right, horizontalSpeed); // move right
+        }
+      });
+
+      /////////////////////////////////////////////////////
+      // Lights — bright enough to see the room clearly
+      /////////////////////////////////////////////////////
+
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+
+      const key = new THREE.DirectionalLight(0xffffff, 1.2);
+      key.position.set(2, 4, 2);
+      scene.add(key);
+
+      const fill = new THREE.DirectionalLight(0xffffff, 0.7);
+      fill.position.set(-3, 2, -4);
+      scene.add(fill);
+
+      /////////////////////////////////////////////////////
+      // Load GLB Room
+      /////////////////////////////////////////////////////
+
+      const loader = new GLTFLoader();
+      loader.load(
+        "./room.glb",
+        (gltf) => {
+          scene.add(gltf.scene);
+          setHUD("Loaded room.glb");
+        },
+        undefined,
+        (err) => {
+          setHUD("GLB ERROR:\n" + err);
+        }
+      );
+
+      /////////////////////////////////////////////////////
+      // Click Detection
+      /////////////////////////////////////////////////////
+
+      const raycaster = new THREE.Raycaster();
+      const pointer = new THREE.Vector2();
+
+      const clickableNames = new Set([
+        "Book_Epub_1",
+        "Book_Epub_2",
+        "Book_Epub_3",
+        "Book_Epub_4",
+        "Kettle_Fart",
+        "Telescope",
+      ]);
+
+      // Audio handlers
+      const fartSound = new Audio("./kettle.mp3");
+      const telescopeSound = new Audio("./telescope.mp3");
+
+      function triggerDownload(url) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = url.split("/").pop();
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+      }
+
+      function findClickableAncestor(obj) {
+        let cur = obj;
+        while (cur) {
+          if (clickableNames.has(cur.name)) return cur;
+          cur = cur.parent;
+        }
+        return null;
+      }
+
+      function handleClick(event) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObjects(scene.children, true);
+
+        if (!hits.length) return;
+
+        const obj = findClickableAncestor(hits[0].object);
+        if (!obj) return;
+
+        lastClick = obj.name;
+
+        // ---- BEHAVIOR SWITCH ----
+        if (obj.name.startsWith("Book_Epub_")) {
+          const id = obj.name.split("_").pop(); // "1", "2", "3", "4"
+          triggerDownload(`./book${id}.epub`);
+          setHUD(`Downloading Book ${id}`);
+        } else if (obj.name === "Kettle_Fart") {
+          fartSound.currentTime = 0;
+          fartSound.play();
+          setHUD("💨 Kettle fart!");
+        } else if (obj.name === "Telescope") {
+          telescopeSound.currentTime = 0;
+          telescopeSound.play();
+          setHUD("🔭 Stargazing…");
+        }
+        // -------------------------
+      }
+
+      window.addEventListener("click", handleClick);
+
+      function handleHover(event) {
+        const rect = renderer.domElement.getBoundingClientRect();
+        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        raycaster.setFromCamera(pointer, camera);
+        const hits = raycaster.intersectObjects(scene.children, true);
+
+        // clear previous highlight
+        if (highlightedMesh) {
+          highlightedMesh.material = highlightedOriginalMaterial;
+          highlightedMesh = null;
+          hoveredName = "";
+        }
+
+        if (!hits.length) return;
+
+        const hit = hits[0].object;
+
+        // find the meaningful parent
+        const clickable = findClickableAncestor(hit);
+        if (!clickable) return;
+
+        hoveredName = clickable.name;
+
+        // find the *actual mesh* to highlight
+        const mesh = hit; // this is a mesh (child)
+        highlightedMesh = mesh;
+        highlightedOriginalMaterial = mesh.material;
+        mesh.material = highlightMaterial;
+      }
+
+      window.addEventListener("pointermove", handleHover);
+
+      /////////////////////////////////////////////////////
+      // HUD (overlay info)
+      /////////////////////////////////////////////////////
+
+      const hud = document.getElementById("hud");
+      let hudVisible = false;
+      let lastClick = "";
+
+      function setHUD(msg) {
+        if (!hudVisible) return;
+        hud.textContent = msg;
+      }
+
+      function updateHUD() {
+        if (!hudVisible) return;
+
+        const pos = camera.position;
+        const az = controls.getAzimuthalAngle();
+        const pol = controls.getPolarAngle();
+
+        hud.textContent =
+          `pos:   ${pos.x.toFixed(2)}  ${pos.y.toFixed(2)}  ${pos.z.toFixed(2)}\n` +
+          `az:    ${az.toFixed(3)}\n` +
+          `polar: ${pol.toFixed(3)}\n` +
+          (hoveredName ? `hover:   ${hoveredName}\n` : ``) +
+          (lastClick ? `clicked: ${lastClick}` : ``);
+      }
+
+      // toggle HUD with 'h'
+      window.addEventListener("keydown", (ev) => {
+        if (ev.key.toLowerCase() === "h") {
+          hudVisible = !hudVisible;
+          hud.style.display = hudVisible ? "block" : "none";
+        }
+      });
+
+      /////////////////////////////////////////////////////
+      // Animation Loop
+      /////////////////////////////////////////////////////
+
+      function animate() {
+        requestAnimationFrame(animate);
+        updateHUD();
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      /////////////////////////////////////////////////////
+      // Resize
+      /////////////////////////////////////////////////////
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+  </body>
+</html>
