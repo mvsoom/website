@@ -23,3 +23,5 @@
 - [ ] Need scrollbar back, at least for sure on pc. Or replace by a symbol
 - [ ] Internal links ; all redirects should cease to be pages anyway. Links from our publications to /paper pdfs
 - [ ] Current "research" or "about" sections (main tags) could be indicated with some funky unicode asterisk
+- [ ] Fix hack in pages/[tag]/[...year].astro to keep posts from showing on /about page.
+  * Subtle problem here: when removing /cv and /academic-cv from the tag "about", then "about" has no posts with it associated anymore and it ceases to be an official tag and breaks the whole website (when building it)

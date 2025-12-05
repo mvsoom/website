@@ -44,10 +44,7 @@ years = years && sortYearsDescending(years);
 const tagPost = await findTagPost(tag);
 ---
 
-<PageLayout
-  title={tagPost?.data.title}
-  primaryTag={getPrimaryTag([tag])}
->
+<PageLayout title={tagPost?.data.title} primaryTag={getPrimaryTag([tag])}>
   <Fragment set:html={tagPost?.rendered?.html} />
 
   {
@@ -57,15 +54,18 @@ const tagPost = await findTagPost(tag);
     )
   }
 
-  
-    {posts && <Posts tag={tag} year={year} posts={posts} />}
+  {
+    /* FIXME: nasty hack to keep the "about" tag page from showing posts */
+    tag === "about" ? null : (
+      <>
+        {posts && <Posts tag={tag} year={year} posts={posts} />}
 
-    {
-      years && (
-      <div class={`yearly ${tag}`}>
-        <PaginatedPosts tag={tag} years={years} target={`.yearly`} />
-      </div>
-      )
-    }
-  
+        {years && (
+          <div class={"yearly " + tag}>
+            <PaginatedPosts tag={tag} years={years} target=".yearly" />
+          </div>
+        )}
+      </>
+    )
+  }
 </PageLayout>

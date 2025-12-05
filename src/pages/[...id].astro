@@ -38,10 +38,7 @@ if (post.data.redirect) {
 const primaryTag = getPrimaryTag(post.data.tags!);
 ---
 
-<PageLayout
-  title={post.data.title}
-  primaryTag={primaryTag}
->
+<PageLayout title={post.data.title} primaryTag={primaryTag}>
   <Content />
 
   <PostNavigation prev={prev} next={next} primaryTag={primaryTag} />
