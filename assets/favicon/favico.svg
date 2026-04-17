@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="1024"
+   height="1024"
+   viewBox="0 0 270.93333 270.93335"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   sodipodi:docname="favico.svg"
+   inkscape:export-filename="/home/marnix/Downloads/favico/master.png"
+   inkscape:export-xdpi="96.000008"
+   inkscape:export-ydpi="96.000008"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="true"
+     inkscape:document-units="mm"
+     showgrid="false"
+     units="px"
+     width="1024px"
+     inkscape:zoom="0.53165938"
+     inkscape:cx="501.26079"
+     inkscape:cy="514.42711"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     borderlayer="false" />
+  <defs
+     id="defs2">
+    <rect
+       x="283.93122"
+       y="289.87108"
+       width="528.46858"
+       height="384.26461"
+       id="rect5961" />
+    <rect
+       x="118.10265"
+       y="195.94972"
+       width="805.60092"
+       height="636.29941"
+       id="rect2893" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text2891"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:125%;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect2893);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+    <g
+       aria-label="m"
+       id="text3537"
+       style="font-size:386.674px;line-height:125%;font-family:'Triplicate A';-inkscape-font-specification:'Triplicate A, Normal';letter-spacing:0px;word-spacing:0px;stroke-width:26.3641px"
+       transform="translate(0.47800718,1.9484798)">
+      <path
+         d="m 164.54837,222.75214 c 6.18678,0 8.12015,-14.69362 0,-16.24031 l -13.53359,-3.86674 c 0,-23.97379 0,-58.38778 0,-89.3217 0,-5.41344 0.77334,-28.227202 -2.70672,-37.120704 4.25341,-4.253414 16.24031,-9.280176 26.6805,-9.280176 13.92027,0 28.22721,6.186784 28.22721,42.92081 0,33.25397 0,71.92137 0,93.96179 l -13.14692,2.70672 c -5.02676,1.54669 -6.18678,16.24031 1.5467,16.24031 h 56.84108 c 6.18678,0 8.12015,-14.30694 0,-15.85364 l -17.01366,-3.86674 c 0,-21.65374 0,-62.64119 0,-93.57511 0,-34.413986 -11.98689,-66.507929 -46.01421,-66.507929 -14.30694,0 -34.02731,8.120154 -44.85418,18.560353 -6.96014,-11.986895 -18.94703,-18.560353 -31.70727,-18.560353 -17.400332,0 -26.293835,6.573458 -34.800663,12.373568 l -5.80011,-2.320044 -3.480066,-7.73348 c -0.386674,-2.320044 -3.093392,-3.86674 -5.80011,-2.706718 -11.600221,4.640088 -23.973789,9.66685 -37.120705,12.373568 -8.506829,1.93337 -6.960133,18.947027 0.773348,18.560353 L 42.359378,72.335946 V 203.80511 l -9.66685,1.93337 c -7.346806,1.93337 -7.73348,17.01366 0,17.01366 h 53.361013 c 7.733481,0 9.280177,-15.46696 0,-17.01366 l -15.46696,-2.70672 V 74.269316 c 4.253414,-4.640088 12.760242,-8.893502 26.680507,-8.893502 13.146912,0 25.520482,6.960132 25.520482,35.960686 0,41.76079 0,74.24141 0,101.69526 l -14.30694,2.70672 c -6.57345,0.77335 -7.3468,17.01366 1.5467,17.01366 z"
+         id="path7639" />
+    </g>
+    <text
+       xml:space="preserve"
+       transform="scale(0.26458333)"
+       id="text5959"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.6667px;line-height:125%;font-family:monospace;-inkscape-font-specification:monospace;letter-spacing:0px;word-spacing:0px;white-space:pre;shape-inside:url(#rect5961);fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
+</svg>
