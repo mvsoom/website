@@ -1,3 +1,5 @@
+const LOAD_AHEAD_PX = 1000;
+
 let current = null;
 
 function cleanup() {
@@ -110,12 +112,10 @@ async function initPaginatedPosts() {
     }
   }
 
-  async function prefillViewport() {
-    while (
-      current === state &&
-      !state.done &&
-      document.documentElement.scrollHeight <= window.innerHeight + 300
-    ) {
+  async function loadUntilOutOfRange() {
+    while (current === state && !state.done) {
+      const { top } = state.sentinel.getBoundingClientRect();
+      if (top > window.innerHeight + LOAD_AHEAD_PX) break;
       const loaded = await loadNextYear();
       if (!loaded) break;
       await nextFrame();
@@ -126,21 +126,14 @@ async function initPaginatedPosts() {
     state.observer = new IntersectionObserver(
       (entries) => {
         if (entries.some((entry) => entry.isIntersecting)) {
-          loadNextYear();
+          loadUntilOutOfRange();
         }
       },
-      { rootMargin: "1000px 0px" },
+      { rootMargin: `${LOAD_AHEAD_PX}px 0px` },
     );
     state.observer.observe(sentinel);
   } else {
-    const maybeLoad = () => {
-      if (current !== state || state.done || state.loading) return;
-
-      const { top } = state.sentinel.getBoundingClientRect();
-      if (top <= window.innerHeight + 1000) {
-        loadNextYear();
-      }
-    };
+    const maybeLoad = () => loadUntilOutOfRange();
 
     window.addEventListener("scroll", maybeLoad, { passive: true });
     window.addEventListener("resize", maybeLoad);
@@ -148,11 +141,9 @@ async function initPaginatedPosts() {
       window.removeEventListener("scroll", maybeLoad);
       window.removeEventListener("resize", maybeLoad);
     };
-
-    maybeLoad();
   }
 
-  await prefillViewport();
+  await loadUntilOutOfRange();
 }
 
 initPaginatedPosts();
