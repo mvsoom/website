@@ -107,6 +107,7 @@ for (const p of posts) {
               href={`/${post.id}`}
               title={post.data.redirect}
               destination={post.data.redirect}
+              data-post-title-transition={post.id}
             >
               {post.data.title}
             </RedirectedLink>

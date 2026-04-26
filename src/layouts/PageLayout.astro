@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import "../styles/content.css";
 
+import { ClientRouter } from "astro:transitions";
 import Navigation from "./Navigation.astro";
 
 const { title, primaryTag } = Astro.props;
@@ -159,6 +160,95 @@ const structuredData = {
       type="application/ld+json"
       set:html={JSON.stringify(structuredData)}
     />
+    <ClientRouter />
+    <script>
+      const registryKey = "__postTitleTransitionsReady";
+
+      if (!window[registryKey]) {
+        window[registryKey] = true;
+
+        const attribute = "data-post-title-transition";
+        let activeId = null;
+        let activeName = null;
+        let activeSource = null;
+
+        function clearSource() {
+          if (activeSource) {
+            activeSource.style.viewTransitionName = "";
+            activeSource = null;
+          }
+        }
+
+        function getPostTitleLink(event) {
+          const target = event.composedPath?.()[0] ?? event.target;
+          if (!(target instanceof Element)) return null;
+          return target.closest(`a[${attribute}]`);
+        }
+
+        function getTransitionName(id) {
+          return `post-title-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+        }
+
+        document.addEventListener(
+          "click",
+          (event) => {
+            if (
+              event.button !== 0 ||
+              event.metaKey ||
+              event.ctrlKey ||
+              event.altKey ||
+              event.shiftKey ||
+              event.defaultPrevented
+            ) {
+              return;
+            }
+
+            const link = getPostTitleLink(event);
+            if (!link) return;
+
+            const target = link.getAttribute("target");
+            if ((target && target !== "_self") || link.origin !== location.origin) {
+              return;
+            }
+
+            const id = link.getAttribute(attribute);
+            if (!id) return;
+
+            clearSource();
+            activeId = id;
+            activeName = getTransitionName(id);
+            activeSource = link;
+            link.style.viewTransitionName = activeName;
+
+            window.setTimeout(() => {
+              if (activeSource === link) clearSource();
+            }, 4000);
+          },
+          { capture: true },
+        );
+
+        document.addEventListener("astro:before-swap", (event) => {
+          if (!activeId || !activeName || !event.newDocument) return;
+
+          const heading = Array.from(
+            event.newDocument.querySelectorAll("article.content > h1[id]"),
+          ).find((element) => element.id === activeId);
+
+          if (!heading) return;
+          heading.style.viewTransitionName = activeName;
+
+          event.viewTransition?.finished?.finally(() => {
+            heading.style.viewTransitionName = "";
+          });
+        });
+
+        document.addEventListener("astro:page-load", () => {
+          activeId = null;
+          activeName = null;
+          activeSource = null;
+        });
+      }
+    </script>
   </head>
   <body>
     <nav class="ongrid">

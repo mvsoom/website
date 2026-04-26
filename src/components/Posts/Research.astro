@@ -17,6 +17,7 @@ const { tag, year, posts } = Astro.props;
               href={`/${post.id}`}
               title={post.data.redirect}
               destination={post.data.redirect}
+              data-post-title-transition={post.id}
             >
               {post.data.title}
             </RedirectedLink>

@@ -16,8 +16,6 @@
     "astro-rehype-relative-markdown-links": "^0.18.1",
     "chafa-wasm": "^0.2.5",
     "gray-matter": "^4.0.3",
-    "imagesloaded": "^5.0.0",
-    "infinite-scroll": "^4.0.1",
     "katex": "^0.16.22",
     "psl": "^1.15.0",
     "rehype-citation": "^2.2.2",
