@@ -3,7 +3,7 @@
 - [ ] [RSS](https://docs.astro.build/en/tutorial/5-astro-api/4/) with [content collections](https://docs.astro.build/en/tutorial/6-islands/4/)
 - [ ] Check SEO stats
 - [ ] Symbols in footer: good example, see bottom of https://www.joshwcomeau.com/css/interactive-guide-to-flexbox/
-- [ ] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`. NOTE: does not work with prebuilt deployment on Cloudflare I think
+- [x] Fix proper 302 external redirects with adaptor; Astro does not support external redirects in redirect config. Currently handled with `Astro.redirect()`. NOTE: does not work with prebuilt deployment on Cloudflare I think
 - [ ] /tags (currently in /test) => needed for Google to crawl everything
 - [ ] Related posts. Can gauge quality of related posts by seeing of similarity product is larger than some reference like the primary tag page, eg /vault
 - [ ] check out https://github.com/rehypejs/rehype/blob/main/doc/plugins.md#using-plugins

@@ -1,20 +1,38 @@
 // @ts-check
+import { fileURLToPath } from "node:url";
+
 import { defineConfig } from "astro/config";
 import rehypeAstroRelativeMarkdownLinks from "astro-rehype-relative-markdown-links";
 import rehypeUnwrapImages from "rehype-unwrap-images";
 import rehypeCitation from "rehype-citation";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
+import { generateCloudflareRedirects } from "./scripts/cloudflare-redirects.mjs";
 
 import sitemap from "@astrojs/sitemap";
 
 import itsmatteomanfsecurityTxt from "@itsmatteomanf/astro-security-txt";
+
+function cloudflareRedirects() {
+  return {
+    name: "cloudflare-redirects",
+    hooks: {
+      "astro:build:done": async ({ dir, logger }) => {
+        const { rules } = await generateCloudflareRedirects({
+          outDir: fileURLToPath(dir),
+        });
+        logger.info(`Generated ${rules.length} redirect rules in _redirects`);
+      },
+    },
+  };
+}
 
 // https://astro.build/config
 export default defineConfig({
   site: "https://marnixvanso.om",
   prefetch: false,
   integrations: [
+    cloudflareRedirects(),
     sitemap(),
     itsmatteomanfsecurityTxt({
       contact: "mailto:info@marnixvanso.om",
