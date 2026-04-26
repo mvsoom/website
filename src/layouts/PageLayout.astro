@@ -1,19 +1,111 @@
 ---
 import "../styles/global.css";
 import "../styles/content.css";
-import { PRIMARY_TAG_SYMBOLS } from "../scripts/constants";
 
 import Navigation from "./Navigation.astro";
 
 const { title, primaryTag } = Astro.props;
 
-const pageTitle = title + " " + PRIMARY_TAG_SYMBOLS[primaryTag] + " " + "Marnix Van Soom";
+const SITE_URL = "https://marnixvanso.om";
+const SITE_NAME = "Marnix Van Soom";
+const SITE_DESCRIPTION =
+  "Personal R&D blog of Marnix Van Soom, covering probabilistic machine learning, software development, media art, and related notes.";
+const PERSON_DESCRIPTION =
+  "Marnix Van Soom is a researcher and developer working between probabilistic machine learning, software development, and media art.";
+const PERSON_ID = `${SITE_URL}/about/#person`;
+const WEBSITE_ID = `${SITE_URL}/#website`;
+const DEFAULT_KEYWORDS = [
+  "Marnix Van Soom",
+  "probabilistic machine learning",
+  "software development",
+  "media art",
+  "Bayesian inference",
+  "Gaussian processes",
+  "signal processing",
+  "Alexander Technique",
+  "music",
+].join(", ");
+
+const pageTitle =
+  typeof title === "string" && title.trim() !== "" ? title.trim() : SITE_NAME;
 
 const {
-  canonical = `https://marnixvanso.om${Astro.url.pathname}`,
-  description = "R&D blog of Marnix Van Soom",
-  keywords = "Marnix Van Soom, R&D, blog, research, media art, machine learning, probability, alexander technique, music"
+  canonical = `${SITE_URL}${Astro.url.pathname}`,
+  description,
+  keywords = DEFAULT_KEYWORDS,
 } = Astro.props;
+
+const isProfilePage =
+  canonical === `${SITE_URL}/` ||
+  canonical === `${SITE_URL}/about` ||
+  canonical === `${SITE_URL}/about/`;
+const pageDescription =
+  description ?? (isProfilePage ? PERSON_DESCRIPTION : SITE_DESCRIPTION);
+const ogType = isProfilePage ? "profile" : "website";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": WEBSITE_ID,
+      url: `${SITE_URL}/`,
+      name: SITE_NAME,
+      alternateName: "marnixvanso.om",
+      description: SITE_DESCRIPTION,
+      author: { "@id": PERSON_ID },
+      publisher: { "@id": PERSON_ID },
+      inLanguage: "en",
+    },
+    {
+      "@type": "Person",
+      "@id": PERSON_ID,
+      name: SITE_NAME,
+      url: `${SITE_URL}/about/`,
+      email: "info@marnixvanso.om",
+      jobTitle: "Researcher and developer",
+      description: PERSON_DESCRIPTION,
+      affiliation: [
+        {
+          "@type": "Organization",
+          name: "AI Lab, Vrije Universiteit Brussel",
+          url: "https://ai.vub.ac.be/",
+        },
+        {
+          "@type": "Organization",
+          name: "Industrial Vision Lab, University of Antwerp",
+          url: "https://invilab.be/",
+        },
+      ],
+      knowsAbout: [
+        "probabilistic machine learning",
+        "Bayesian inference",
+        "Gaussian processes",
+        "software development",
+        "media art",
+        "signal processing",
+        "network theory",
+        "Alexander Technique",
+        "music",
+      ],
+      sameAs: [
+        "https://orcid.org/0000-0002-1935-1770",
+        "https://researchportal.vub.be/en/persons/marnix-van-soom",
+      ],
+    },
+    {
+      "@type": "WebPage",
+      "@id": `${canonical}#webpage`,
+      url: canonical,
+      name: pageTitle,
+      description: pageDescription,
+      isPartOf: { "@id": WEBSITE_ID },
+      author: { "@id": PERSON_ID },
+      ...(isProfilePage ? { about: { "@id": PERSON_ID } } : {}),
+      inLanguage: "en",
+    },
+  ],
+};
 
 ---
 
@@ -22,11 +114,32 @@ const {
     <meta charset="UTF-8" />
 
     <link rel="canonical" href={canonical} />
-    <meta name="description" content={description} />
+    <meta name="description" content={pageDescription} />
     <meta name="keywords" content={keywords} />
     <meta name="generator" content={Astro.generator} />
-    <meta name="author" content="marnixvanso.om" />
+    <meta name="author" content={SITE_NAME} />
     <meta name="robots" content="index, follow" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    {
+      isProfilePage && (
+        <>
+          <meta property="profile:first_name" content="Marnix" />
+          <meta property="profile:last_name" content="Van Soom" />
+          <link rel="me" href="https://orcid.org/0000-0002-1935-1770" />
+          <link
+            rel="me"
+            href="https://researchportal.vub.be/en/persons/marnix-van-soom"
+          />
+        </>
+      )
+    }
 
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
@@ -42,6 +155,10 @@ const {
     <link rel="sitemap" href="/sitemap-index.xml" />
     
     <title>{pageTitle}</title>
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(structuredData)}
+    />
   </head>
   <body>
     <nav class="ongrid">

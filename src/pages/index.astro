@@ -1,3 +1,14 @@
 ---
-return Astro.rewrite("/about");
+import PageLayout from "../layouts/PageLayout.astro";
+import { findTagPost } from "../scripts/posts";
+
+const aboutPost = await findTagPost("about");
 ---
+
+<PageLayout
+  title={aboutPost?.data.title ?? "About"}
+  primaryTag="about"
+  canonical="https://marnixvanso.om/"
+>
+  <Fragment set:html={aboutPost?.rendered?.html} />
+</PageLayout>

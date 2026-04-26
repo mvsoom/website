@@ -42,9 +42,15 @@ posts = posts && sortPostsDescending(posts);
 years = years && sortYearsDescending(years);
 
 const tagPost = await findTagPost(tag);
+const canonical =
+  tag === "about" && !year ? "https://marnixvanso.om/" : undefined;
 ---
 
-<PageLayout title={tagPost?.data.title} primaryTag={getPrimaryTag([tag])}>
+<PageLayout
+  title={tagPost?.data.title ?? tag}
+  primaryTag={getPrimaryTag([tag])}
+  canonical={canonical}
+>
   <Fragment set:html={tagPost?.rendered?.html} />
 
   {
