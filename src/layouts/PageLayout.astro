@@ -161,13 +161,26 @@ const structuredData = {
       set:html={JSON.stringify(structuredData)}
     />
     <ClientRouter />
+    <style is:global>
+      ::view-transition-group(nav-title) {
+        animation-duration: 520ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      ::view-transition-old(nav-title),
+      ::view-transition-new(nav-title) {
+        animation-duration: 520ms;
+        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+      }
+    </style>
     <script>
-      const registryKey = "__postTitleTransitionsReady";
+      const registryKey = "__titleTransitionsReady";
 
       if (!window[registryKey]) {
         window[registryKey] = true;
 
-        const attribute = "data-post-title-transition";
+        const postAttribute = "data-post-title-transition";
+        const navAttribute = "data-nav-title-transition";
         let activeId = null;
         let activeName = null;
         let activeSource = null;
@@ -179,14 +192,36 @@ const structuredData = {
           }
         }
 
-        function getPostTitleLink(event) {
+        function getTitleTransitionLink(event) {
           const target = event.composedPath?.()[0] ?? event.target;
           if (!(target instanceof Element)) return null;
-          return target.closest(`a[${attribute}]`);
+          return target.closest(`a[${postAttribute}], a[${navAttribute}]`);
         }
 
         function getTransitionName(id) {
           return `post-title-${id.replace(/[^a-zA-Z0-9_-]/g, "-")}`;
+        }
+
+        function getTitleTransition(link) {
+          const postId = link.getAttribute(postAttribute);
+          if (postId) {
+            return {
+              id: postId,
+              name: getTransitionName(postId),
+              source: link,
+            };
+          }
+
+          const navId = link.getAttribute(navAttribute);
+          if (navId) {
+            return {
+              id: navId,
+              name: "nav-title",
+              source: link.querySelector(".monospan") ?? link,
+            };
+          }
+
+          return null;
         }
 
         document.addEventListener(
@@ -203,7 +238,7 @@ const structuredData = {
               return;
             }
 
-            const link = getPostTitleLink(event);
+            const link = getTitleTransitionLink(event);
             if (!link) return;
 
             const target = link.getAttribute("target");
@@ -211,17 +246,17 @@ const structuredData = {
               return;
             }
 
-            const id = link.getAttribute(attribute);
-            if (!id) return;
+            const transition = getTitleTransition(link);
+            if (!transition) return;
 
             clearSource();
-            activeId = id;
-            activeName = getTransitionName(id);
-            activeSource = link;
-            link.style.viewTransitionName = activeName;
+            activeId = transition.id;
+            activeName = transition.name;
+            activeSource = transition.source;
+            activeSource.style.viewTransitionName = activeName;
 
             window.setTimeout(() => {
-              if (activeSource === link) clearSource();
+              if (activeSource === transition.source) clearSource();
             }, 4000);
           },
           { capture: true },

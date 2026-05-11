@@ -15,16 +15,32 @@ function selected(s) {
 ---
 
 <div class="bar">
-  <a class={selected("media") + " highlight"} href="/media">
+  <a
+    class={selected("media") + " highlight"}
+    href="/media"
+    data-nav-title-transition="media"
+  >
     <Monospan>media</Monospan>
   </a>
-  <a class={selected("research") + " highlight"} href="/research">
+  <a
+    class={selected("research") + " highlight"}
+    href="/research"
+    data-nav-title-transition="research"
+  >
     <Monospan>research</Monospan>
   </a>
-  <a class={selected("vault") + " highlight"} href="/vault">
+  <a
+    class={selected("vault") + " highlight"}
+    href="/vault"
+    data-nav-title-transition="vault"
+  >
     <Monospan>vault</Monospan>
   </a>
-  <a class={selected("about") + " highlight"} href="/about">
+  <a
+    class={selected("about") + " highlight"}
+    href="/about"
+    data-nav-title-transition="about"
+  >
     <Monospan>about</Monospan>
   </a>
 </div>
