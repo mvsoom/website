@@ -161,18 +161,6 @@ const structuredData = {
       set:html={JSON.stringify(structuredData)}
     />
     <ClientRouter />
-    <style is:global>
-      ::view-transition-group(nav-title) {
-        animation-duration: 520ms;
-        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      ::view-transition-old(nav-title),
-      ::view-transition-new(nav-title) {
-        animation-duration: 520ms;
-        animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-      }
-    </style>
     <script>
       const registryKey = "__titleTransitionsReady";
 
