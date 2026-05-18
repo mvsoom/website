@@ -36,3 +36,44 @@
 .content h6 {
   text-align: center;
 }
+
+.content :is(h1, h2, h3, h4, h5, h6).title-curve {
+  overflow: visible;
+  text-wrap: balance;
+}
+
+.content > h1.title-curve:first-of-type {
+  margin-top: 1.75rem;
+}
+
+.content h1.title-curve {
+  line-height: 1.35;
+}
+
+.content h2.title-curve {
+  line-height: 1.38;
+}
+
+.content :is(h3, h4, h5, h6).title-curve {
+  line-height: 1.4;
+}
+
+.content .title-curve-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.content .title-curve-char {
+  display: inline-block;
+  transform: translateY(var(--title-curve-y, 0px))
+    rotate(var(--title-curve-rotate, 0deg));
+  transform-origin: center 70%;
+  transition: transform 160ms ease-out;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content .title-curve-char {
+    transition: none;
+  }
+}

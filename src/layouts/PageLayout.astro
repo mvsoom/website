@@ -107,7 +107,6 @@ const structuredData = {
     },
   ],
 };
-
 ---
 
 <html lang="en">
@@ -154,7 +153,7 @@ const structuredData = {
 
     <meta name="format-detection" content="telephone=no" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    
+
     <title>{pageTitle}</title>
     <script
       type="application/ld+json"
@@ -230,7 +229,10 @@ const structuredData = {
             if (!link) return;
 
             const target = link.getAttribute("target");
-            if ((target && target !== "_self") || link.origin !== location.origin) {
+            if (
+              (target && target !== "_self") ||
+              link.origin !== location.origin
+            ) {
               return;
             }
 
@@ -270,6 +272,198 @@ const structuredData = {
           activeName = null;
           activeSource = null;
         });
+      }
+    </script>
+    <script>
+      const titleCurveKey = "__titleCurveReady";
+
+      if (!window[titleCurveKey]) {
+        window[titleCurveKey] = true;
+
+        let layoutFrame = 0;
+        const curveStrength = 0.2;
+
+        function getHeadings() {
+          return Array.from(
+            document.querySelectorAll(
+              "article.content :is(h1, h2, h3, h4, h5, h6)",
+            ),
+          );
+        }
+
+        function isMainTitle(heading) {
+          return heading === document.querySelector("article.content > h1");
+        }
+
+        function splitWord(word) {
+          return Array.from(word);
+        }
+
+        function resetCurve(chars) {
+          chars.forEach((char) => {
+            char.style.setProperty("--title-curve-y", "0px");
+            char.style.setProperty("--title-curve-rotate", "0deg");
+          });
+        }
+
+        function getLine(lines, top) {
+          const threshold = 3;
+          const line = lines.find(
+            (candidate) => Math.abs(candidate.top - top) <= threshold,
+          );
+
+          if (line) return line;
+
+          const nextLine = { top, chars: [] };
+          lines.push(nextLine);
+          return nextLine;
+        }
+
+        function layoutTitleCurve(heading) {
+          const chars = Array.from(
+            heading.querySelectorAll(".title-curve-char"),
+          );
+          if (!chars.length) return;
+
+          resetCurve(chars);
+
+          const lines = [];
+          chars.forEach((char) => {
+            const rect = char.getBoundingClientRect();
+            if (rect.width === 0 && rect.height === 0) return;
+
+            getLine(lines, rect.top).chars.push(char);
+          });
+
+          const fontSize = parseFloat(getComputedStyle(heading).fontSize) || 24;
+          const headingLevel = Number(heading.tagName.slice(1)) || 1;
+          const mainTitle = isMainTitle(heading);
+          const baseAmplitude = mainTitle
+            ? Math.min(7, Math.max(3, fontSize * 0.2))
+            : Math.min(
+                Math.max(2.5, 5.25 - headingLevel * 0.45),
+                Math.max(1.25, fontSize * 0.13),
+              );
+
+          lines.forEach((line) => {
+            const count = line.chars.length;
+            const scale = Math.min(1, Math.max(0, (count - 1) / 4));
+            const amplitude = baseAmplitude * scale * curveStrength;
+            const rotateAmplitude =
+              (mainTitle ? 1.6 : Math.max(0.45, 1.1 - headingLevel * 0.08)) *
+              scale *
+              curveStrength;
+
+            line.chars.forEach((char, index) => {
+              const progress = count > 1 ? index / (count - 1) : 0.5;
+              const y = -Math.sin(Math.PI * progress) * amplitude;
+              const rotate = -Math.cos(Math.PI * progress) * rotateAmplitude;
+
+              char.style.setProperty("--title-curve-y", `${y.toFixed(2)}px`);
+              char.style.setProperty(
+                "--title-curve-rotate",
+                `${rotate.toFixed(2)}deg`,
+              );
+            });
+          });
+        }
+
+        function scheduleTitleCurveLayout() {
+          window.cancelAnimationFrame(layoutFrame);
+          layoutFrame = window.requestAnimationFrame(() => {
+            getHeadings().forEach((heading) => {
+              if (heading.dataset.titleCurve === "enhanced") {
+                layoutTitleCurve(heading);
+              }
+            });
+          });
+        }
+
+        function makeCurveChar(letter) {
+          const char = document.createElement("span");
+          char.className = "title-curve-char";
+          char.setAttribute("aria-hidden", "true");
+          char.textContent = letter;
+          return char;
+        }
+
+        function makeCurveWord(wordText) {
+          const word = document.createElement("span");
+          word.className = "title-curve-word";
+          word.setAttribute("aria-hidden", "true");
+
+          splitWord(wordText).forEach((letter) => {
+            word.append(makeCurveChar(letter));
+          });
+
+          return word;
+        }
+
+        function curveTextNode(node) {
+          const fragment = document.createDocumentFragment();
+
+          node.nodeValue.split(/(\s+)/).forEach((token) => {
+            if (!token) return;
+
+            if (/^\s+$/.test(token)) {
+              fragment.append(" ");
+              return;
+            }
+
+            fragment.append(makeCurveWord(token));
+          });
+
+          node.replaceWith(fragment);
+        }
+
+        function enhanceHeading(heading) {
+          if (heading.dataset.titleCurve === "enhanced") {
+            return;
+          }
+
+          const title = heading.textContent?.replace(/\s+/g, " ").trim();
+          if (!title) return;
+
+          if (heading.querySelector("a, button, input, select, textarea")) {
+            return;
+          }
+
+          heading.classList.add("title-curve");
+          heading.dataset.titleCurve = "enhanced";
+          heading.dataset.titleCurveText = title;
+          heading.setAttribute("aria-label", title);
+
+          const textNodes = [];
+          const walker = document.createTreeWalker(
+            heading,
+            NodeFilter.SHOW_TEXT,
+          );
+
+          while (walker.nextNode()) {
+            textNodes.push(walker.currentNode);
+          }
+
+          textNodes.forEach(curveTextNode);
+        }
+
+        function enhanceTitleCurve() {
+          getHeadings().forEach(enhanceHeading);
+          scheduleTitleCurveLayout();
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", enhanceTitleCurve, {
+            once: true,
+          });
+        } else {
+          enhanceTitleCurve();
+        }
+
+        document.addEventListener("astro:page-load", enhanceTitleCurve);
+        window.addEventListener("resize", scheduleTitleCurveLayout, {
+          passive: true,
+        });
+        document.fonts?.ready?.then(scheduleTitleCurveLayout);
       }
     </script>
   </head>
